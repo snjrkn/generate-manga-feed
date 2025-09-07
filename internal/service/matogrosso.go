@@ -1,0 +1,56 @@
+package service
+
+import (
+	"fmt"
+	"strings"
+
+	"github.com/PuerkitoBio/goquery"
+	"github.com/snjrkn/generate-manga-feed/internal/generator"
+	"github.com/snjrkn/generate-manga-feed/internal/site"
+)
+
+type MatogrossoExtractor struct {
+	config site.Config
+}
+
+func NewMatogrossoExtractor(cfg site.Config) *MatogrossoExtractor {
+	return &MatogrossoExtractor{
+		config: cfg,
+	}
+}
+
+func Matogrosso() *generator.Generator {
+	cfg := site.Config{
+		Title:       "MATOGROSSO (マトグロッソ)",
+		URL:         "https://matogrosso.jp",
+		DateLayout:  "2006/01/02",
+		Description: "None",
+	}
+	return generator.NewGenerator(cfg, NewMatogrossoExtractor(cfg))
+}
+
+func (extract MatogrossoExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+
+	productItems := extract.productItems(doc)
+
+	return productItems, nil
+}
+
+func (extract *MatogrossoExtractor) productItems(doc *goquery.Document) []site.Item {
+
+	items := []site.Item{}
+	doc.Find("div.serial_content").Each(func(i int, sel *goquery.Selection) {
+		author := strings.TrimSpace(sel.Find("h2.entry-author").Text())
+		product := strings.TrimSpace(sel.Find("h3.entry-title").Text())
+		desc := strings.TrimSpace(sel.Find("div.asset-info > p").Text())
+		date := strings.TrimSpace(sel.Find("p.published").Text())
+		link := sel.Find("a").AttrOr("href", "")
+
+		title := fmt.Sprintf("%s%s%s", author, product, date)
+		date = strings.ReplaceAll(date, " 更新", "")
+
+		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
+	})
+
+	return items
+}
