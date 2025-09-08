@@ -11,27 +11,27 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/utils"
 )
 
-type ComicbunchkaiOneshotExtractor struct {
+type ComicBunchKaiOneshotExtractor struct {
 	config site.Config
 }
 
-func NewComicbunchkaiOneshotExtractor(cfg site.Config) *ComicbunchkaiOneshotExtractor {
-	return &ComicbunchkaiOneshotExtractor{
+func NewComicBunchKaiOneshotExtractor(cfg site.Config) *ComicBunchKaiOneshotExtractor {
+	return &ComicBunchKaiOneshotExtractor{
 		config: cfg,
 	}
 }
 
-func ComicbunchkaiOneshot() *generator.Generator {
+func ComicBunchKaiOneshot() *generator.Generator {
 	cfg := site.Config{
 		Title:       "コミックバンチKai 読切作品",
 		URL:         "https://comicbunch-kai.com/series#oneshot",
 		DateLayout:  "2006年01月02日",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewComicbunchkaiOneshotExtractor(cfg))
+	return generator.NewGenerator(cfg, NewComicBunchKaiOneshotExtractor(cfg))
 }
 
-func (extract ComicbunchkaiOneshotExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (extract ComicBunchKaiOneshotExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	productURLs, err := extract.productURLs(doc)
 	if err != nil {
@@ -46,7 +46,7 @@ func (extract ComicbunchkaiOneshotExtractor) ExtractItems(doc *goquery.Document)
 	return productItems, nil
 }
 
-func (extract ComicbunchkaiOneshotExtractor) productURLs(doc *goquery.Document) ([]string, error) {
+func (extract ComicBunchKaiOneshotExtractor) productURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find("#oneshot .SeriesList_series_item_wrapper__XHj7m > div > a").Each(func(i int, sel *goquery.Selection) {
@@ -62,7 +62,7 @@ func (extract ComicbunchkaiOneshotExtractor) productURLs(doc *goquery.Document) 
 	return urls, nil
 }
 
-func (extract ComicbunchkaiOneshotExtractor) productItems(urls []string) ([]site.Item, error) {
+func (extract ComicBunchKaiOneshotExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i, url := range urls {

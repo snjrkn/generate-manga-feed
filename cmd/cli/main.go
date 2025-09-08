@@ -20,11 +20,11 @@ var commands = map[string]Command{
 	},
 	"comicdaysoneshot": {
 		Desc: "Print comicdays oneshot RSS feed",
-		Run:  service.ComicdaysOneshot().MakeFeed,
+		Run:  service.ComicDaysOneshot().MakeFeed,
 	},
 	"comicdaysnewcomer": {
 		Desc: "Print comicdays newcomer RSS feed",
-		Run:  service.ComicdaysNewcomer().MakeFeed,
+		Run:  service.ComicDaysNewcomer().MakeFeed,
 	},
 	"andsofa": {
 		Desc: "Print andsofa RSS feed",
@@ -58,17 +58,17 @@ var commands = map[string]Command{
 		Desc: "Print younganimal oneshot RSS feed",
 		Run:  service.YoungAnimalOneshot().MakeFeed,
 	},
-	"comicessayaward": {
-		Desc: "Print comic essay award RSS feed",
-		Run:  service.ComicEssayAward().MakeFeed,
+	"comicessaycontest": {
+		Desc: "Print comic essay contest RSS feed",
+		Run:  service.ComicEssayContest().MakeFeed,
 	},
 	"comicbunckaiaward": {
 		Desc: "Print comicbunchi kai award RSS feed",
-		Run:  service.ComicbunchkaiAward().MakeFeed,
+		Run:  service.ComicBunchKaiAward().MakeFeed,
 	},
 	"comicbunckaioneshot": {
 		Desc: "Print comicbunchi kai oneshot RSS feed",
-		Run:  service.ComicbunchkaiOneshot().MakeFeed,
+		Run:  service.ComicBunchKaiOneshot().MakeFeed,
 	},
 }
 

@@ -67,7 +67,7 @@ Available subcommands:
   comicbunckaioneshot  Print comicbunchi kai oneshot RSS feed
   comicdaysnewcomer    Print comicdays newcomer RSS feed
   comicdaysoneshot     Print comicdays oneshot RSS feed
-  comicessayaward      Print comic essay award RSS feed
+  comicessaycontest    Print comic essay contest RSS feed
   comicessaygekijo     Print comic essay gekijo RSS feed
   comiplexoneshot      Print comiplex oneshot RSS feed
   kurageaward          Print kurage award RSS feed
@@ -92,6 +92,6 @@ Available subcommands:
 | [コミプレ 読切作品](https://viewer.heros-web.com/series/oneshot)                                            | comiplexoneshot     |
 | [comicブースト 読み切り](https://comic-boost.com/genre/3)                                                   | comicboostoneshot   |
 | [ヤングアニマル 読み切り](https://younganimal.com/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A) | younganimaloneshot  |
-| [コミックエッセイ プチ大賞](https://www.comic-essay.com/contest/winner/)                                    | comicessayaward     |
+| [コミックエッセイ プチ大賞](https://www.comic-essay.com/contest/winner/)                                    | comicessaycontest   |
 | [コミックバンチKai 漫画賞](https://comicbunch-kai.com/article/award)                                        | comicbunckaiaward   |
 | [コミックバンチKai 読切作品](https://comicbunch-kai.com/series#oneshot)                                     | comicbunckaioneshot |

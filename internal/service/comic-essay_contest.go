@@ -10,36 +10,36 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/utils"
 )
 
-type ComicEssayAwardExtractor struct {
+type ComicEssayContestExtractor struct {
 	config site.Config
 }
 
-func NewComicEssayAwardExtractor(cfg site.Config) *ComicEssayAwardExtractor {
-	return &ComicEssayAwardExtractor{
+func NewComicEssayContestExtractor(cfg site.Config) *ComicEssayContestExtractor {
+	return &ComicEssayContestExtractor{
 		config: cfg,
 	}
 }
 
-func ComicEssayAward() *generator.Generator {
+func ComicEssayContest() *generator.Generator {
 	cfg := site.Config{
 		Title:       "コミックエッセイ プチ大賞",
 		URL:         "https://www.comic-essay.com/contest/winner/",
 		DateLayout:  "20060102",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewComicEssayAwardExtractor(cfg))
+	return generator.NewGenerator(cfg, NewComicEssayContestExtractor(cfg))
 }
 
-func (extract ComicEssayAwardExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (extract ComicEssayContestExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	awardURLs, err := extract.awardURLs(doc)
+	ContestURLs, err := extract.ContestURLs(doc)
 	if err != nil {
-		return nil, fmt.Errorf("failed to awardURLs: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to ContestURLs: (Title='%v'): %w", extract.config.Title, err)
 	}
 	// 賞の最新分は賞のページにあるので追加
-	awardURLs = append(awardURLs, extract.config.URL)
+	ContestURLs = append(ContestURLs, extract.config.URL)
 
-	productURLs, err := extract.productURLs(awardURLs)
+	productURLs, err := extract.productURLs(ContestURLs)
 	if err != nil {
 		return nil, fmt.Errorf("failed to productURLs: (Title='%v'): %w", extract.config.Title, err)
 	}
@@ -52,7 +52,7 @@ func (extract ComicEssayAwardExtractor) ExtractItems(doc *goquery.Document) ([]s
 	return productItems, nil
 }
 
-func (extract *ComicEssayAwardExtractor) awardURLs(doc *goquery.Document) ([]string, error) {
+func (extract *ComicEssayContestExtractor) ContestURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find(".c-mt20 ._btn-500").Each(func(i int, sel *goquery.Selection) {
@@ -62,13 +62,13 @@ func (extract *ComicEssayAwardExtractor) awardURLs(doc *goquery.Document) ([]str
 	})
 
 	if len(urls) == 0 {
-		return nil, fmt.Errorf("award URL not found")
+		return nil, fmt.Errorf("Contest URL not found")
 	}
 
 	return urls, nil
 }
 
-func (extract *ComicEssayAwardExtractor) productURLs(awUrls []string) ([]string, error) {
+func (extract *ComicEssayContestExtractor) productURLs(awUrls []string) ([]string, error) {
 
 	var urls []string
 	for _, awUrl := range awUrls {
@@ -90,7 +90,7 @@ func (extract *ComicEssayAwardExtractor) productURLs(awUrls []string) ([]string,
 	return urls, nil
 }
 
-func (extract *ComicEssayAwardExtractor) productItems(urls []string) ([]site.Item, error) {
+func (extract *ComicEssayContestExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	items := []site.Item{}
 	for _, url := range urls {

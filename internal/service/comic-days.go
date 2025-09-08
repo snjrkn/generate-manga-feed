@@ -19,7 +19,7 @@ func NewComicDaysExtractor(cfg site.Config) *ComicDaysExtractor {
 	}
 }
 
-func ComicdaysNewcomer() *generator.Generator {
+func ComicDaysNewcomer() *generator.Generator {
 	cfg := site.Config{
 		Title:       "コミックDAYS 新人賞",
 		URL:         "https://comic-days.com/newcomer",
@@ -29,7 +29,7 @@ func ComicdaysNewcomer() *generator.Generator {
 	return generator.NewGenerator(cfg, NewComicDaysExtractor(cfg))
 }
 
-func ComicdaysOneshot() *generator.Generator {
+func ComicDaysOneshot() *generator.Generator {
 	cfg := site.Config{
 		Title:       "コミックDAYS 読み切り",
 		URL:         "https://comic-days.com/oneshot",

@@ -10,27 +10,27 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/utils"
 )
 
-type ComicbunchkaiAwardExtractor struct {
+type ComicBunchKaiAwardExtractor struct {
 	config site.Config
 }
 
-func NewComicbunchkaiAwardExtractor(cfg site.Config) *ComicbunchkaiAwardExtractor {
-	return &ComicbunchkaiAwardExtractor{
+func NewComicBunchKaiAwardExtractor(cfg site.Config) *ComicBunchKaiAwardExtractor {
+	return &ComicBunchKaiAwardExtractor{
 		config: cfg,
 	}
 }
 
-func ComicbunchkaiAward() *generator.Generator {
+func ComicBunchKaiAward() *generator.Generator {
 	cfg := site.Config{
 		Title:       "コミックバンチKai 漫画賞",
 		URL:         "https://comicbunch-kai.com/article/award",
 		DateLayout:  "2006年01月02日",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewComicbunchkaiAwardExtractor(cfg))
+	return generator.NewGenerator(cfg, NewComicBunchKaiAwardExtractor(cfg))
 }
 
-func (extract ComicbunchkaiAwardExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (extract ComicBunchKaiAwardExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	awardURLs, err := extract.awardURLs(doc)
 	if err != nil {
@@ -50,7 +50,7 @@ func (extract ComicbunchkaiAwardExtractor) ExtractItems(doc *goquery.Document) (
 	return productItems, nil
 }
 
-func (extract ComicbunchkaiAwardExtractor) awardURLs(doc *goquery.Document) ([]string, error) {
+func (extract ComicBunchKaiAwardExtractor) awardURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find("ul.award-banner > li > a").Each(func(i int, sel *goquery.Selection) {
@@ -66,7 +66,7 @@ func (extract ComicbunchkaiAwardExtractor) awardURLs(doc *goquery.Document) ([]s
 	return urls, nil
 }
 
-func (extract ComicbunchkaiAwardExtractor) productURLs(awUrls []string) ([]string, error) {
+func (extract ComicBunchKaiAwardExtractor) productURLs(awUrls []string) ([]string, error) {
 
 	var urls []string
 	for _, awUrl := range awUrls {
@@ -88,7 +88,7 @@ func (extract ComicbunchkaiAwardExtractor) productURLs(awUrls []string) ([]strin
 	return urls, nil
 }
 
-func (extract ComicbunchkaiAwardExtractor) productItems(urls []string) ([]site.Item, error) {
+func (extract ComicBunchKaiAwardExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for _, url := range urls {

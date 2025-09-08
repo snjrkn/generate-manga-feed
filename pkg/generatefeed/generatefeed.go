@@ -7,11 +7,11 @@ func KurageFarm() (string, error) {
 }
 
 func ComicdaysOneshot() (string, error) {
-	return service.ComicdaysOneshot().MakeFeed()
+	return service.ComicDaysOneshot().MakeFeed()
 }
 
 func ComicdaysNewcomer() (string, error) {
-	return service.ComicdaysNewcomer().MakeFeed()
+	return service.ComicDaysNewcomer().MakeFeed()
 }
 
 func AndSofa() (string, error) {
@@ -47,13 +47,13 @@ func YoungAnimalOneshot() (string, error) {
 }
 
 func ComicEssayAward() (string, error) {
-	return service.ComicEssayAward().MakeFeed()
+	return service.ComicEssayContest().MakeFeed()
 }
 
-func ComicbunchkaiAward() (string, error) {
-	return service.ComicbunchkaiAward().MakeFeed()
+func ComicBunchkaiAward() (string, error) {
+	return service.ComicBunchKaiAward().MakeFeed()
 }
 
-func ComicbunchkaiOneshot() (string, error) {
-	return service.ComicbunchkaiOneshot().MakeFeed()
+func ComicBunchKaiOneshot() (string, error) {
+	return service.ComicBunchKaiOneshot().MakeFeed()
 }
