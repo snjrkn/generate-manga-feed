@@ -49,3 +49,7 @@ func YoungAnimalOneshot() (string, error) {
 func ComicEssayAward() (string, error) {
 	return service.ComicEssayAward().MakeFeed()
 }
+
+func ComicbunchkaiAward() (string, error) {
+	return service.ComicbunchkaiAward().MakeFeed()
+}

@@ -16,6 +16,7 @@
 - [comicブースト 読み切り](https://comic-boost.com/genre/3)
 - [ヤングアニマル 読み切り](https://younganimal.com/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A)
 - [コミックエッセイ プチ大賞](https://www.comic-essay.com/contest/winner/)
+- [コミックバンチKai 漫画賞](https://comicbunch-kai.com/article/award)
 
 ### Note
 
@@ -61,6 +62,7 @@ Available subcommands:
   --------
   andsofa             Print andsofa RSS feed
   comicboostoneshot   Print comicboost oneshot RSS feed
+  comicbunckaiaward   Print comicbunchi kai award RSS feed
   comicdaysnewcomer   Print comicdays newcomer RSS feed
   comicdaysoneshot    Print comicdays oneshot RSS feed
   comicessayaward     Print comic essay award RSS feed
@@ -89,3 +91,4 @@ Available subcommands:
 | [comicブースト 読み切り](https://comic-boost.com/genre/3)                                                   | comicboostoneshot  |
 | [ヤングアニマル 読み切り](https://younganimal.com/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A) | younganimaloneshot |
 | [コミックエッセイ プチ大賞](https://www.comic-essay.com/contest/winner/)                                    | comicessayaward    |
+| [コミックバンチKai 漫画賞](https://comicbunch-kai.com/article/award)                                        | comicbunckaiaward  |

@@ -62,6 +62,10 @@ var commands = map[string]Command{
 		Desc: "Print comic essay award RSS feed",
 		Run:  service.ComicEssayAward().MakeFeed,
 	},
+	"comicbunckaiaward": {
+		Desc: "Print comicbunchi kai award RSS feed",
+		Run:  service.ComicbunchkaiAward().MakeFeed,
+	},
 }
 
 var version = "dev"
