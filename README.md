@@ -17,6 +17,7 @@
 - [ヤングアニマル 読み切り](https://younganimal.com/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A)
 - [コミックエッセイ プチ大賞](https://www.comic-essay.com/contest/winner/)
 - [コミックバンチKai 漫画賞](https://comicbunch-kai.com/article/award)
+- [コミックバンチKai 読切作品](https://comicbunch-kai.com/series#oneshot)
 
 ### Note
 
@@ -57,38 +58,40 @@ $ generate-manga-feed help
 Usage: generate-manga-feed [subcommand]
 
 Available subcommands:
-  version             Show application version
-  help                Show this help message
+  version              Show application version
+  help                 Show this help message
   --------
-  andsofa             Print andsofa RSS feed
-  comicboostoneshot   Print comicboost oneshot RSS feed
-  comicbunckaiaward   Print comicbunchi kai award RSS feed
-  comicdaysnewcomer   Print comicdays newcomer RSS feed
-  comicdaysoneshot    Print comicdays oneshot RSS feed
-  comicessayaward     Print comic essay award RSS feed
-  comicessaygekijo    Print comic essay gekijo RSS feed
-  comiplexoneshot     Print comiplex oneshot RSS feed
-  kurageaward         Print kurage award RSS feed
-  kuragefarm          Print kurage farm RSS feed
-  matogrosso          Print matogrosso RSS feed
-  toti                Print toti RSS feed
-  younganimaloneshot  Print younganimal oneshot RSS feed
+  andsofa              Print andsofa RSS feed
+  comicboostoneshot    Print comicboost oneshot RSS feed
+  comicbunckaiaward    Print comicbunchi kai award RSS feed
+  comicbunckaioneshot  Print comicbunchi kai oneshot RSS feed
+  comicdaysnewcomer    Print comicdays newcomer RSS feed
+  comicdaysoneshot     Print comicdays oneshot RSS feed
+  comicessayaward      Print comic essay award RSS feed
+  comicessaygekijo     Print comic essay gekijo RSS feed
+  comiplexoneshot      Print comiplex oneshot RSS feed
+  kurageaward          Print kurage award RSS feed
+  kuragefarm           Print kurage farm RSS feed
+  matogrosso           Print matogrosso RSS feed
+  toti                 Print toti RSS feed
+  younganimaloneshot   Print younganimal oneshot RSS feed
 ```
 
 対象サイトごとのサブコマンドは以下の通りです。
 
-| 対象サイト                                                                                                  | サブコマンド       |
-| ----------------------------------------------------------------------------------------------------------- | ------------------ |
-| [くらげファーム](https://kuragebunch.com/farm)                                                              | kuragefarm         |
-| [コミックDAYS 新人賞](https://comic-days.com/newcomer)                                                      | comicdaysnewcomer  |
-| [コミックDAYS 読み切り](https://comic-days.com/oneshot)                                                     | comicdaysoneshot   |
-| [&Sofa（アンドソファ）](https://andsofa.com)                                                                | andsofa            |
-| [トーチ](https://to-ti.in/product)                                                                          | toti               |
-| [MATOGROSSO（マトグロッソ）](https://matogrosso.jp)                                                         | matogrosso         |
-| [くらげバンチ漫画賞](https://kuragebunch.com/info/award)                                                    | kurageaward        |
-| [コミックエッセイ劇場](https://www.comic-essay.com/comics)                                                  | comicessaygekijo   |
-| [コミプレ 読切作品](https://viewer.heros-web.com/series/oneshot)                                            | comiplexoneshot    |
-| [comicブースト 読み切り](https://comic-boost.com/genre/3)                                                   | comicboostoneshot  |
-| [ヤングアニマル 読み切り](https://younganimal.com/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A) | younganimaloneshot |
-| [コミックエッセイ プチ大賞](https://www.comic-essay.com/contest/winner/)                                    | comicessayaward    |
-| [コミックバンチKai 漫画賞](https://comicbunch-kai.com/article/award)                                        | comicbunckaiaward  |
+| 対象サイト                                                                                                  | サブコマンド        |
+| ----------------------------------------------------------------------------------------------------------- | ------------------- |
+| [くらげファーム](https://kuragebunch.com/farm)                                                              | kuragefarm          |
+| [コミックDAYS 新人賞](https://comic-days.com/newcomer)                                                      | comicdaysnewcomer   |
+| [コミックDAYS 読み切り](https://comic-days.com/oneshot)                                                     | comicdaysoneshot    |
+| [&Sofa（アンドソファ）](https://andsofa.com)                                                                | andsofa             |
+| [トーチ](https://to-ti.in/product)                                                                          | toti                |
+| [MATOGROSSO（マトグロッソ）](https://matogrosso.jp)                                                         | matogrosso          |
+| [くらげバンチ漫画賞](https://kuragebunch.com/info/award)                                                    | kurageaward         |
+| [コミックエッセイ劇場](https://www.comic-essay.com/comics)                                                  | comicessaygekijo    |
+| [コミプレ 読切作品](https://viewer.heros-web.com/series/oneshot)                                            | comiplexoneshot     |
+| [comicブースト 読み切り](https://comic-boost.com/genre/3)                                                   | comicboostoneshot   |
+| [ヤングアニマル 読み切り](https://younganimal.com/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A) | younganimaloneshot  |
+| [コミックエッセイ プチ大賞](https://www.comic-essay.com/contest/winner/)                                    | comicessayaward     |
+| [コミックバンチKai 漫画賞](https://comicbunch-kai.com/article/award)                                        | comicbunckaiaward   |
+| [コミックバンチKai 読切作品](https://comicbunch-kai.com/series#oneshot)                                     | comicbunckaioneshot |

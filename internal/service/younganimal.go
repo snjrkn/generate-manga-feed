@@ -65,7 +65,7 @@ func (extract YoungAnimalExtractor) productURLs(doc *goquery.Document) ([]string
 func (extract YoungAnimalExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
-	for _, url := range urls {
+	for i, url := range urls {
 		doc, err := utils.GetHtmlDoc(url)
 		if err != nil {
 			return nil, fmt.Errorf("failed to GetHtmlDoc: %w", err)
@@ -85,6 +85,11 @@ func (extract YoungAnimalExtractor) productItems(urls []string) ([]site.Item, er
 		}
 
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
+
+		// 10作品毎に3秒スリープ
+		if i/9 == 0 {
+			time.Sleep(3 * time.Second)
+		}
 	}
 
 	return items, nil

@@ -3,6 +3,7 @@ package service
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/snjrkn/generate-manga-feed/internal/generator"
@@ -135,6 +136,11 @@ func (extract ComicBoostExtractor) extractItems(doc *goquery.Document, domain st
 		link = domain + link
 
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
+
+		// 10作品毎に3秒スリープ
+		if i/9 == 0 {
+			time.Sleep(3 * time.Second)
+		}
 	})
 
 	return items

@@ -66,6 +66,10 @@ var commands = map[string]Command{
 		Desc: "Print comicbunchi kai award RSS feed",
 		Run:  service.ComicbunchkaiAward().MakeFeed,
 	},
+	"comicbunckaioneshot": {
+		Desc: "Print comicbunchi kai oneshot RSS feed",
+		Run:  service.ComicbunchkaiOneshot().MakeFeed,
+	},
 }
 
 var version = "dev"
@@ -109,8 +113,8 @@ func showVersion() {
 func showHelp() {
 	fmt.Println("Usage: generate-manga-feed [subcommand]")
 	fmt.Println("\nAvailable subcommands:")
-	fmt.Println("  version             Show application version")
-	fmt.Println("  help                Show this help message")
+	fmt.Println("  version              Show application version")
+	fmt.Println("  help                 Show this help message")
 	fmt.Println("  --------")
 	var commandNames []string
 	for name := range commands {
@@ -119,7 +123,7 @@ func showHelp() {
 	sort.Strings(commandNames)
 	for _, name := range commandNames {
 		cmd := commands[name]
-		fmt.Printf("  %-19s %s\n", name, cmd.Desc)
+		fmt.Printf("  %-20s %s\n", name, cmd.Desc)
 	}
 	fmt.Println("")
 }
