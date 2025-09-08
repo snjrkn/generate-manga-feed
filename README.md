@@ -2,7 +2,7 @@
 
 ## Overview
 
-以下のマンガサイトの作品一覧のRSフィード（RSS2.0）を生成します。
+以下のマンガサイトの作品一覧のRSSフィード（RSS2.0）を生成します。
 
 - [くらげファーム](https://kuragebunch.com/farm)
 - [コミックDAYS 新人賞](https://comic-days.com/newcomer)
