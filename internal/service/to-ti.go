@@ -75,6 +75,10 @@ func (extract TotiExtractor) productItems(productURLs []string) ([]site.Item, er
 		desc := strings.TrimSpace(doc.Find("header > p").Text())
 		story := strings.TrimSpace(doc.Find("p.next > a >  span").Text())
 		link := doc.Find("p.next a").AttrOr("href", "")
+		// 第1話が公開された場合の対応
+		if link == "" {
+			link = doc.Find("p.prev a").AttrOr("href", "")
+		}
 
 		titleDate := date
 		titleDate = strings.ReplaceAll(titleDate, "'", "’")
