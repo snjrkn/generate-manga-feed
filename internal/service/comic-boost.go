@@ -139,7 +139,7 @@ func (extract ComicBoostExtractor) extractItems(doc *goquery.Document, domain st
 
 		// 10作品毎に3秒スリープ
 		if i/9 == 0 {
-			time.Sleep(3 * time.Second)
+			time.Sleep(1 * time.Second)
 		}
 	})
 
