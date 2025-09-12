@@ -18,6 +18,9 @@
 - [コミックエッセイ プチ大賞](https://www.comic-essay.com/contest/winner/)
 - [コミックバンチKai 漫画賞](https://comicbunch-kai.com/article/award)
 - [コミックバンチKai 読切作品](https://comicbunch-kai.com/series#oneshot)
+- [アフタヌーン 四季賞](https://afternoon.kodansha.co.jp/award/)
+
+
 
 ### Note
 
@@ -61,6 +64,7 @@ Available subcommands:
   version              Show application version
   help                 Show this help message
   --------
+  afternoonaward       Print afternoon award RSS feed
   andsofa              Print andsofa RSS feed
   comicboostoneshot    Print comicboost oneshot RSS feed
   comicbunckaiaward    Print comicbunchi kai award RSS feed
@@ -95,3 +99,4 @@ Available subcommands:
 | [コミックエッセイ プチ大賞](https://www.comic-essay.com/contest/winner/)                                    | comicessaycontest   |
 | [コミックバンチKai 漫画賞](https://comicbunch-kai.com/article/award)                                        | comicbunckaiaward   |
 | [コミックバンチKai 読切作品](https://comicbunch-kai.com/series#oneshot)                                     | comicbunckaioneshot |
+| [アフタヌーン 四季賞](https://afternoon.kodansha.co.jp/award/)                                              | afternoonaward      |

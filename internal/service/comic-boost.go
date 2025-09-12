@@ -47,14 +47,9 @@ func (extract ComicBoostExtractor) ExtractItems(doc *goquery.Document) ([]site.I
 }
 func (extract ComicBoostExtractor) productURLs(doc *goquery.Document) ([]string, error) {
 
-	domain, err := utils.GetFqdn(extract.config.URL)
-	if err != nil {
-		return nil, fmt.Errorf("failed to GetDomain: (URL='%v'): %w", extract.config.URL, err)
-	}
-
 	var urls []string
 	doc.Find("a.book-list-item-thum-wrapper").Each(func(i int, sel *goquery.Selection) {
-		link := domain + sel.AttrOr("href", "")
+		link := utils.GetFqdn(extract.config.URL) + sel.AttrOr("href", "")
 		urls = append(urls, link)
 	})
 
@@ -67,10 +62,7 @@ func (extract ComicBoostExtractor) productURLs(doc *goquery.Document) ([]string,
 
 func (extract ComicBoostExtractor) productItems(productURLs []string) ([]site.Item, error) {
 
-	domain, err := utils.GetFqdn(extract.config.URL)
-	if err != nil {
-		return nil, fmt.Errorf("failed to GetDomain: (URL='%v'): %w", extract.config.URL, err)
-	}
+	domain := utils.GetFqdn(extract.config.URL)
 
 	var items []site.Item
 	processedIndex := 0 // productURLsをキューとするインデックス

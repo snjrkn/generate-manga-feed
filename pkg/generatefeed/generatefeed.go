@@ -57,3 +57,7 @@ func ComicBunchkaiAward() (string, error) {
 func ComicBunchKaiOneshot() (string, error) {
 	return service.ComicBunchKaiOneshot().MakeFeed()
 }
+
+func AfternoonAward() (string, error) {
+	return service.AfternoonAward().MakeFeed()
+}

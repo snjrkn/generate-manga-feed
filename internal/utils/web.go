@@ -28,10 +28,10 @@ func FetchHtmlDoc(url string) (*goquery.Document, error) {
 	return doc, nil
 }
 
-func GetFqdn(str string) (string, error) {
+func GetFqdn(str string) string {
 	u, err := url.Parse(str)
 	if err != nil {
-		return "", fmt.Errorf("could not get FQDN: (URL='%v'): %w", str, err)
+		panic(fmt.Errorf("could not get FQDN: (URL='%v'): %w", str, err))
 	}
-	return fmt.Sprintf("%s://%s", u.Scheme, u.Host), nil
+	return fmt.Sprintf("%s://%s", u.Scheme, u.Host)
 }
