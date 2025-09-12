@@ -46,7 +46,7 @@ func YoungAnimalOneshot() (string, error) {
 	return service.YoungAnimalOneshot().MakeFeed()
 }
 
-func ComicEssayAward() (string, error) {
+func ComicEssayContest() (string, error) {
 	return service.ComicEssayContest().MakeFeed()
 }
 
