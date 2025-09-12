@@ -70,9 +70,9 @@ func (extract KurageAwardExtractor) productURLs(awUrls []string) ([]string, erro
 
 	var urls []string
 	for _, awUrl := range awUrls {
-		doc, err := utils.GetHtmlDoc(awUrl)
+		doc, err := utils.FetchHtmlDoc(awUrl)
 		if err != nil {
-			return nil, fmt.Errorf("failed to GetHtmlDoc: %w", err)
+			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
 		doc.Find(".hatenablog-entry > p > a").Each(func(i int, sel *goquery.Selection) {
 			if url, exist := sel.Attr("href"); exist && strings.Contains(url, "episode") {
@@ -92,9 +92,9 @@ func (extract KurageAwardExtractor) productItems(urls []string) ([]site.Item, er
 
 	var items []site.Item
 	for _, url := range urls {
-		doc, err := utils.GetHtmlDoc(url)
+		doc, err := utils.FetchHtmlDoc(url)
 		if err != nil {
-			return nil, fmt.Errorf("failed to GetHtmlDoc: %w", err)
+			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
 
 		product := strings.TrimSpace(doc.Find("h1.series-header-title").First().Text())

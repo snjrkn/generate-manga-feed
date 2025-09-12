@@ -65,9 +65,9 @@ func (extract TotiExtractor) productItems(productURLs []string) ([]site.Item, er
 
 	items := []site.Item{}
 	for i := range productURLs {
-		doc, err := utils.GetHtmlDoc(productURLs[i])
+		doc, err := utils.FetchHtmlDoc(productURLs[i])
 		if err != nil {
-			return nil, fmt.Errorf("failed to GetHtmlDoc: %w", err)
+			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
 
 		date := strings.TrimSpace(doc.Find("time").First().Text())

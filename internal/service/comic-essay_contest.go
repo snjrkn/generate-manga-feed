@@ -72,9 +72,9 @@ func (extract *ComicEssayContestExtractor) productURLs(awUrls []string) ([]strin
 
 	var urls []string
 	for _, awUrl := range awUrls {
-		doc, err := utils.GetHtmlDoc(awUrl)
+		doc, err := utils.FetchHtmlDoc(awUrl)
 		if err != nil {
-			return nil, fmt.Errorf("failed to GetHtmlDoc: %w", err)
+			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
 		doc.Find("._contest-btn-read").Each(func(i int, sel *goquery.Selection) {
 			if url, exist := sel.Attr("href"); exist && strings.Contains(url, "episode") {
@@ -94,9 +94,9 @@ func (extract *ComicEssayContestExtractor) productItems(urls []string) ([]site.I
 
 	items := []site.Item{}
 	for _, url := range urls {
-		doc, err := utils.GetHtmlDoc(url)
+		doc, err := utils.FetchHtmlDoc(url)
 		if err != nil {
-			return nil, fmt.Errorf("failed to GetHtmlDoc: %w", err)
+			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
 
 		product := strings.TrimSpace(doc.Find("div.episode-info__title").First().Text())

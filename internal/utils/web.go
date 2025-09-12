@@ -8,7 +8,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func GetHtmlDoc(url string) (*goquery.Document, error) {
+func FetchHtmlDoc(url string) (*goquery.Document, error) {
 
 	res, err := http.Get(url)
 	if err != nil {
@@ -28,10 +28,10 @@ func GetHtmlDoc(url string) (*goquery.Document, error) {
 	return doc, nil
 }
 
-func GetDomain(str string) (string, error) {
+func GetFqdn(str string) (string, error) {
 	u, err := url.Parse(str)
 	if err != nil {
-		return "", fmt.Errorf("could not parse domain: (URL='%v'): %w", str, err)
+		return "", fmt.Errorf("could not get FQDN: (URL='%v'): %w", str, err)
 	}
 	return fmt.Sprintf("%s://%s", u.Scheme, u.Host), nil
 }

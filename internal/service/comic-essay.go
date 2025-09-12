@@ -61,9 +61,9 @@ func (extract *ComicEssayExtractor) productItems(urls, dates []string) ([]site.I
 
 	items := []site.Item{}
 	for i := range urls {
-		doc, err := utils.GetHtmlDoc(urls[i])
+		doc, err := utils.FetchHtmlDoc(urls[i])
 		if err != nil {
-			return nil, fmt.Errorf("failed to GetHtmlDoc: %w", err)
+			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
 
 		product := strings.TrimSpace(doc.Find("div.episode-info__title").First().Text())

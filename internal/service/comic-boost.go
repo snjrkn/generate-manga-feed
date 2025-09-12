@@ -47,7 +47,7 @@ func (extract ComicBoostExtractor) ExtractItems(doc *goquery.Document) ([]site.I
 }
 func (extract ComicBoostExtractor) productURLs(doc *goquery.Document) ([]string, error) {
 
-	domain, err := utils.GetDomain(extract.config.URL)
+	domain, err := utils.GetFqdn(extract.config.URL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to GetDomain: (URL='%v'): %w", extract.config.URL, err)
 	}
@@ -67,7 +67,7 @@ func (extract ComicBoostExtractor) productURLs(doc *goquery.Document) ([]string,
 
 func (extract ComicBoostExtractor) productItems(productURLs []string) ([]site.Item, error) {
 
-	domain, err := utils.GetDomain(extract.config.URL)
+	domain, err := utils.GetFqdn(extract.config.URL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to GetDomain: (URL='%v'): %w", extract.config.URL, err)
 	}
@@ -79,9 +79,9 @@ func (extract ComicBoostExtractor) productItems(productURLs []string) ([]site.It
 		productURL := productURLs[processedIndex]
 		processedIndex++
 
-		doc, err := utils.GetHtmlDoc(productURL)
+		doc, err := utils.FetchHtmlDoc(productURL)
 		if err != nil {
-			return nil, fmt.Errorf("failed to GetHtmlDoc: %w", err)
+			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
 
 		// 次のページがあればproductURLsの末尾に追加

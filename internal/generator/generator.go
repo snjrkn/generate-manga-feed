@@ -22,7 +22,7 @@ func NewGenerator(cfg site.Config, ext site.Extractor) *Generator {
 func (generator *Generator) MakeFeed() (string, error) {
 
 	// 共通の前処理: HTMLドキュメントの取得
-	doc, err := utils.GetHtmlDoc(generator.config.URL)
+	doc, err := utils.FetchHtmlDoc(generator.config.URL)
 	if err != nil {
 		return "", fmt.Errorf("failed to get HTML document: %w", err)
 	}

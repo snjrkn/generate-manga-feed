@@ -66,9 +66,9 @@ func (extract YoungAnimalExtractor) productItems(urls []string) ([]site.Item, er
 
 	var items []site.Item
 	for i, url := range urls {
-		doc, err := utils.GetHtmlDoc(url)
+		doc, err := utils.FetchHtmlDoc(url)
 		if err != nil {
-			return nil, fmt.Errorf("failed to GetHtmlDoc: %w", err)
+			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
 
 		product := strings.TrimSpace(doc.Find("span.series-ep-list-item-h-text").First().Text())

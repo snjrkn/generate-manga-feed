@@ -72,9 +72,9 @@ func (extract ComiplexExtractor) rssURLs(urls []string) ([]string, error) {
 
 	var rsUrls []string
 	for i := range urls {
-		doc, err := utils.GetHtmlDoc(urls[i])
+		doc, err := utils.FetchHtmlDoc(urls[i])
 		if err != nil {
-			return nil, fmt.Errorf("failed to GetHtmlDoc: %w", err)
+			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
 
 		doc.Find("dd.rss > a").Each(func(i int, sel *goquery.Selection) {
