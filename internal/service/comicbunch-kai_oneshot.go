@@ -3,7 +3,6 @@ package service
 import (
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/snjrkn/generate-manga-feed/internal/generator"
@@ -81,10 +80,7 @@ func (extract ComicBunchKaiOneshotExtractor) productItems(urls []string) ([]site
 
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
 
-		// 10作品毎に1秒スリープ
-		if i/9 == 0 {
-			time.Sleep(1 * time.Second)
-		}
+		utils.ItemPerSleep(i, 9, 2)
 	}
 
 	return items, nil

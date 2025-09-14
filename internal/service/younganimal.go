@@ -86,10 +86,7 @@ func (extract YoungAnimalExtractor) productItems(urls []string) ([]site.Item, er
 
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
 
-		// 10作品毎に1秒スリープ
-		if i/9 == 0 {
-			time.Sleep(1 * time.Second)
-		}
+		utils.ItemPerSleep(i, 9, 2)
 	}
 
 	return items, nil

@@ -3,6 +3,7 @@ package service
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/snjrkn/generate-manga-feed/internal/generator"
@@ -86,6 +87,8 @@ func (extract *ComicEssayContestExtractor) productURLs(awUrls []string) ([]strin
 	if len(urls) == 0 {
 		return nil, fmt.Errorf("product URL not found")
 	}
+
+	time.Sleep(3 * time.Second)
 
 	return urls, nil
 }

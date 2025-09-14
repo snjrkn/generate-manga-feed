@@ -32,3 +32,9 @@ func parseTime(date, layout string) (time.Time, error) {
 
 	return t, nil
 }
+
+func ItemPerSleep(itemCount, perItems, sleepSeconds int) {
+	if itemCount%perItems == 0 {
+		time.Sleep(time.Duration(sleepSeconds) * time.Second)
+	}
+}
