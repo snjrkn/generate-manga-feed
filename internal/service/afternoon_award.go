@@ -61,7 +61,7 @@ func (extract AfternoonAwardExtractor) awardURLs(doc *goquery.Document) ([]strin
 	})
 
 	if len(urls) == 0 {
-		return nil, fmt.Errorf("award URL not found")
+		return nil, fmt.Errorf("URL not found")
 	}
 
 	return urls, nil
@@ -83,7 +83,7 @@ func (extract AfternoonAwardExtractor) productURLs(awUrls []string) ([]string, e
 	}
 
 	if len(urls) == 0 {
-		return nil, fmt.Errorf("product URL not found")
+		return nil, fmt.Errorf("URL not found")
 	}
 
 	time.Sleep(3 * time.Second)

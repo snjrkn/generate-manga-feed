@@ -55,7 +55,7 @@ func (extract ComicBunchKaiOneshotExtractor) productURLs(doc *goquery.Document) 
 	})
 
 	if len(urls) == 0 {
-		return nil, fmt.Errorf("product URL not found")
+		return nil, fmt.Errorf("URL not found")
 	}
 
 	return urls, nil

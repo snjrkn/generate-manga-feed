@@ -63,7 +63,7 @@ func (extract *ComicEssayContestExtractor) ContestURLs(doc *goquery.Document) ([
 	})
 
 	if len(urls) == 0 {
-		return nil, fmt.Errorf("contest URL not found")
+		return nil, fmt.Errorf("URL not found")
 	}
 
 	return urls, nil
@@ -85,7 +85,7 @@ func (extract *ComicEssayContestExtractor) productURLs(awUrls []string) ([]strin
 	}
 
 	if len(urls) == 0 {
-		return nil, fmt.Errorf("product URL not found")
+		return nil, fmt.Errorf("URL not found")
 	}
 
 	time.Sleep(3 * time.Second)

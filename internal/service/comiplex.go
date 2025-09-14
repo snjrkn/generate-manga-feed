@@ -85,7 +85,7 @@ func (extract ComiplexExtractor) rssURLs(urls []string) ([]string, error) {
 	}
 
 	if len(rsUrls) == 0 {
-		return nil, fmt.Errorf("RSS not found")
+		return nil, fmt.Errorf("URL not found")
 	}
 
 	return rsUrls, nil

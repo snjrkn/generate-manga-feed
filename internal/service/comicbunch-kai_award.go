@@ -60,7 +60,7 @@ func (extract ComicBunchKaiAwardExtractor) awardURLs(doc *goquery.Document) ([]s
 	})
 
 	if len(urls) == 0 {
-		return nil, fmt.Errorf("award URL not found")
+		return nil, fmt.Errorf("URL not found")
 	}
 
 	return urls, nil
@@ -82,7 +82,7 @@ func (extract ComicBunchKaiAwardExtractor) productURLs(awUrls []string) ([]strin
 	}
 
 	if len(urls) == 0 {
-		return nil, fmt.Errorf("product URL not found")
+		return nil, fmt.Errorf("URL not found")
 	}
 
 	return urls, nil

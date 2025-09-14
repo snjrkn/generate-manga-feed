@@ -60,7 +60,7 @@ func (extract KurageAwardExtractor) awardURLs(doc *goquery.Document) ([]string, 
 	})
 
 	if len(urls) == 0 {
-		return nil, fmt.Errorf("award URL not found")
+		return nil, fmt.Errorf("URL not found")
 	}
 
 	return urls, nil
@@ -82,7 +82,7 @@ func (extract KurageAwardExtractor) productURLs(awUrls []string) ([]string, erro
 	}
 
 	if len(urls) == 0 {
-		return nil, fmt.Errorf("product URL not found")
+		return nil, fmt.Errorf("URL not found")
 	}
 
 	return urls, nil

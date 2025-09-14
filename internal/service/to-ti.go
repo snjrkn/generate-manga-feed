@@ -55,7 +55,7 @@ func (extract TotiExtractor) productURLs(doc *goquery.Document) ([]string, error
 	})
 
 	if len(urls) == 0 {
-		return nil, fmt.Errorf("productURL not found")
+		return nil, fmt.Errorf("URL not found")
 	}
 
 	return urls, nil
