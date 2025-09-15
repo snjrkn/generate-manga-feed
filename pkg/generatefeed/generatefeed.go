@@ -61,3 +61,11 @@ func ComicBunchKaiOneshot() (string, error) {
 func AfternoonAward() (string, error) {
 	return service.AfternoonAward().MakeFeed()
 }
+
+func ShonenMagazineAward() (string, error) {
+	return service.ShonenMagazineAward().MakeFeed()
+}
+
+func ShonenMagazineRise() (string, error) {
+	return service.ShonenMagazineRise().MakeFeed()
+}

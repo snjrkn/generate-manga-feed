@@ -74,6 +74,14 @@ var commands = map[string]Command{
 		Desc: "Print afternoon award RSS feed",
 		Run:  service.AfternoonAward().MakeFeed,
 	},
+	"shonenmagazineaward": {
+		Desc: "Print shonen magazine award RSS feed",
+		Run:  service.ShonenMagazineAward().MakeFeed,
+	},
+	"shonenmagazinerise": {
+		Desc: "Print shonen magazine rise RSS feed",
+		Run:  service.ShonenMagazineRise().MakeFeed,
+	},
 }
 
 var version = "dev"
