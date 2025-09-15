@@ -50,7 +50,7 @@ func ComicEssayContest() (string, error) {
 	return service.ComicEssayContest().MakeFeed()
 }
 
-func ComicBunchkaiAward() (string, error) {
+func ComicBunchKaiAward() (string, error) {
 	return service.ComicBunchKaiAward().MakeFeed()
 }
 
