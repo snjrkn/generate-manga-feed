@@ -20,7 +20,7 @@
 - [コミックバンチKai 読切作品](https://comicbunch-kai.com/series#oneshot)
 - [アフタヌーン 四季賞](https://afternoon.kodansha.co.jp/award/)
 - [少年マガジン 新人漫画大賞](https://debut.shonenmagazine.com/archive/#awards)
-- [少年マガジン ライズ](https://debut.shonenmagazine.com/archive/#magazinerise)
+- [少年マガジン マガジンライズ](https://debut.shonenmagazine.com/archive/#magazinerise)
 
 ### Note
 
@@ -105,4 +105,4 @@ Available subcommands:
 | [コミックバンチKai 読切作品](https://comicbunch-kai.com/series#oneshot)                                     | comicbunckaioneshot |
 | [アフタヌーン 四季賞](https://afternoon.kodansha.co.jp/award/)                                              | afternoonaward      |
 | [少年マガジン 新人漫画大賞](https://debut.shonenmagazine.com/archive/#awards)                               | shonenmagazineaward |
-| [少年マガジン ライズ](https://debut.shonenmagazine.com/archive/#magazinerise)                               | shonenmagazinerise  |
+| [少年マガジン マガジンライズ](https://debut.shonenmagazine.com/archive/#magazinerise)                       | shonenmagazinerise  |

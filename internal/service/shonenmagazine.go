@@ -32,7 +32,7 @@ func ShonenMagazineAward() *generator.Generator {
 
 func ShonenMagazineRise() *generator.Generator {
 	cfg := site.Config{
-		Title:       "少年マガジン ライズ",
+		Title:       "少年マガジン マガジンライズ",
 		URL:         "https://debut.shonenmagazine.com/archive/#magazinerise",
 		DateLayout:  "2006/01/02",
 		Description: "None",
@@ -43,7 +43,6 @@ func ShonenMagazineRise() *generator.Generator {
 func (extract ShonenMagazineExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	productURLs, err := extract.productURLs(doc)
-
 	if err != nil {
 		return nil, fmt.Errorf("failed to productURLs: (Title='%v'): %w", extract.config.Title, err)
 	}
