@@ -69,3 +69,7 @@ func ShonenMagazineAward() (string, error) {
 func ShonenMagazineRise() (string, error) {
 	return service.ShonenMagazineRise().MakeFeed()
 }
+
+func ChampionCrossOneshot() (string, error) {
+	return service.ChampionCrossOneshot().MakeFeed()
+}
