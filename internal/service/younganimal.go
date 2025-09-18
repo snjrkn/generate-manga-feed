@@ -8,7 +8,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
-	"github.com/snjrkn/generate-manga-feed/internal/utils"
+	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
 type YoungAnimalExtractor struct {
@@ -66,7 +66,7 @@ func (extract YoungAnimalExtractor) productItems(urls []string) ([]site.Item, er
 
 	var items []site.Item
 	for i, url := range urls {
-		doc, err := utils.FetchHtmlDoc(url)
+		doc, err := util.FetchHtmlDoc(url)
 		if err != nil {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
@@ -81,12 +81,12 @@ func (extract YoungAnimalExtractor) productItems(urls []string) ([]site.Item, er
 
 		// 今年分の作品には西暦年が付いていないための対応（去年分以前は付いているので不要）
 		if !strings.Contains(date, "年") {
-			date = time.Now().In(utils.GetTokyoLocation()).Format("2006") + "年" + date
+			date = time.Now().In(util.GetTokyoLocation()).Format("2006") + "年" + date
 		}
 
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
 
-		utils.ItemPerSleep(i, 9, 1)
+		util.ItemPerSleep(i, 9, 1)
 	}
 
 	return items, nil

@@ -8,7 +8,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
-	"github.com/snjrkn/generate-manga-feed/internal/utils"
+	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
 type ComicEssayContestExtractor struct {
@@ -73,7 +73,7 @@ func (extract *ComicEssayContestExtractor) productURLs(awUrls []string) ([]strin
 
 	var urls []string
 	for _, awUrl := range awUrls {
-		doc, err := utils.FetchHtmlDoc(awUrl)
+		doc, err := util.FetchHtmlDoc(awUrl)
 		if err != nil {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
@@ -97,7 +97,7 @@ func (extract *ComicEssayContestExtractor) productItems(urls []string) ([]site.I
 
 	items := []site.Item{}
 	for _, url := range urls {
-		doc, err := utils.FetchHtmlDoc(url)
+		doc, err := util.FetchHtmlDoc(url)
 		if err != nil {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}

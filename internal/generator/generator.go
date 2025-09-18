@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/snjrkn/generate-manga-feed/internal/site"
-	"github.com/snjrkn/generate-manga-feed/internal/utils"
+	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
 type Generator struct {
@@ -22,7 +22,7 @@ func NewGenerator(cfg site.Config, ext site.Extractor) *Generator {
 func (generator *Generator) MakeFeed() (string, error) {
 
 	// 共通の前処理: HTMLドキュメントの取得
-	doc, err := utils.FetchHtmlDoc(generator.config.URL)
+	doc, err := util.FetchHtmlDoc(generator.config.URL)
 	if err != nil {
 		return "", fmt.Errorf("failed to get HTML document: %w", err)
 	}
@@ -34,12 +34,12 @@ func (generator *Generator) MakeFeed() (string, error) {
 	}
 
 	// 共通の後処理: アイテムの検証と事前処理
-	if err := utils.ValidateAndPrepare(generator.config, items); err != nil {
+	if err := util.ValidateAndPrepare(generator.config, items); err != nil {
 		return "", fmt.Errorf("failed to validate and prepare: %w", err)
 	}
 
 	// 共通の後処理: フィードの生成
-	rss, err := utils.GenerateFeed(generator.config, items)
+	rss, err := util.GenerateFeed(generator.config, items)
 	if err != nil {
 		return "", fmt.Errorf("failed to generate feed: %w", err)
 	}

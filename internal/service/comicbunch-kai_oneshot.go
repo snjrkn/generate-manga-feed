@@ -7,7 +7,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
-	"github.com/snjrkn/generate-manga-feed/internal/utils"
+	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
 type ComicBunchKaiOneshotExtractor struct {
@@ -65,7 +65,7 @@ func (extract ComicBunchKaiOneshotExtractor) productItems(urls []string) ([]site
 
 	var items []site.Item
 	for i, url := range urls {
-		doc, err := utils.FetchHtmlDoc(url)
+		doc, err := util.FetchHtmlDoc(url)
 		if err != nil {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
@@ -80,7 +80,7 @@ func (extract ComicBunchKaiOneshotExtractor) productItems(urls []string) ([]site
 
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
 
-		utils.ItemPerSleep(i, 9, 1)
+		util.ItemPerSleep(i, 9, 1)
 	}
 
 	return items, nil

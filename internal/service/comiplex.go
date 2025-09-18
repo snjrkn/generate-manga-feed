@@ -9,7 +9,7 @@ import (
 
 	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
-	"github.com/snjrkn/generate-manga-feed/internal/utils"
+	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
 type ComiplexExtractor struct {
@@ -72,7 +72,7 @@ func (extract ComiplexExtractor) rssURLs(urls []string) ([]string, error) {
 
 	var rsUrls []string
 	for i := range urls {
-		doc, err := utils.FetchHtmlDoc(urls[i])
+		doc, err := util.FetchHtmlDoc(urls[i])
 		if err != nil {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}

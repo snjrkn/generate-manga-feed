@@ -7,7 +7,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
-	"github.com/snjrkn/generate-manga-feed/internal/utils"
+	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
 type TotiExtractor struct {
@@ -65,7 +65,7 @@ func (extract TotiExtractor) productItems(productURLs []string) ([]site.Item, er
 
 	items := []site.Item{}
 	for i := range productURLs {
-		doc, err := utils.FetchHtmlDoc(productURLs[i])
+		doc, err := util.FetchHtmlDoc(productURLs[i])
 		if err != nil {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}

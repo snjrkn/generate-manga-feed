@@ -7,7 +7,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
-	"github.com/snjrkn/generate-manga-feed/internal/utils"
+	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
 type ComicBoostExtractor struct {
@@ -48,7 +48,7 @@ func (extract ComicBoostExtractor) productURLs(doc *goquery.Document) ([]string,
 
 	var urls []string
 	doc.Find("a.book-list-item-thum-wrapper").Each(func(i int, sel *goquery.Selection) {
-		link := utils.GetFqdn(extract.config.URL) + sel.AttrOr("href", "")
+		link := util.GetFqdn(extract.config.URL) + sel.AttrOr("href", "")
 		urls = append(urls, link)
 	})
 
@@ -61,7 +61,7 @@ func (extract ComicBoostExtractor) productURLs(doc *goquery.Document) ([]string,
 
 func (extract ComicBoostExtractor) productItems(productURLs []string) ([]site.Item, error) {
 
-	domain := utils.GetFqdn(extract.config.URL)
+	domain := util.GetFqdn(extract.config.URL)
 
 	var items []site.Item
 	processedIndex := 0 // productURLsをキューとするインデックス
@@ -70,7 +70,7 @@ func (extract ComicBoostExtractor) productItems(productURLs []string) ([]site.It
 		productURL := productURLs[processedIndex]
 		processedIndex++
 
-		doc, err := utils.FetchHtmlDoc(productURL)
+		doc, err := util.FetchHtmlDoc(productURL)
 		if err != nil {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
@@ -84,7 +84,7 @@ func (extract ComicBoostExtractor) productItems(productURLs []string) ([]site.It
 
 		items = append(items, extract.extractItems(doc, domain)...)
 
-		utils.ItemPerSleep(processedIndex, 9, 1)
+		util.ItemPerSleep(processedIndex, 9, 1)
 	}
 
 	return items, nil
