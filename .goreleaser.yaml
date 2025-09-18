@@ -17,7 +17,7 @@ before:
 
 builds:
   - id: generate-manga-feed
-    main: ./cmd/cli/main.go
+    main: ./cmd/generate-manga-feed/main.go
     binary: generate-manga-feed
     env:
       - CGO_ENABLED=0
