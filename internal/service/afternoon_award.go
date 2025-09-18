@@ -86,7 +86,7 @@ func (extract AfternoonAwardExtractor) productURLs(awUrls []string) ([]string, e
 		return nil, fmt.Errorf("URL not found")
 	}
 
-	time.Sleep(3 * time.Second)
+	time.Sleep(1 * time.Second)
 
 	return urls, nil
 }
@@ -110,7 +110,7 @@ func (extract AfternoonAwardExtractor) productItems(urls []string) ([]site.Item,
 
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
 
-		utils.ItemPerSleep(i, 9, 2)
+		utils.ItemPerSleep(i, 9, 1)
 	}
 
 	return items, nil

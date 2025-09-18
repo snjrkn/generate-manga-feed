@@ -102,7 +102,7 @@ func (extract ShonenMagazineExtractor) productItems(urls []string) ([]site.Item,
 
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
 
-		utils.ItemPerSleep(i, 9, 2)
+		utils.ItemPerSleep(i, 9, 1)
 	}
 
 	return items, nil

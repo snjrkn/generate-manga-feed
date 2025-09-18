@@ -32,7 +32,10 @@ func ComicEssayGekijo() *generator.Generator {
 
 func (extract ComicEssayExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	productURLs, productDates := extract.productURLsAndDates(doc)
+	productURLs, productDates, err := extract.productURLsAndDates(doc)
+	if err != nil {
+		return nil, fmt.Errorf("failed to productURLs: (Title='%v'): %w", extract.config.Title, err)
+	}
 
 	productItems, err := extract.productItems(productURLs, productDates)
 	if err != nil {
@@ -42,7 +45,7 @@ func (extract ComicEssayExtractor) ExtractItems(doc *goquery.Document) ([]site.I
 	return productItems, nil
 }
 
-func (extract *ComicEssayExtractor) productURLsAndDates(doc *goquery.Document) (urls, dates []string) {
+func (extract *ComicEssayExtractor) productURLsAndDates(doc *goquery.Document) (urls, dates []string, err error) {
 
 	doc.Find("li.thum-list__item").Each(func(i int, sel *goquery.Selection) {
 		url, exist := sel.Find("a.thum-list__link").Attr("href")
@@ -54,7 +57,11 @@ func (extract *ComicEssayExtractor) productURLsAndDates(doc *goquery.Document) (
 		dates = append(dates, strings.TrimSpace(sel.Find("div.thum-list__body--head__date").Text()))
 	})
 
-	return urls, dates
+	if len(urls) == 0 {
+		return nil, nil, fmt.Errorf("URL not found")
+	}
+
+	return urls, dates, nil
 }
 
 func (extract *ComicEssayExtractor) productItems(urls, dates []string) ([]site.Item, error) {

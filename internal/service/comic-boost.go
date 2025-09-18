@@ -84,7 +84,7 @@ func (extract ComicBoostExtractor) productItems(productURLs []string) ([]site.It
 
 		items = append(items, extract.extractItems(doc, domain)...)
 
-		utils.ItemPerSleep(processedIndex, 9, 2)
+		utils.ItemPerSleep(processedIndex, 9, 1)
 	}
 
 	return items, nil

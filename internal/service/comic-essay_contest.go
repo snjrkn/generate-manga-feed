@@ -88,7 +88,7 @@ func (extract *ComicEssayContestExtractor) productURLs(awUrls []string) ([]strin
 		return nil, fmt.Errorf("URL not found")
 	}
 
-	time.Sleep(3 * time.Second)
+	time.Sleep(1 * time.Second)
 
 	return urls, nil
 }
