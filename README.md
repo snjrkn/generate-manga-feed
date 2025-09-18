@@ -79,7 +79,8 @@ Available subcommands:
   comicessaycontest     Print comic essay contest RSS feed
   comicessaygekijo      Print comic essay gekijo RSS feed
   comiplexoneshot       Print comiplex oneshot RSS feed
-  kurageaward           Print kurage award RSS feed
+  kuragebunchaward      Print kuragebunch award RSS feed
+  kuragebunchoneshot    Print kuragebunch oneshot RSS feed
   kuragefarm            Print kurage farm RSS feed
   matogrosso            Print matogrosso RSS feed
   shonenmagazineaward   Print shonen magazine award RSS feed
