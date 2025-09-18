@@ -10,27 +10,27 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/utils"
 )
 
-type KurageAwardExtractor struct {
+type KurageBunchAwardExtractor struct {
 	config site.Config
 }
 
-func NewKurageAwardExtractor(cfg site.Config) *KurageAwardExtractor {
-	return &KurageAwardExtractor{
+func NewKurageBunchAwardExtractor(cfg site.Config) *KurageBunchAwardExtractor {
+	return &KurageBunchAwardExtractor{
 		config: cfg,
 	}
 }
 
-func KurageAward() *generator.Generator {
+func KurageBunchAward() *generator.Generator {
 	cfg := site.Config{
-		Title:       "くらげバンチ漫画賞",
+		Title:       "くらげバンチ 漫画賞",
 		URL:         "https://kuragebunch.com/info/award",
 		DateLayout:  "2006年01月02日",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewKurageAwardExtractor(cfg))
+	return generator.NewGenerator(cfg, NewKurageBunchAwardExtractor(cfg))
 }
 
-func (extract KurageAwardExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (extract KurageBunchAwardExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	awardURLs, err := extract.awardURLs(doc)
 	if err != nil {
@@ -50,7 +50,7 @@ func (extract KurageAwardExtractor) ExtractItems(doc *goquery.Document) ([]site.
 	return productItems, nil
 }
 
-func (extract KurageAwardExtractor) awardURLs(doc *goquery.Document) ([]string, error) {
+func (extract KurageBunchAwardExtractor) awardURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find("ul.award-banner > li > a").Each(func(i int, sel *goquery.Selection) {
@@ -66,7 +66,7 @@ func (extract KurageAwardExtractor) awardURLs(doc *goquery.Document) ([]string, 
 	return urls, nil
 }
 
-func (extract KurageAwardExtractor) productURLs(awUrls []string) ([]string, error) {
+func (extract KurageBunchAwardExtractor) productURLs(awUrls []string) ([]string, error) {
 
 	var urls []string
 	for _, awUrl := range awUrls {
@@ -88,7 +88,7 @@ func (extract KurageAwardExtractor) productURLs(awUrls []string) ([]string, erro
 	return urls, nil
 }
 
-func (extract KurageAwardExtractor) productItems(urls []string) ([]site.Item, error) {
+func (extract KurageBunchAwardExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for _, url := range urls {

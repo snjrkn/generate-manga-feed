@@ -10,7 +10,7 @@
 - [&Sofa (アンドソファ)](https://andsofa.com)
 - [トーチ](https://to-ti.in/product)
 - [MATOGROSSO (マトグロッソ)](https://matogrosso.jp)
-- [くらげバンチ漫画賞](https://kuragebunch.com/info/award)
+- [くらげバンチ 漫画賞](https://kuragebunch.com/info/award)
 - [コミックエッセイ劇場](https://www.comic-essay.com/comics)
 - [コミプレ 読切作品](https://viewer.heros-web.com/series/oneshot)
 - [comicブースト 読み切り](https://comic-boost.com/genre/3)
@@ -22,6 +22,7 @@
 - [少年マガジン 新人漫画大賞](https://debut.shonenmagazine.com/archive/#awards)
 - [少年マガジン マガジンライズ](https://debut.shonenmagazine.com/archive/#magazinerise)
 - [チャンピオンクロス 読み切り](https://championcross.jp/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A)
+- [くらげバンチ 読切](https://kuragebunch.com/series/oneshot)
 
 ### Note
 
@@ -97,7 +98,7 @@ Available subcommands:
 | [&Sofa（アンドソファ）](https://andsofa.com)                                                                     | andsofa              |
 | [トーチ](https://to-ti.in/product)                                                                               | toti                 |
 | [MATOGROSSO（マトグロッソ）](https://matogrosso.jp)                                                              | matogrosso           |
-| [くらげバンチ漫画賞](https://kuragebunch.com/info/award)                                                         | kurageaward          |
+| [くらげバンチ 漫画賞](https://kuragebunch.com/info/award)                                                        | kuragebunchaward     |
 | [コミックエッセイ劇場](https://www.comic-essay.com/comics)                                                       | comicessaygekijo     |
 | [コミプレ 読切作品](https://viewer.heros-web.com/series/oneshot)                                                 | comiplexoneshot      |
 | [comicブースト 読み切り](https://comic-boost.com/genre/3)                                                        | comicboostoneshot    |
@@ -109,3 +110,4 @@ Available subcommands:
 | [少年マガジン 新人漫画大賞](https://debut.shonenmagazine.com/archive/#awards)                                    | shonenmagazineaward  |
 | [少年マガジン マガジンライズ](https://debut.shonenmagazine.com/archive/#magazinerise)                            | shonenmagazinerise   |
 | [チャンピオンクロス 読み切り](https://championcross.jp/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A) | championcrossoneshot |
+| [くらげバンチ 読切](https://kuragebunch.com/series/oneshot)                                                      | kuragebunchoneshot   |

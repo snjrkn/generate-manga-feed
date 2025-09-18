@@ -38,9 +38,9 @@ var commands = map[string]Command{
 		Desc: "Print matogrosso RSS feed",
 		Run:  service.Matogrosso().MakeFeed,
 	},
-	"kurageaward": {
-		Desc: "Print kurage award RSS feed",
-		Run:  service.KurageAward().MakeFeed,
+	"kuragebunchaward": {
+		Desc: "Print kuragebunch award RSS feed",
+		Run:  service.KurageBunchAward().MakeFeed,
 	},
 	"comicessaygekijo": {
 		Desc: "Print comic essay gekijo RSS feed",
@@ -85,6 +85,10 @@ var commands = map[string]Command{
 	"championcrossoneshot": {
 		Desc: "Print championcross oneshot RSS feed",
 		Run:  service.ChampionCrossOneshot().MakeFeed,
+	},
+	"kuragebunchoneshot": {
+		Desc: "Print kuragebunch oneshot RSS feed",
+		Run:  service.KurageBunchOneshot().MakeFeed,
 	},
 }
 

@@ -26,8 +26,8 @@ func Matogrosso() (string, error) {
 	return service.Matogrosso().MakeFeed()
 }
 
-func KurageAward() (string, error) {
-	return service.KurageAward().MakeFeed()
+func KurageBunchAward() (string, error) {
+	return service.KurageBunchAward().MakeFeed()
 }
 
 func ComicEssayGekijo() (string, error) {
@@ -72,4 +72,8 @@ func ShonenMagazineRise() (string, error) {
 
 func ChampionCrossOneshot() (string, error) {
 	return service.ChampionCrossOneshot().MakeFeed()
+}
+
+func KurageBunchOneshot() (string, error) {
+	return service.KurageBunchOneshot().MakeFeed()
 }
