@@ -1,4 +1,4 @@
-package generatefeed
+package generatemangafeed
 
 import "github.com/snjrkn/generate-manga-feed/internal/service"
 
