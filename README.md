@@ -23,6 +23,7 @@
 - [少年マガジン マガジンライズ](https://debut.shonenmagazine.com/archive/#magazinerise)
 - [チャンピオンクロス 読み切り](https://championcross.jp/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A)
 - [くらげバンチ 読切](https://kuragebunch.com/series/oneshot)
+- [webアクション 読切作品](https://comic-action.com/series/oneshot)
 
 ### Note
 
@@ -70,14 +71,15 @@ Available subcommands:
   --------
   afternoonaward        Print afternoon award RSS feed
   andsofa               Print andsofa RSS feed
-  championcrossoneshot  Print championcross oneshot RSS feed
-  comicboostoneshot     Print comicboost oneshot RSS feed
-  comicbunckaiaward     Print comicbunchi kai award RSS feed
-  comicbunckaioneshot   Print comicbunchi kai oneshot RSS feed
-  comicdaysnewcomer     Print comicdays newcomer RSS feed
-  comicdaysoneshot      Print comicdays oneshot RSS feed
-  comicessaycontest     Print comic essay contest RSS feed
-  comicessaygekijo      Print comic essay gekijo RSS feed
+  championcrossoneshot  Print champion cross oneshot RSS feed
+  comicactiononeshot    Print comic-acticon oneshot RSS feed
+  comicboostoneshot     Print comic-boost oneshot RSS feed
+  comicbunckaiaward     Print comicbunchi-kai award RSS feed
+  comicbunckaioneshot   Print comicbunchi-kai oneshot RSS feed
+  comicdaysnewcomer     Print comic-days newcomer RSS feed
+  comicdaysoneshot      Print comic-days oneshot RSS feed
+  comicessaycontest     Print comic-essay contest RSS feed
+  comicessaygekijo      Print comic-essay gekijo RSS feed
   comiplexoneshot       Print comiplex oneshot RSS feed
   kuragebunchaward      Print kuragebunch award RSS feed
   kuragebunchoneshot    Print kuragebunch oneshot RSS feed
@@ -112,3 +114,4 @@ Available subcommands:
 | [少年マガジン マガジンライズ](https://debut.shonenmagazine.com/archive/#magazinerise)                            | shonenmagazinerise   |
 | [チャンピオンクロス 読み切り](https://championcross.jp/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A) | championcrossoneshot |
 | [くらげバンチ 読切](https://kuragebunch.com/series/oneshot)                                                      | kuragebunchoneshot   |
+| [webアクション 読切作品](https://comic-action.com/series/oneshot)                                                | comicactiononeshot   |

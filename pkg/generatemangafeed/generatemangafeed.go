@@ -77,3 +77,7 @@ func ChampionCrossOneshot() (string, error) {
 func KurageBunchOneshot() (string, error) {
 	return service.KurageBunchOneshot().MakeFeed()
 }
+
+func ComicActionOneshot() (string, error) {
+	return service.ComicActionOneshot().MakeFeed()
+}

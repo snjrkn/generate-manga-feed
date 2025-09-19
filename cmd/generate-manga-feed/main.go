@@ -19,11 +19,11 @@ var commands = map[string]Command{
 		Run:  service.KurageFarm().MakeFeed,
 	},
 	"comicdaysoneshot": {
-		Desc: "Print comicdays oneshot RSS feed",
+		Desc: "Print comic-days oneshot RSS feed",
 		Run:  service.ComicDaysOneshot().MakeFeed,
 	},
 	"comicdaysnewcomer": {
-		Desc: "Print comicdays newcomer RSS feed",
+		Desc: "Print comic-days newcomer RSS feed",
 		Run:  service.ComicDaysNewcomer().MakeFeed,
 	},
 	"andsofa": {
@@ -43,7 +43,7 @@ var commands = map[string]Command{
 		Run:  service.KurageBunchAward().MakeFeed,
 	},
 	"comicessaygekijo": {
-		Desc: "Print comic essay gekijo RSS feed",
+		Desc: "Print comic-essay gekijo RSS feed",
 		Run:  service.ComicEssayGekijo().MakeFeed,
 	},
 	"comiplexoneshot": {
@@ -51,7 +51,7 @@ var commands = map[string]Command{
 		Run:  service.ComiplexOneshot().MakeFeed,
 	},
 	"comicboostoneshot": {
-		Desc: "Print comicboost oneshot RSS feed",
+		Desc: "Print comic-boost oneshot RSS feed",
 		Run:  service.ComicBoostOneshot().MakeFeed,
 	},
 	"younganimaloneshot": {
@@ -59,15 +59,15 @@ var commands = map[string]Command{
 		Run:  service.YoungAnimalOneshot().MakeFeed,
 	},
 	"comicessaycontest": {
-		Desc: "Print comic essay contest RSS feed",
+		Desc: "Print comic-essay contest RSS feed",
 		Run:  service.ComicEssayContest().MakeFeed,
 	},
 	"comicbunckaiaward": {
-		Desc: "Print comicbunchi kai award RSS feed",
+		Desc: "Print comicbunchi-kai award RSS feed",
 		Run:  service.ComicBunchKaiAward().MakeFeed,
 	},
 	"comicbunckaioneshot": {
-		Desc: "Print comicbunchi kai oneshot RSS feed",
+		Desc: "Print comicbunchi-kai oneshot RSS feed",
 		Run:  service.ComicBunchKaiOneshot().MakeFeed,
 	},
 	"afternoonaward": {
@@ -83,12 +83,16 @@ var commands = map[string]Command{
 		Run:  service.ShonenMagazineRise().MakeFeed,
 	},
 	"championcrossoneshot": {
-		Desc: "Print championcross oneshot RSS feed",
+		Desc: "Print champion cross oneshot RSS feed",
 		Run:  service.ChampionCrossOneshot().MakeFeed,
 	},
 	"kuragebunchoneshot": {
 		Desc: "Print kuragebunch oneshot RSS feed",
 		Run:  service.KurageBunchOneshot().MakeFeed,
+	},
+	"comicactiononeshot": {
+		Desc: "Print comic-acticon oneshot RSS feed",
+		Run:  service.ComicActionOneshot().MakeFeed,
 	},
 }
 
