@@ -75,8 +75,7 @@ func ValidateAndPrepare(cfg site.Config, items []site.Item) error {
 func normalizeString(str string) string {
 	str = strings.ReplaceAll(str, "\t", "")
 	str = strings.ReplaceAll(str, "\n", "")
-	str = strings.Join(strings.Fields(strings.ReplaceAll(str, "　", " ")), " ")
-	return str
+	return strings.Join(strings.Fields(strings.ReplaceAll(str, "　", " ")), " ")
 }
 
 // sortItemsByCreated はCreatedで降順ソートする

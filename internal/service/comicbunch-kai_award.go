@@ -23,8 +23,7 @@ func NewComicBunchKaiAwardExtractor(cfg site.Config) *ComicBunchKaiAwardExtracto
 
 func ComicBunchKaiAward() *generator.Generator {
 	cfg := site.Config{
-		Title: "コミックバンチKai 漫画賞",
-		// URL:         "https://comicbunch-kai.com/article/award",
+		Title:       "コミックバンチKai 漫画賞",
 		URL:         "https://comicbunch-kai.com/article/archive/category/%E6%BC%AB%E7%94%BB%E8%B3%9E_%E7%99%BA%E8%A1%A8",
 		DateLayout:  "2006年01月02日",
 		Description: "None",
