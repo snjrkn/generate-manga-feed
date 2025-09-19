@@ -5,7 +5,7 @@ import (
 	"os"
 	"sort"
 
-	"github.com/snjrkn/generate-manga-feed/internal/service"
+	"github.com/snjrkn/generate-manga-feed/pkg/generatemangafeed"
 )
 
 type Command struct {
@@ -16,83 +16,83 @@ type Command struct {
 var commands = map[string]Command{
 	"kuragefarm": {
 		Desc: "Print kurage farm RSS feed",
-		Run:  service.KurageFarm().MakeFeed,
+		Run:  generatemangafeed.KurageFarm,
 	},
 	"comicdaysoneshot": {
 		Desc: "Print comic-days oneshot RSS feed",
-		Run:  service.ComicDaysOneshot().MakeFeed,
+		Run:  generatemangafeed.ComicdaysOneshot,
 	},
 	"comicdaysnewcomer": {
 		Desc: "Print comic-days newcomer RSS feed",
-		Run:  service.ComicDaysNewcomer().MakeFeed,
+		Run:  generatemangafeed.ComicdaysNewcomer,
 	},
 	"andsofa": {
 		Desc: "Print andsofa RSS feed",
-		Run:  service.AndSofa().MakeFeed,
+		Run:  generatemangafeed.AndSofa,
 	},
 	"toti": {
 		Desc: "Print toti RSS feed",
-		Run:  service.Toti().MakeFeed,
+		Run:  generatemangafeed.Toti,
 	},
 	"matogrosso": {
 		Desc: "Print matogrosso RSS feed",
-		Run:  service.Matogrosso().MakeFeed,
+		Run:  generatemangafeed.Matogrosso,
 	},
 	"kuragebunchaward": {
 		Desc: "Print kuragebunch award RSS feed",
-		Run:  service.KurageBunchAward().MakeFeed,
+		Run:  generatemangafeed.KurageBunchAward,
 	},
 	"comicessaygekijo": {
 		Desc: "Print comic-essay gekijo RSS feed",
-		Run:  service.ComicEssayGekijo().MakeFeed,
+		Run:  generatemangafeed.ComicEssayGekijo,
 	},
 	"comiplexoneshot": {
 		Desc: "Print comiplex oneshot RSS feed",
-		Run:  service.ComiplexOneshot().MakeFeed,
+		Run:  generatemangafeed.ComiplexOneshot,
 	},
 	"comicboostoneshot": {
 		Desc: "Print comic-boost oneshot RSS feed",
-		Run:  service.ComicBoostOneshot().MakeFeed,
+		Run:  generatemangafeed.ComicBoostOneshot,
 	},
 	"younganimaloneshot": {
 		Desc: "Print younganimal oneshot RSS feed",
-		Run:  service.YoungAnimalOneshot().MakeFeed,
+		Run:  generatemangafeed.YoungAnimalOneshot,
 	},
 	"comicessaycontest": {
 		Desc: "Print comic-essay contest RSS feed",
-		Run:  service.ComicEssayContest().MakeFeed,
+		Run:  generatemangafeed.ComicEssayContest,
 	},
 	"comicbunchkaiaward": {
 		Desc: "Print comicbunch-kai award RSS feed",
-		Run:  service.ComicBunchKaiAward().MakeFeed,
+		Run:  generatemangafeed.ComicBunchKaiAward,
 	},
 	"comicbunchkaioneshot": {
 		Desc: "Print comicbunch-kai oneshot RSS feed",
-		Run:  service.ComicBunchKaiOneshot().MakeFeed,
+		Run:  generatemangafeed.ComicBunchKaiOneshot,
 	},
 	"afternoonaward": {
 		Desc: "Print afternoon award RSS feed",
-		Run:  service.AfternoonAward().MakeFeed,
+		Run:  generatemangafeed.AfternoonAward,
 	},
 	"shonenmagazineaward": {
 		Desc: "Print shonen magazine award RSS feed",
-		Run:  service.ShonenMagazineAward().MakeFeed,
+		Run:  generatemangafeed.ShonenMagazineAward,
 	},
 	"shonenmagazinerise": {
 		Desc: "Print shonen magazine rise RSS feed",
-		Run:  service.ShonenMagazineRise().MakeFeed,
+		Run:  generatemangafeed.ShonenMagazineRise,
 	},
 	"championcrossoneshot": {
 		Desc: "Print champion cross oneshot RSS feed",
-		Run:  service.ChampionCrossOneshot().MakeFeed,
+		Run:  generatemangafeed.ChampionCrossOneshot,
 	},
 	"kuragebunchoneshot": {
 		Desc: "Print kuragebunch oneshot RSS feed",
-		Run:  service.KurageBunchOneshot().MakeFeed,
+		Run:  generatemangafeed.KurageBunchOneshot,
 	},
 	"comicactiononeshot": {
 		Desc: "Print comic-acticon oneshot RSS feed",
-		Run:  service.ComicActionOneshot().MakeFeed,
+		Run:  generatemangafeed.ComicActionOneshot,
 	},
 }
 
