@@ -73,10 +73,10 @@ func (extract ComicBunchKaiOneshotExtractor) productItems(urls []string) ([]site
 		product := strings.TrimSpace(doc.Find("h1.series-header-title").First().Text())
 		date := strings.TrimSpace(doc.Find("p.episode-header-date").First().Text())
 		author := strings.TrimSpace(doc.Find("h2.series-header-author").First().Text())
+		desc := strings.TrimSpace(doc.Find("p.series-header-description").First().Text())
 
 		title := fmt.Sprintf("%s %s %s", product, author, date)
 		link := url
-		desc := "None"
 
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
 

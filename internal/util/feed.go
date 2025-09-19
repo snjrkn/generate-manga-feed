@@ -47,8 +47,8 @@ func ValidateAndPrepare(cfg site.Config, items []site.Item) error {
 
 	for i, item := range items {
 
-		items[i].Title = normalizeSpace(item.Title)
-		items[i].Desc = normalizeSpace(item.Desc)
+		items[i].Title = normalizeString(item.Title)
+		items[i].Desc = normalizeString(item.Desc)
 
 		// RSS2.0ではtitleかlinkのどちらかが必須
 		if items[i].Title == "" && items[i].Link == "" {
@@ -71,10 +71,10 @@ func ValidateAndPrepare(cfg site.Config, items []site.Item) error {
 	return nil
 }
 
-// normalizeSpace は全角スペースを半角スペースに変換して連続した半角スペースを1つにして返す
-func normalizeSpace(str string) string {
-	// str = strings.ReplaceAll(str, "\t", " ")
-	// str = strings.ReplaceAll(str, "\n", " ")
+// normalizeString はタブと改行を削除し、全角スペースを半角スペースに変換して連続した半角スペースを1つにして返す
+func normalizeString(str string) string {
+	str = strings.ReplaceAll(str, "\t", "")
+	str = strings.ReplaceAll(str, "\n", "")
 	str = strings.Join(strings.Fields(strings.ReplaceAll(str, "　", " ")), " ")
 	return str
 }

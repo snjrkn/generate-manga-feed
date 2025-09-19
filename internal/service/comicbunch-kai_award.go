@@ -3,6 +3,7 @@ package service
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/snjrkn/generate-manga-feed/internal/generator"
@@ -22,8 +23,9 @@ func NewComicBunchKaiAwardExtractor(cfg site.Config) *ComicBunchKaiAwardExtracto
 
 func ComicBunchKaiAward() *generator.Generator {
 	cfg := site.Config{
-		Title:       "コミックバンチKai 漫画賞",
-		URL:         "https://comicbunch-kai.com/article/award",
+		Title: "コミックバンチKai 漫画賞",
+		// URL:         "https://comicbunch-kai.com/article/award",
+		URL:         "https://comicbunch-kai.com/article/archive/category/%E6%BC%AB%E7%94%BB%E8%B3%9E_%E7%99%BA%E8%A1%A8",
 		DateLayout:  "2006年01月02日",
 		Description: "None",
 	}
@@ -53,7 +55,7 @@ func (extract ComicBunchKaiAwardExtractor) ExtractItems(doc *goquery.Document) (
 func (extract ComicBunchKaiAwardExtractor) awardURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
-	doc.Find("ul.award-banner > li > a").Each(func(i int, sel *goquery.Selection) {
+	doc.Find("a.entry-thumb-link").Each(func(i int, sel *goquery.Selection) {
 		if url, exist := sel.Attr("href"); exist {
 			urls = append(urls, url)
 		}
@@ -86,6 +88,8 @@ func (extract ComicBunchKaiAwardExtractor) productURLs(awUrls []string) ([]strin
 		return nil, fmt.Errorf("URL not found")
 	}
 
+	time.Sleep(1 * time.Second)
+
 	return urls, nil
 }
 
@@ -101,10 +105,10 @@ func (extract ComicBunchKaiAwardExtractor) productItems(urls []string) ([]site.I
 		product := strings.TrimSpace(doc.Find("h1.series-header-title").First().Text())
 		date := strings.TrimSpace(doc.Find("p.episode-header-date").First().Text())
 		author := strings.TrimSpace(doc.Find("h2.series-header-author").First().Text())
+		desc := strings.TrimSpace(doc.Find("p.series-header-description").First().Text())
 
 		title := fmt.Sprintf("%s %s %s", product, author, date)
 		link := url
-		desc := "None"
 
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
 	}

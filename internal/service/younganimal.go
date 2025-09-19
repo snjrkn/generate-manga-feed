@@ -73,8 +73,8 @@ func (extract YoungAnimalExtractor) productItems(urls []string) ([]site.Item, er
 
 		product := strings.TrimSpace(doc.Find("span.series-ep-list-item-h-text").First().Text())
 		author := strings.TrimSpace(doc.Find("span.article-text").First().Text())
-		desc := doc.Find(".series-h-credit-info-text-text span").First().Text()
-		date := doc.Find("time.series-ep-list-date-time").First().Text()
+		desc := strings.TrimSpace(doc.Find(".series-h-credit-info-text-text span").First().Text())
+		date := strings.TrimSpace(doc.Find("time.series-ep-list-date-time").First().Text())
 		link := doc.Find("a.series-act-read-btn").AttrOr("href", "")
 
 		title := fmt.Sprintf("%s %s %s", product, author, date)

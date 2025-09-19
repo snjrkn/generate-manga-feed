@@ -81,7 +81,6 @@ func (extract *ComicEssayExtractor) productItems(urls, dates []string) ([]site.I
 
 		episode = strings.ReplaceAll(episode, "\t", " ")
 		title := fmt.Sprintf("%s %s %s %s", dates[i], episode, product, author)
-		desc = strings.ReplaceAll(desc, "\n", " ")
 		date := dates[i]
 
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})

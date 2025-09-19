@@ -75,9 +75,8 @@ func (extract ComicActionExtractor) rssURLsAndDescs(urls []string) (rsUrls, desc
 		if err != nil {
 			return nil, nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
-		desc := doc.Find("p.series-header-description").First().Text()
+		desc := strings.TrimSpace(doc.Find("p.series-header-description").First().Text())
 		desc = strings.ReplaceAll(desc, "\n", "")
-		desc = strings.TrimSpace(desc)
 		descs = append(descs, desc)
 
 		url, exist := doc.Find("dd.rss > a").First().Attr("href")
@@ -117,7 +116,7 @@ func (extract ComicActionExtractor) productItems(urls, descs []string) ([]site.I
 	}
 
 	if len(items) == 0 {
-		return nil, fmt.Errorf("Item not found")
+		return nil, fmt.Errorf("item not found")
 	}
 
 	return items, nil
