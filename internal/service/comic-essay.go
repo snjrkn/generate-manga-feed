@@ -87,5 +87,9 @@ func (extract *ComicEssayExtractor) productItems(urls, dates []string) ([]site.I
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
 	}
 
+	if len(items) == 0 {
+		return nil, fmt.Errorf("item not found")
+	}
+
 	return items, nil
 }

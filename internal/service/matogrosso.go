@@ -31,12 +31,15 @@ func Matogrosso() *generator.Generator {
 
 func (extract MatogrossoExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	productItems := extract.productItems(doc)
+	productItems, err := extract.productItems(doc)
+	if err != nil {
+		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
+	}
 
 	return productItems, nil
 }
 
-func (extract *MatogrossoExtractor) productItems(doc *goquery.Document) []site.Item {
+func (extract *MatogrossoExtractor) productItems(doc *goquery.Document) ([]site.Item, error) {
 
 	items := []site.Item{}
 	doc.Find("div.serial_content").Each(func(i int, sel *goquery.Selection) {
@@ -52,5 +55,9 @@ func (extract *MatogrossoExtractor) productItems(doc *goquery.Document) []site.I
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
 	})
 
-	return items
+	if len(items) == 0 {
+		return nil, fmt.Errorf("item not found")
+	}
+
+	return items, nil
 }

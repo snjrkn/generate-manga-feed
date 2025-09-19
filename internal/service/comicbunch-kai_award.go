@@ -74,6 +74,7 @@ func (extract ComicBunchKaiAwardExtractor) productURLs(awUrls []string) ([]strin
 		if err != nil {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
+
 		doc.Find(".hatenablog-entry > p > a").Each(func(i int, sel *goquery.Selection) {
 			if url, exist := sel.Attr("href"); exist && strings.Contains(url, "episode") {
 				urls = append(urls, url)
@@ -106,6 +107,10 @@ func (extract ComicBunchKaiAwardExtractor) productItems(urls []string) ([]site.I
 		desc := "None"
 
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
+	}
+
+	if len(items) == 0 {
+		return nil, fmt.Errorf("item not found")
 	}
 
 	return items, nil

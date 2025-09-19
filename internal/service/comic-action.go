@@ -39,12 +39,12 @@ func (extract ComicActionExtractor) ExtractItems(doc *goquery.Document) ([]site.
 		return nil, fmt.Errorf("failed to oneshotURLs: (Title='%v'): %w", extract.config.Title, err)
 	}
 
-	rssURLs, err := extract.rssURLs(oneshotURLs)
+	rssURLs, productDescs, err := extract.rssURLsAndDescs(oneshotURLs)
 	if err != nil {
 		return nil, fmt.Errorf("failed to rssURLs: (Title='%v'): %w", extract.config.Title, err)
 	}
 
-	productItems, err := extract.productItems(rssURLs)
+	productItems, err := extract.productItems(rssURLs, productDescs)
 	if err != nil {
 		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
 	}
@@ -68,31 +68,34 @@ func (extract ComicActionExtractor) oneshotURLs(doc *goquery.Document) ([]string
 	return urls, nil
 }
 
-func (extract ComicActionExtractor) rssURLs(urls []string) ([]string, error) {
+func (extract ComicActionExtractor) rssURLsAndDescs(urls []string) (rsUrls, descs []string, err error) {
 
-	var rsUrls []string
 	for i := range urls {
 		doc, err := util.FetchHtmlDoc(urls[i])
 		if err != nil {
-			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
+			return nil, nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
+		}
+		desc := doc.Find("p.series-header-description").First().Text()
+		desc = strings.ReplaceAll(desc, "\n", "")
+		desc = strings.TrimSpace(desc)
+		descs = append(descs, desc)
+
+		url, exist := doc.Find("dd.rss > a").First().Attr("href")
+		if exist {
+			rsUrls = append(rsUrls, url)
 		}
 
-		doc.Find("dd.rss > a").Each(func(i int, sel *goquery.Selection) {
-			if url, exist := sel.Attr("href"); exist {
-				rsUrls = append(rsUrls, url)
-			}
-		})
 		util.ItemPerSleep(i, 9, 1)
 	}
 
 	if len(rsUrls) == 0 {
-		return nil, fmt.Errorf("URL not found")
+		return nil, nil, fmt.Errorf("URL not found")
 	}
 
-	return rsUrls, nil
+	return rsUrls, descs, nil
 }
 
-func (extract ComicActionExtractor) productItems(urls []string) ([]site.Item, error) {
+func (extract ComicActionExtractor) productItems(urls, descs []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {
@@ -100,16 +103,21 @@ func (extract ComicActionExtractor) productItems(urls []string) ([]site.Item, er
 		if err != nil {
 			return nil, fmt.Errorf("failed to parsing feed: %w", err)
 		}
+		desc := descs[i]
 
 		for i := range feed.Items {
 			items = append(items, site.Item{
 				Title:       feed.Items[i].Title,
 				Link:        feed.Items[i].Link,
-				Desc:        feed.Items[i].Description,
+				Desc:        desc,
 				CreatedDate: feed.Items[i].PublishedParsed.UTC(),
 			})
 		}
 		util.ItemPerSleep(i, 9, 1)
+	}
+
+	if len(items) == 0 {
+		return nil, fmt.Errorf("Item not found")
 	}
 
 	return items, nil

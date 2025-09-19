@@ -83,5 +83,9 @@ func (extract KurageBunchOneshotExtractor) productItems(urls []string) ([]site.I
 		util.ItemPerSleep(i, 9, 1)
 	}
 
+	if len(items) == 0 {
+		return nil, fmt.Errorf("item not found")
+	}
+
 	return items, nil
 }

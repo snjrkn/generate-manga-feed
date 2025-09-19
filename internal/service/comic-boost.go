@@ -87,6 +87,10 @@ func (extract ComicBoostExtractor) productItems(productURLs []string) ([]site.It
 		util.ItemPerSleep(processedIndex, 9, 1)
 	}
 
+	if len(items) == 0 {
+		return nil, fmt.Errorf("item not found")
+	}
+
 	return items, nil
 }
 

@@ -63,6 +63,10 @@ func (extract AndSofaExtractor) productItems(doc *goquery.Document) ([]site.Item
 	lastItems := extract.extractItems(doc.Find("div.updated-episodes-wrapper").Next(), lastDate)
 	items = append(items, lastItems...)
 
+	if len(items) == 0 {
+		return nil, fmt.Errorf("item not found")
+	}
+
 	return items, nil
 }
 

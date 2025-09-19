@@ -74,8 +74,8 @@ Available subcommands:
   championcrossoneshot  Print champion cross oneshot RSS feed
   comicactiononeshot    Print comic-acticon oneshot RSS feed
   comicboostoneshot     Print comic-boost oneshot RSS feed
-  comicbunckaiaward     Print comicbunchi-kai award RSS feed
-  comicbunckaioneshot   Print comicbunchi-kai oneshot RSS feed
+  comicbunchkaiaward    Print comicbunch-kai award RSS feed
+  comicbunchkaioneshot  Print comicbunch-kai oneshot RSS feed
   comicdaysnewcomer     Print comic-days newcomer RSS feed
   comicdaysoneshot      Print comic-days oneshot RSS feed
   comicessaycontest     Print comic-essay contest RSS feed

@@ -77,11 +77,10 @@ func (extract ComiplexExtractor) rssURLs(urls []string) ([]string, error) {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
 
-		doc.Find("dd.rss > a").Each(func(i int, sel *goquery.Selection) {
-			if url, exist := sel.Attr("href"); exist {
-				rsUrls = append(rsUrls, url)
-			}
-		})
+		url, exist := doc.Find("dd.rss > a").First().Attr("href")
+		if exist {
+			rsUrls = append(rsUrls, url)
+		}
 	}
 
 	if len(rsUrls) == 0 {
@@ -108,6 +107,10 @@ func (extract ComiplexExtractor) productItems(urls []string) ([]site.Item, error
 				CreatedDate: feed.Items[i].PublishedParsed.UTC(),
 			})
 		}
+	}
+
+	if len(items) == 0 {
+		return nil, fmt.Errorf("item not found")
 	}
 
 	return items, nil

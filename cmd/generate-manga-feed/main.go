@@ -62,12 +62,12 @@ var commands = map[string]Command{
 		Desc: "Print comic-essay contest RSS feed",
 		Run:  service.ComicEssayContest().MakeFeed,
 	},
-	"comicbunckaiaward": {
-		Desc: "Print comicbunchi-kai award RSS feed",
+	"comicbunchkaiaward": {
+		Desc: "Print comicbunch-kai award RSS feed",
 		Run:  service.ComicBunchKaiAward().MakeFeed,
 	},
-	"comicbunckaioneshot": {
-		Desc: "Print comicbunchi-kai oneshot RSS feed",
+	"comicbunchkaioneshot": {
+		Desc: "Print comicbunch-kai oneshot RSS feed",
 		Run:  service.ComicBunchKaiOneshot().MakeFeed,
 	},
 	"afternoonaward": {

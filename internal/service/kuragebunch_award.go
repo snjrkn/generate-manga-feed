@@ -112,5 +112,9 @@ func (extract KurageBunchAwardExtractor) productItems(urls []string) ([]site.Ite
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
 	}
 
+	if len(items) == 0 {
+		return nil, fmt.Errorf("item not found")
+	}
+
 	return items, nil
 }

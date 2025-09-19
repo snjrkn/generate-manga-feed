@@ -105,5 +105,9 @@ func (extract ShonenMagazineExtractor) productItems(urls []string) ([]site.Item,
 		util.ItemPerSleep(i, 9, 1)
 	}
 
+	if len(items) == 0 {
+		return nil, fmt.Errorf("item not found")
+	}
+
 	return items, nil
 }
