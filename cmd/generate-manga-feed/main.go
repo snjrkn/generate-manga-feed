@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"net"
 	"os"
 	"sort"
+	"time"
 
 	"github.com/snjrkn/generate-manga-feed/pkg/generatemangafeed"
 )
@@ -121,13 +123,28 @@ func main() {
 			os.Exit(1)
 		}
 
-		str, err := cmd.Run()
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "An error occurred: %v\n", err)
+		if checkInternetAccess() {
+			str, err := cmd.Run()
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "An error occurred: %v\n", err)
+				os.Exit(1)
+			}
+			fmt.Print(str)
+		} else {
+			fmt.Fprintln(os.Stderr, "Error: no internet access")
 			os.Exit(1)
 		}
-		fmt.Print(str)
 	}
+}
+
+func checkInternetAccess() bool {
+	timeout := 3 * time.Second
+	conn, err := net.DialTimeout("tcp", "8.8.8.8:53", timeout)
+	if err != nil {
+		return false
+	}
+	defer conn.Close()
+	return true
 }
 
 func showVersion() {
