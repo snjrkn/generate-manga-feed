@@ -45,10 +45,10 @@ func ValidateAndPrepare(cfg site.Config, items []site.Item) error {
 		return fmt.Errorf("items slice is empty: (Titile='%v', URL='%v')", cfg.Title, cfg.URL)
 	}
 
-	for i, item := range items {
+	for i := range items {
 
-		items[i].Title = normalizeString(item.Title)
-		items[i].Desc = normalizeString(item.Desc)
+		items[i].Title = normalizeString(items[i].Title)
+		items[i].Desc = normalizeString(items[i].Desc)
 
 		// RSS2.0ではtitleかlinkのどちらかが必須
 		if items[i].Title == "" && items[i].Link == "" {
@@ -57,7 +57,7 @@ func ValidateAndPrepare(cfg site.Config, items []site.Item) error {
 
 		// CreatedDateが空でDateの値がある場合、DateをパースしてCreatedDateに設定
 		// CreatedDateの値がある場合はそのまま使用する（comiplexのみの対応）
-		if items[i].CreatedDate.IsZero() && item.Date != "" {
+		if items[i].CreatedDate.IsZero() && items[i].Date != "" {
 			createdDate, err := parseTime(items[i].Date, cfg.DateLayout)
 			if err != nil {
 				return fmt.Errorf("failed to parse time: (Titile='%v'): %w", items[i].Title, err)
@@ -75,7 +75,8 @@ func ValidateAndPrepare(cfg site.Config, items []site.Item) error {
 func normalizeString(str string) string {
 	str = strings.ReplaceAll(str, "\t", "")
 	str = strings.ReplaceAll(str, "\n", "")
-	return strings.Join(strings.Fields(strings.ReplaceAll(str, "　", " ")), " ")
+	str = strings.ReplaceAll(str, "　", " ")
+	return strings.Join(strings.Fields(str), " ")
 }
 
 // sortItemsByCreated はCreatedで降順ソートする

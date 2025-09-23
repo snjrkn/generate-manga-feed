@@ -48,7 +48,7 @@ func (extract KurageFarmExtractor) productItems(doc *goquery.Document) ([]site.I
 		date := strings.TrimSpace(sel.Find("span.yomikiri-label-date").Text())
 		product := strings.TrimSpace(sel.Find("div.yomikiri-link-title h4").Text())
 		author := strings.TrimSpace(sel.Find("div.yomikiri-link-title h5").Text())
-		link := sel.Find("a.yomikiri-link").AttrOr("href", "")
+		link := sel.Find("a.yomikiri-link").AttrOr("href", site.Config{}.URL)
 
 		title := fmt.Sprintf("%s %s %s", date, product, author)
 		desc := "None" // 各作品のページに詳細情報あり

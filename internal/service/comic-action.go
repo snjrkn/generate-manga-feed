@@ -56,7 +56,7 @@ func (extract ComicActionExtractor) oneshotURLs(doc *goquery.Document) ([]string
 
 	var urls []string
 	doc.Find("#oneshot a.SeriesListItem_thumb_link__kvQJN").Each(func(i int, sel *goquery.Selection) {
-		if url, exist := sel.Attr("href"); exist && strings.Contains(url, "episode") {
+		if url, exists := sel.Attr("href"); exists && strings.Contains(url, "episode") {
 			urls = append(urls, url)
 		}
 	})
@@ -76,11 +76,10 @@ func (extract ComicActionExtractor) rssURLsAndDescs(urls []string) (rsUrls, desc
 			return nil, nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
 		desc := strings.TrimSpace(doc.Find("p.series-header-description").First().Text())
-		desc = strings.ReplaceAll(desc, "\n", "")
 		descs = append(descs, desc)
 
-		url, exist := doc.Find("dd.rss > a").First().Attr("href")
-		if exist {
+		url, exists := doc.Find("dd.rss > a").First().Attr("href")
+		if exists {
 			rsUrls = append(rsUrls, url)
 		}
 

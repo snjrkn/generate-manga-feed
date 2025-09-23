@@ -49,7 +49,7 @@ func (extract TotiExtractor) productURLs(doc *goquery.Document) ([]string, error
 
 	var urls []string
 	doc.Find("article a").Each(func(i int, sel *goquery.Selection) {
-		if url, exist := sel.Attr("href"); exist {
+		if url, exists := sel.Attr("href"); exists {
 			urls = append(urls, url)
 		}
 	})
@@ -74,10 +74,10 @@ func (extract TotiExtractor) productItems(productURLs []string) ([]site.Item, er
 		product := strings.TrimSpace(doc.Find("header > h3").Text())
 		desc := strings.TrimSpace(doc.Find("header > p").Text())
 		story := strings.TrimSpace(doc.Find("p.next > a >  span").Text())
-		link := doc.Find("p.next a").AttrOr("href", "")
+		link, exists := doc.Find("p.next a").Attr("href")
 		// 第1話が公開された場合の対応
-		if link == "" {
-			link = doc.Find("p.prev a").AttrOr("href", "")
+		if !exists {
+			link = doc.Find("p.prev a").AttrOr("href", productURLs[i])
 		}
 
 		titleDate := date

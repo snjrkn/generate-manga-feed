@@ -56,7 +56,7 @@ func (extract ComiplexExtractor) oneshotURLs(doc *goquery.Document) ([]string, e
 
 	var urls []string
 	doc.Find("a.series-item-updated-link").Each(func(i int, sel *goquery.Selection) {
-		if url, exist := sel.Attr("href"); exist && strings.Contains(url, "episode") {
+		if url, exists := sel.Attr("href"); exists && strings.Contains(url, "episode") {
 			urls = append(urls, url)
 		}
 	})
@@ -77,8 +77,8 @@ func (extract ComiplexExtractor) rssURLs(urls []string) ([]string, error) {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
 
-		url, exist := doc.Find("dd.rss > a").First().Attr("href")
-		if exist {
+		url, exists := doc.Find("dd.rss > a").First().Attr("href")
+		if exists {
 			rsUrls = append(rsUrls, url)
 		}
 	}

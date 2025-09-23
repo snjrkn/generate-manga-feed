@@ -55,7 +55,7 @@ func (extract AfternoonAwardExtractor) awardURLs(doc *goquery.Document) ([]strin
 
 	var urls []string
 	doc.Find(".mB50 a").Each(func(i int, sel *goquery.Selection) {
-		if url, exist := sel.Attr("href"); exist {
+		if url, exists := sel.Attr("href"); exists {
 			urls = append(urls, util.GetFqdn(extract.config.URL)+"/"+url)
 		}
 	})
@@ -76,7 +76,7 @@ func (extract AfternoonAwardExtractor) productURLs(awUrls []string) ([]string, e
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
 		doc.Find(".viewOnWEB > a").Each(func(i int, sel *goquery.Selection) {
-			if url, exist := sel.Attr("href"); exist && strings.Contains(url, "episode") {
+			if url, exists := sel.Attr("href"); exists && strings.Contains(url, "episode") {
 				urls = append(urls, url)
 			}
 		})
@@ -94,8 +94,8 @@ func (extract AfternoonAwardExtractor) productURLs(awUrls []string) ([]string, e
 func (extract AfternoonAwardExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
-	for i, url := range urls {
-		doc, err := util.FetchHtmlDoc(url)
+	for i := range urls {
+		doc, err := util.FetchHtmlDoc(urls[i])
 		if err != nil {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
@@ -106,7 +106,7 @@ func (extract AfternoonAwardExtractor) productItems(urls []string) ([]site.Item,
 		desc := strings.TrimSpace(doc.Find("p.series-header-description").First().Text())
 
 		title := fmt.Sprintf("%s %s %s", product, author, date)
-		link := url
+		link := urls[i]
 
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
 

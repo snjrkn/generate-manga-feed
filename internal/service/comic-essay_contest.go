@@ -57,7 +57,7 @@ func (extract *ComicEssayContestExtractor) ContestURLs(doc *goquery.Document) ([
 
 	var urls []string
 	doc.Find(".c-mt20 ._btn-500").Each(func(i int, sel *goquery.Selection) {
-		if url, exist := sel.Attr("href"); exist && strings.Contains(url, "winner") {
+		if url, exists := sel.Attr("href"); exists && strings.Contains(url, "winner") {
 			urls = append(urls, url)
 		}
 	})
@@ -78,7 +78,7 @@ func (extract *ComicEssayContestExtractor) productURLs(awUrls []string) ([]strin
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
 		doc.Find("._contest-btn-read").Each(func(i int, sel *goquery.Selection) {
-			if url, exist := sel.Attr("href"); exist && strings.Contains(url, "episode") {
+			if url, exists := sel.Attr("href"); exists && strings.Contains(url, "episode") {
 				urls = append(urls, url)
 			}
 		})
@@ -96,8 +96,8 @@ func (extract *ComicEssayContestExtractor) productURLs(awUrls []string) ([]strin
 func (extract *ComicEssayContestExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	items := []site.Item{}
-	for _, url := range urls {
-		doc, err := util.FetchHtmlDoc(url)
+	for i := range urls {
+		doc, err := util.FetchHtmlDoc(urls[i])
 		if err != nil {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
@@ -108,7 +108,7 @@ func (extract *ComicEssayContestExtractor) productItems(urls []string) ([]site.I
 		imageUrl := doc.Find("div.detail-title-banner._episode > img").First().AttrOr("src", "")
 
 		title := fmt.Sprintf("%s %s", product, author)
-		link := url
+		link := urls[i]
 		// 日付はページに明記されていないが、画像のディレクトリ名に西暦年と月があるので"01"を追加して日付とする
 		date := strings.Split(imageUrl, "/")[3] + "01"
 

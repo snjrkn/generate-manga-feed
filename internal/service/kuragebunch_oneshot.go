@@ -49,7 +49,7 @@ func (extract KurageBunchOneshotExtractor) productURLs(doc *goquery.Document) ([
 
 	var urls []string
 	doc.Find(".item-box > a").Each(func(i int, sel *goquery.Selection) {
-		if url, exist := sel.Attr("href"); exist && strings.Contains(url, "episode") {
+		if url, exists := sel.Attr("href"); exists && strings.Contains(url, "episode") {
 			urls = append(urls, url)
 		}
 	})
@@ -64,8 +64,8 @@ func (extract KurageBunchOneshotExtractor) productURLs(doc *goquery.Document) ([
 func (extract KurageBunchOneshotExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
-	for i, url := range urls {
-		doc, err := util.FetchHtmlDoc(url)
+	for i := range urls {
+		doc, err := util.FetchHtmlDoc(urls[i])
 		if err != nil {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
@@ -76,7 +76,7 @@ func (extract KurageBunchOneshotExtractor) productItems(urls []string) ([]site.I
 		desc := strings.TrimSpace(doc.Find("p.series-header-description").First().Text())
 
 		title := fmt.Sprintf("%s %s %s", product, author, date)
-		link := url
+		link := urls[i]
 
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
 

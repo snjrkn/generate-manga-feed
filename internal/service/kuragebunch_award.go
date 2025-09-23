@@ -54,7 +54,7 @@ func (extract KurageBunchAwardExtractor) awardURLs(doc *goquery.Document) ([]str
 
 	var urls []string
 	doc.Find("ul.award-banner > li > a").Each(func(i int, sel *goquery.Selection) {
-		if url, exist := sel.Attr("href"); exist {
+		if url, exists := sel.Attr("href"); exists {
 			urls = append(urls, url)
 		}
 	})
@@ -75,7 +75,7 @@ func (extract KurageBunchAwardExtractor) productURLs(awUrls []string) ([]string,
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
 		doc.Find(".hatenablog-entry > p > a").Each(func(i int, sel *goquery.Selection) {
-			if url, exist := sel.Attr("href"); exist && strings.Contains(url, "episode") {
+			if url, exists := sel.Attr("href"); exists && strings.Contains(url, "episode") {
 				urls = append(urls, url)
 			}
 		})
@@ -91,8 +91,8 @@ func (extract KurageBunchAwardExtractor) productURLs(awUrls []string) ([]string,
 func (extract KurageBunchAwardExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
-	for _, url := range urls {
-		doc, err := util.FetchHtmlDoc(url)
+	for i := range urls {
+		doc, err := util.FetchHtmlDoc(urls[i])
 		if err != nil {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
@@ -106,7 +106,7 @@ func (extract KurageBunchAwardExtractor) productItems(urls []string) ([]site.Ite
 			product = strings.ReplaceAll(product, author, "")
 		}
 		title := fmt.Sprintf("%s %s %s", product, author, date)
-		link := url
+		link := urls[i]
 		desc := "None"
 
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})

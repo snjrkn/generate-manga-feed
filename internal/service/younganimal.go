@@ -50,7 +50,7 @@ func (extract YoungAnimalExtractor) productURLs(doc *goquery.Document) ([]string
 
 	var urls []string
 	doc.Find(".ranking-item.category-box-vertical > a").Each(func(i int, sel *goquery.Selection) {
-		if url, exist := sel.Attr("href"); exist && strings.Contains(url, "series") {
+		if url, exists := sel.Attr("href"); exists && strings.Contains(url, "series") {
 			urls = append(urls, url)
 		}
 	})
@@ -65,8 +65,8 @@ func (extract YoungAnimalExtractor) productURLs(doc *goquery.Document) ([]string
 func (extract YoungAnimalExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
-	for i, url := range urls {
-		doc, err := util.FetchHtmlDoc(url)
+	for i := range urls {
+		doc, err := util.FetchHtmlDoc(urls[i])
 		if err != nil {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
@@ -75,7 +75,7 @@ func (extract YoungAnimalExtractor) productItems(urls []string) ([]site.Item, er
 		author := strings.TrimSpace(doc.Find("span.article-text").First().Text())
 		desc := strings.TrimSpace(doc.Find(".series-h-credit-info-text-text span").First().Text())
 		date := strings.TrimSpace(doc.Find("time.series-ep-list-date-time").First().Text())
-		link := doc.Find("a.series-act-read-btn").AttrOr("href", "")
+		link := doc.Find("a.series-act-read-btn").AttrOr("href", urls[i])
 
 		title := fmt.Sprintf("%s %s %s", product, author, date)
 

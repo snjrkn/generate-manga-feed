@@ -65,7 +65,7 @@ func (extract ShonenMagazineExtractor) productURLs(doc *goquery.Document) ([]str
 
 	var urls []string
 	doc.Find(findStr + " .works-list a").Each(func(i int, sel *goquery.Selection) {
-		if url, exist := sel.Attr("href"); exist && (strings.Contains(url, "content") || strings.Contains(url, "episode")) {
+		if url, exists := sel.Attr("href"); exists && (strings.Contains(url, "content") || strings.Contains(url, "episode")) {
 			urls = append(urls, url)
 		}
 	})
@@ -80,8 +80,8 @@ func (extract ShonenMagazineExtractor) productURLs(doc *goquery.Document) ([]str
 func (extract ShonenMagazineExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
-	for i, url := range urls {
-		doc, err := util.FetchHtmlDoc(url)
+	for i := range urls {
+		doc, err := util.FetchHtmlDoc(urls[i])
 		if err != nil {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
@@ -98,7 +98,7 @@ func (extract ShonenMagazineExtractor) productItems(urls []string) ([]site.Item,
 		desc := strings.TrimSpace(doc.Find("div.p-episode__comic-description p").First().Text())
 
 		title := fmt.Sprintf("%s %s %s", date, product, author)
-		link := url
+		link := urls[i]
 
 		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
 

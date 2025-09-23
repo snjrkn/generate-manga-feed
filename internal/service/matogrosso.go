@@ -47,7 +47,7 @@ func (extract *MatogrossoExtractor) productItems(doc *goquery.Document) ([]site.
 		product := strings.TrimSpace(sel.Find("h3.entry-title").Text())
 		desc := strings.TrimSpace(sel.Find("div.asset-info > p").Text())
 		date := strings.TrimSpace(sel.Find("p.published").Text())
-		link := sel.Find("a").AttrOr("href", "")
+		link := sel.Find("a").AttrOr("href", site.Config{}.URL)
 
 		title := fmt.Sprintf("%s%s%s", author, product, date)
 		date = strings.ReplaceAll(date, " 更新", "")

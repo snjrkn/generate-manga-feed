@@ -48,8 +48,8 @@ func (extract ComicEssayExtractor) ExtractItems(doc *goquery.Document) ([]site.I
 func (extract *ComicEssayExtractor) productURLsAndDates(doc *goquery.Document) (urls, dates []string, err error) {
 
 	doc.Find("li.thum-list__item").Each(func(i int, sel *goquery.Selection) {
-		url, exist := sel.Find("a.thum-list__link").Attr("href")
-		if exist {
+		url, exists := sel.Find("a.thum-list__link").Attr("href")
+		if exists {
 			urls = append(urls, url)
 		} else {
 			return
@@ -77,7 +77,7 @@ func (extract *ComicEssayExtractor) productItems(urls, dates []string) ([]site.I
 		author := strings.TrimSpace(doc.Find("span.episode-info__author--item").First().Text())
 		desc := strings.TrimSpace(doc.Find("div.episode-info__synopsis").First().Text())
 		episode := strings.TrimSpace(doc.Find("div.episode-list__item--title").First().Text())
-		link := doc.Find("a.episode-list__item--link").First().AttrOr("href", "")
+		link := doc.Find("a.episode-list__item--link").First().AttrOr("href", urls[i])
 
 		episode = strings.ReplaceAll(episode, "\t", " ")
 		title := fmt.Sprintf("%s %s %s %s", dates[i], episode, product, author)

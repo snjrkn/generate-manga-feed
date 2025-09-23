@@ -77,7 +77,7 @@ func (extract AndSofaExtractor) extractItems(sel *goquery.Selection, date string
 		episode := strings.TrimSpace(sel.Find("p.episode-title").Text())
 		product := strings.TrimSpace(sel.Find("div.updated-episodes-item-text h4").Text())
 		author := strings.TrimSpace(sel.Find("div.updated-episodes-item-text h5").Text())
-		link := sel.Find("a").AttrOr("href", "")
+		link := sel.Find("a").AttrOr("href", site.Config{}.URL)
 		desc := strings.TrimSpace(sel.Find("p.description").Text())
 
 		title := fmt.Sprintf("%s (月) %s %s %s", date, episode, product, author)
