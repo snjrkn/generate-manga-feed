@@ -35,14 +35,14 @@ func (extract ComicEssayContestExtractor) ExtractItems(doc *goquery.Document) ([
 
 	ContestURLs, err := extract.ContestURLs(doc)
 	if err != nil {
-		return nil, fmt.Errorf("failed to ContestURLs: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to ContestURLs: %w", err)
 	}
 	// 賞の最新分は賞のページにあるので追加
 	ContestURLs = append(ContestURLs, extract.config.URL)
 
 	productURLs, err := extract.productURLs(ContestURLs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productURLs: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
 
 	productItems, err := extract.productItems(productURLs)

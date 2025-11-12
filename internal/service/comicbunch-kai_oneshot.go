@@ -34,7 +34,7 @@ func (extract ComicBunchKaiOneshotExtractor) ExtractItems(doc *goquery.Document)
 
 	productURLs, err := extract.productURLs(doc)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productURLs: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
 
 	productItems, err := extract.productItems(productURLs)

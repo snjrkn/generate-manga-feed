@@ -36,12 +36,12 @@ func (extract ComiplexExtractor) ExtractItems(doc *goquery.Document) ([]site.Ite
 
 	oneshotURLs, err := extract.oneshotURLs(doc)
 	if err != nil {
-		return nil, fmt.Errorf("failed to oneshotURLs: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to oneshotURLs: %w", err)
 	}
 
 	rssURLs, err := extract.rssURLs(oneshotURLs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to rssURLs: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to rssURLs: %w", err)
 	}
 
 	productItems, err := extract.productItems(rssURLs)

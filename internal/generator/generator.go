@@ -24,18 +24,18 @@ func (generator *Generator) MakeFeed() (string, error) {
 	// 共通の前処理: HTMLドキュメントの取得
 	doc, err := util.FetchHtmlDoc(generator.config.URL)
 	if err != nil {
-		return "", fmt.Errorf("failed to get HTML document: %w", err)
+		return "", fmt.Errorf("failed to get HTML document (Site='%v'): %w", generator.config.Title, err)
 	}
 
 	// サイト固有のデータ抽出
 	items, err := generator.extractor.ExtractItems(doc)
 	if err != nil {
-		return "", fmt.Errorf("failed to extract items: %w", err)
+		return "", fmt.Errorf("failed to extract items (Site='%v', URL='%v'): %w", generator.config.Title, generator.config.URL, err)
 	}
 
 	// 共通の後処理: アイテムの検証と事前処理
 	if err := util.ValidateAndPrepare(generator.config, items); err != nil {
-		return "", fmt.Errorf("failed to validate and prepare: %w", err)
+		return "", fmt.Errorf("failed to validate and prepare (Site='%v', URL='%v'): %w", generator.config.Title, generator.config.URL, err)
 	}
 
 	// 共通の後処理: フィードの生成

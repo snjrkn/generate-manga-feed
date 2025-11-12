@@ -35,7 +35,7 @@ func (extract ChampionCrossExtractor) ExtractItems(doc *goquery.Document) ([]sit
 
 	productURLs, err := extract.productURLs(doc)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productURLs: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
 
 	productItems, err := extract.productItems(productURLs)

@@ -35,7 +35,7 @@ func (extract KurageFarmExtractor) ExtractItems(doc *goquery.Document) ([]site.I
 
 	productItems, err := extract.productItems(doc)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
 
 	return productItems, nil

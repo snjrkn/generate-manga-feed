@@ -35,12 +35,12 @@ func (extract ComicBunchKaiAwardExtractor) ExtractItems(doc *goquery.Document) (
 
 	awardURLs, err := extract.awardURLs(doc)
 	if err != nil {
-		return nil, fmt.Errorf("failed to awardURLs: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to awardURLs: %w", err)
 	}
 
 	productURLs, err := extract.productURLs(awardURLs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productURLs: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
 
 	productItems, err := extract.productItems(productURLs)
