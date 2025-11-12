@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -81,8 +82,14 @@ func (extract TotiExtractor) productItems(productURLs []string) ([]site.Item, er
 		}
 
 		titleDate := date
+		// 日付にタイトルが含まれる場合の対応
+		titleDate = regexp.MustCompile("^.*'").ReplaceAllString(date, "'")
 		titleDate = strings.ReplaceAll(titleDate, "'", "’")
 		title := fmt.Sprintf("%s %s %s", titleDate, product, story)
+
+		// 日付にタイトルが含まれる場合の対応
+		date = regexp.MustCompile("^.*'").ReplaceAllString(date, "'")
+
 		date = "20" + strings.ReplaceAll(date, "'", "")
 		date = strings.ReplaceAll(date, " UPDATE", "")
 
