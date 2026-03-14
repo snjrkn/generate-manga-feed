@@ -10,12 +10,12 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type ComicBoostExtractor struct {
+type ComicBoostOneshotExtractor struct {
 	config site.Config
 }
 
-func NewComicBoostExtractor(cfg site.Config) *ComicBoostExtractor {
-	return &ComicBoostExtractor{
+func NewComicBoostOneshotExtractor(cfg site.Config) *ComicBoostOneshotExtractor {
+	return &ComicBoostOneshotExtractor{
 		config: cfg,
 	}
 }
@@ -27,10 +27,10 @@ func ComicBoostOneshot() *generator.Generator {
 		DateLayout:  "2006/01/02",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewComicBoostExtractor(cfg))
+	return generator.NewGenerator(cfg, NewComicBoostOneshotExtractor(cfg))
 }
 
-func (extract ComicBoostExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (extract ComicBoostOneshotExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	productURLs, err := extract.productURLs(doc)
 	if err != nil {
@@ -44,7 +44,8 @@ func (extract ComicBoostExtractor) ExtractItems(doc *goquery.Document) ([]site.I
 
 	return productItems, nil
 }
-func (extract ComicBoostExtractor) productURLs(doc *goquery.Document) ([]string, error) {
+
+func (extract ComicBoostOneshotExtractor) productURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find("a.book-list-item-thum-wrapper").Each(func(i int, sel *goquery.Selection) {
@@ -59,7 +60,7 @@ func (extract ComicBoostExtractor) productURLs(doc *goquery.Document) ([]string,
 	return urls, nil
 }
 
-func (extract ComicBoostExtractor) productItems(productURLs []string) ([]site.Item, error) {
+func (extract ComicBoostOneshotExtractor) productItems(productURLs []string) ([]site.Item, error) {
 
 	domain := util.GetFqdn(extract.config.URL)
 
@@ -94,7 +95,7 @@ func (extract ComicBoostExtractor) productItems(productURLs []string) ([]site.It
 	return items, nil
 }
 
-func (extract ComicBoostExtractor) extractItems(doc *goquery.Document, domain string) []site.Item {
+func (extract ComicBoostOneshotExtractor) extractItems(doc *goquery.Document, domain string) []site.Item {
 
 	product := strings.TrimSpace(doc.Find("h1.comic-title").Text())
 	author := strings.TrimSpace(doc.Find("li.author a").First().Text())

@@ -2,17 +2,15 @@ package main
 
 import (
 	"fmt"
-	"net"
 	"os"
 	"sort"
-	"time"
 
 	"github.com/snjrkn/generate-manga-feed/pkg/generatemangafeed"
 )
 
 type Command struct {
 	Desc string
-	Run  func() (string, error)
+	Run  func(string) (string, error)
 }
 
 var commands = map[string]Command{
@@ -96,6 +94,10 @@ var commands = map[string]Command{
 		Desc: "Print comic-acticon oneshot RSS feed",
 		Run:  generatemangafeed.ComicActionOneshot,
 	},
+	"comicboostrensai": {
+		Desc: "Print comic-boost rensai RSS feed (option: Requires 8-digit content number)",
+		Run:  generatemangafeed.ComicBoostRensai,
+	},
 }
 
 var version = "dev"
@@ -115,6 +117,18 @@ func main() {
 		showVersion()
 	case "help":
 		showHelp()
+	case "comicboostrensai":
+		if len(args) != 2 {
+			fmt.Fprintf(os.Stderr, "Error: 'comicboostrensai' subcommand requires a content number as an argument\n")
+			showHelp()
+			os.Exit(1)
+		}
+		str, err := commands[subcommand].Run(args[1])
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "An error occurred: %v\n", err)
+			os.Exit(1)
+		}
+		fmt.Print(str)
 	default:
 		cmd, ok := commands[subcommand]
 		if !ok {
@@ -122,29 +136,13 @@ func main() {
 			showHelp()
 			os.Exit(1)
 		}
-
-		if checkInternetAccess() {
-			str, err := cmd.Run()
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "An error occurred: %v\n", err)
-				os.Exit(1)
-			}
-			fmt.Print(str)
-		} else {
-			fmt.Fprintln(os.Stderr, "Error: no internet access")
+		str, err := cmd.Run("")
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "An error occurred: %v\n", err)
 			os.Exit(1)
 		}
+		fmt.Print(str)
 	}
-}
-
-func checkInternetAccess() bool {
-	timeout := 3 * time.Second
-	conn, err := net.DialTimeout("tcp", "8.8.8.8:53", timeout)
-	if err != nil {
-		return false
-	}
-	defer conn.Close()
-	return true
 }
 
 func showVersion() {
@@ -152,7 +150,7 @@ func showVersion() {
 }
 
 func showHelp() {
-	fmt.Println("Usage: generate-manga-feed [subcommand]")
+	fmt.Println("Usage: generate-manga-feed <subcommand> [option]")
 	fmt.Println("\nAvailable subcommands:")
 	fmt.Println("  version               Show application version")
 	fmt.Println("  help                  Show this help message")

@@ -14,6 +14,7 @@
 - [コミックエッセイ劇場](https://www.comic-essay.com/comics)
 - [コミプレ 読切作品](https://viewer.heros-web.com/series/oneshot)
 - [comicブースト 読み切り](https://comic-boost.com/genre/3)
+- [comicブースト 連載](https://comic-boost.com/genre/1%202)
 - [ヤングアニマル 読み切り](https://younganimal.com/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A)
 - [コミックエッセイ プチ大賞](https://www.comic-essay.com/contest/winner/)
 - [コミックバンチKai 漫画賞](https://comicbunch-kai.com/article/archive/category/%E6%BC%AB%E7%94%BB%E8%B3%9E_%E7%99%BA%E8%A1%A8)
@@ -63,7 +64,7 @@ $ generate-manga-feed kuragefarm > kuragefarm.rss 2> kuragefarm_err.log
 
 ```bash
 $ generate-manga-feed help
-Usage: generate-manga-feed [subcommand]
+Usage: generate-manga-feed <subcommand> [option]
 
 Available subcommands:
   version               Show application version
@@ -74,6 +75,7 @@ Available subcommands:
   championcrossoneshot  Print champion cross oneshot RSS feed
   comicactiononeshot    Print comic-acticon oneshot RSS feed
   comicboostoneshot     Print comic-boost oneshot RSS feed
+  comicboostrensai      Print comic-boost rensai RSS feed (option: Requires 8-digit content number)
   comicbunchkaiaward    Print comicbunch-kai award RSS feed
   comicbunchkaioneshot  Print comicbunch-kai oneshot RSS feed
   comicdaysnewcomer     Print comic-days newcomer RSS feed
@@ -91,27 +93,31 @@ Available subcommands:
   younganimaloneshot    Print younganimal oneshot RSS feed
 ```
 
-対象サイトごとのサブコマンドは以下の通りです。
+対象サイトごとのサブコマンドとオプションは以下の通りです。
 
-| 対象サイト                                                                                                                      | サブコマンド         |
-| ------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
-| [くらげファーム](https://kuragebunch.com/farm)                                                                                  | kuragefarm           |
-| [コミックDAYS 新人賞](https://comic-days.com/newcomer)                                                                          | comicdaysnewcomer    |
-| [コミックDAYS 読み切り](https://comic-days.com/oneshot)                                                                         | comicdaysoneshot     |
-| [&Sofa（アンドソファ）](https://andsofa.com)                                                                                    | andsofa              |
-| [トーチ](https://to-ti.in/product)                                                                                              | toti                 |
-| [MATOGROSSO（マトグロッソ）](https://matogrosso.jp)                                                                             | matogrosso           |
-| [くらげバンチ 漫画賞](https://kuragebunch.com/info/award)                                                                       | kuragebunchaward     |
-| [コミックエッセイ劇場](https://www.comic-essay.com/comics)                                                                      | comicessaygekijo     |
-| [コミプレ 読切作品](https://viewer.heros-web.com/series/oneshot)                                                                | comiplexoneshot      |
-| [comicブースト 読み切り](https://comic-boost.com/genre/3)                                                                       | comicboostoneshot    |
-| [ヤングアニマル 読み切り](https://younganimal.com/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A)                     | younganimaloneshot   |
-| [コミックエッセイ プチ大賞](https://www.comic-essay.com/contest/winner/)                                                        | comicessaycontest    |
-| [コミックバンチKai 漫画賞](https://comicbunch-kai.com/article/archive/category/%E6%BC%AB%E7%94%BB%E8%B3%9E_%E7%99%BA%E8%A1%A8)  | comicbunckaiaward    |
-| [コミックバンチKai 読切作品](https://comicbunch-kai.com/series#oneshot)                                                         | comicbunckaioneshot  |
-| [アフタヌーン 四季賞](https://afternoon.kodansha.co.jp/award/)                                                                  | afternoonaward       |
-| [少年マガジン 新人漫画大賞](https://debut.shonenmagazine.com/archive/#awards)                                                   | shonenmagazineaward  |
-| [少年マガジン マガジンライズ](https://debut.shonenmagazine.com/archive/#magazinerise)                                           | shonenmagazinerise   |
-| [チャンピオンクロス 読み切り](https://championcross.jp/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A)                | championcrossoneshot |
-| [くらげバンチ 読切](https://kuragebunch.com/series/oneshot)                                                                     | kuragebunchoneshot   |
-| [webアクション 読切作品](https://comic-action.com/series/oneshot)                                                               | comicactiononeshot   |
+| 対象サイト                                                                                                                     | サブコマンド         | オプション（引数） |
+| ------------------------------------------------------------------------------------------------------------------------------ | -------------------- | ------------------ |
+| [くらげファーム](https://kuragebunch.com/farm)                                                                                 | kuragefarm           |                    |
+| [コミックDAYS 新人賞](https://comic-days.com/newcomer)                                                                         | comicdaysnewcomer    |                    |
+| [コミックDAYS 読み切り](https://comic-days.com/oneshot)                                                                        | comicdaysoneshot     |                    |
+| [&Sofa（アンドソファ）](https://andsofa.com)                                                                                   | andsofa              |                    |
+| [トーチ](https://to-ti.in/product)                                                                                             | toti                 |                    |
+| [MATOGROSSO（マトグロッソ）](https://matogrosso.jp)                                                                            | matogrosso           |                    |
+| [くらげバンチ 漫画賞](https://kuragebunch.com/info/award)                                                                      | kuragebunchaward     |                    |
+| [コミックエッセイ劇場](https://www.comic-essay.com/comics)                                                                     | comicessaygekijo     |                    |
+| [コミプレ 読切作品](https://viewer.heros-web.com/series/oneshot)                                                               | comiplexoneshot      |                    |
+| [comicブースト 読み切り](https://comic-boost.com/genre/3)                                                                      | comicboostoneshot    |                    |
+| [comicブースト 連載](https://comic-boost.com/genre/1%202)                                                                      | comicboostrensai     | 必要：8桁の数字 *1 |
+| [ヤングアニマル 読み切り](https://younganimal.com/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A)                    | younganimaloneshot   |                    |
+| [コミックエッセイ プチ大賞](https://www.comic-essay.com/contest/winner/)                                                       | comicessaycontest    |                    |
+| [コミックバンチKai 漫画賞](https://comicbunch-kai.com/article/archive/category/%E6%BC%AB%E7%94%BB%E8%B3%9E_%E7%99%BA%E8%A1%A8) | comicbunckaiaward    |                    |
+| [コミックバンチKai 読切作品](https://comicbunch-kai.com/series#oneshot)                                                        | comicbunckaioneshot  |                    |
+| [アフタヌーン 四季賞](https://afternoon.kodansha.co.jp/award/)                                                                 | afternoonaward       |                    |
+| [少年マガジン 新人漫画大賞](https://debut.shonenmagazine.com/archive/#awards)                                                  | shonenmagazineaward  |                    |
+| [少年マガジン マガジンライズ](https://debut.shonenmagazine.com/archive/#magazinerise)                                          | shonenmagazinerise   |                    |
+| [チャンピオンクロス 読み切り](https://championcross.jp/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A)               | championcrossoneshot |                    |
+| [くらげバンチ 読切](https://kuragebunch.com/series/oneshot)                                                                    | kuragebunchoneshot   |                    |
+| [webアクション 読切作品](https://comic-action.com/series/oneshot)                                                              | comicactiononeshot   |                    |
+
+*1：番号は連載作品のURLから取得する。
+`https://comic-boost.com/content/xxxxxxxx`（～/content/以降の8桁の数字）
