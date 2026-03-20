@@ -103,6 +103,7 @@ func (extract ComicBoostRensaiExtractor) extractItems(doc *goquery.Document, dom
 		episode := strings.TrimSpace(sel.Find("h4.title").Text())
 		date := strings.TrimSpace(sel.Find("p.update-date").Text())
 		link := sel.AttrOr("href", "")
+		link = strings.Split(link, "?")[0]
 		title := fmt.Sprintf("%s %s", episode, date)
 		coin := strings.TrimSpace(sel.Find("div.book-product-list-item-meta-wrapper div.left div").Text())
 		link = domain + link

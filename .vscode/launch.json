@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Cobra Tool",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceFolder}/cmd/generate-manga-feed",
+      "cwd": "${workspaceFolder}",
+      "args": ["${input:subcommand}", "${input:option}"],
+      "console": "integratedTerminal"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "subcommand",
+      "type": "promptString",
+      "description": "subcommand",
+      "default": ""
+    },
+    {
+      "id": "option",
+      "type": "promptString",
+      "description": "Options required for comicboostrensai",
+      "default": ""
+    }
+  ]
+}
