@@ -7,52 +7,54 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/mmcdole/gofeed"
 
-	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type ComiplexExtractor struct {
+type comiplexExtractor struct {
 	config site.Config
 }
 
-func NewComiplexExtractor(cfg site.Config) *ComiplexExtractor {
-	return &ComiplexExtractor{
+func newComiplexExtractor(cfg site.Config) *comiplexExtractor {
+	return &comiplexExtractor{
 		config: cfg,
 	}
 }
 
-func ComiplexOneshot() *generator.Generator {
+func ComiplexOneshot() site.Site {
 	cfg := site.Config{
 		Title:       "コミプレ 読切作品",
 		URL:         "https://viewer.heros-web.com/series/oneshot",
 		Description: "None",
 		DateLayout:  "2006/01/02",
 	}
-	return generator.NewGenerator(cfg, NewComiplexExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newComiplexExtractor(cfg),
+	}
 }
 
-func (extract ComiplexExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comiplexExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	oneshotURLs, err := extract.oneshotURLs(doc)
+	oneshotURLs, err := ext.oneshotURLs(doc)
 	if err != nil {
 		return nil, fmt.Errorf("failed to oneshotURLs: %w", err)
 	}
 
-	rssURLs, err := extract.rssURLs(oneshotURLs)
+	rssURLs, err := ext.rssURLs(oneshotURLs)
 	if err != nil {
 		return nil, fmt.Errorf("failed to rssURLs: %w", err)
 	}
 
-	productItems, err := extract.productItems(rssURLs)
+	productItems, err := ext.productItems(rssURLs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
 	}
 
 	return productItems, nil
 }
 
-func (extract ComiplexExtractor) oneshotURLs(doc *goquery.Document) ([]string, error) {
+func (ext comiplexExtractor) oneshotURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find("a.series-item-updated-link").Each(func(i int, sel *goquery.Selection) {
@@ -68,7 +70,7 @@ func (extract ComiplexExtractor) oneshotURLs(doc *goquery.Document) ([]string, e
 	return urls, nil
 }
 
-func (extract ComiplexExtractor) rssURLs(urls []string) ([]string, error) {
+func (ext comiplexExtractor) rssURLs(urls []string) ([]string, error) {
 
 	var rsUrls []string
 	for i := range urls {
@@ -90,7 +92,7 @@ func (extract ComiplexExtractor) rssURLs(urls []string) ([]string, error) {
 	return rsUrls, nil
 }
 
-func (extract ComiplexExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext comiplexExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {

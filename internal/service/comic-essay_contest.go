@@ -6,54 +6,56 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type ComicEssayContestExtractor struct {
+type comicEssayContestExtractor struct {
 	config site.Config
 }
 
-func NewComicEssayContestExtractor(cfg site.Config) *ComicEssayContestExtractor {
-	return &ComicEssayContestExtractor{
+func newComicEssayContestExtractor(cfg site.Config) *comicEssayContestExtractor {
+	return &comicEssayContestExtractor{
 		config: cfg,
 	}
 }
 
-func ComicEssayContest() *generator.Generator {
+func ComicEssayContest() site.Site {
 	cfg := site.Config{
 		Title:       "コミックエッセイ プチ大賞",
 		URL:         "https://www.comic-essay.com/contest/winner/",
 		DateLayout:  "20060102",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewComicEssayContestExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newComicEssayContestExtractor(cfg),
+	}
 }
 
-func (extract ComicEssayContestExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comicEssayContestExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	ContestURLs, err := extract.ContestURLs(doc)
+	ContestURLs, err := ext.ContestURLs(doc)
 	if err != nil {
 		return nil, fmt.Errorf("failed to ContestURLs: %w", err)
 	}
 	// 賞の最新分は賞のページにあるので追加
-	ContestURLs = append(ContestURLs, extract.config.URL)
+	ContestURLs = append(ContestURLs, ext.config.URL)
 
-	productURLs, err := extract.productURLs(ContestURLs)
+	productURLs, err := ext.productURLs(ContestURLs)
 	if err != nil {
 		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
 
-	productItems, err := extract.productItems(productURLs)
+	productItems, err := ext.productItems(productURLs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
 	}
 
 	return productItems, nil
 }
 
-func (extract *ComicEssayContestExtractor) ContestURLs(doc *goquery.Document) ([]string, error) {
+func (ext *comicEssayContestExtractor) ContestURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find(".c-mt20 ._btn-500").Each(func(i int, sel *goquery.Selection) {
@@ -69,7 +71,7 @@ func (extract *ComicEssayContestExtractor) ContestURLs(doc *goquery.Document) ([
 	return urls, nil
 }
 
-func (extract *ComicEssayContestExtractor) productURLs(awUrls []string) ([]string, error) {
+func (ext *comicEssayContestExtractor) productURLs(awUrls []string) ([]string, error) {
 
 	var urls []string
 	for _, awUrl := range awUrls {
@@ -93,7 +95,7 @@ func (extract *ComicEssayContestExtractor) productURLs(awUrls []string) ([]strin
 	return urls, nil
 }
 
-func (extract *ComicEssayContestExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext *comicEssayContestExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	items := []site.Item{}
 	for i := range urls {

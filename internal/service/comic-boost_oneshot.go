@@ -5,51 +5,53 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type ComicBoostOneshotExtractor struct {
+type comicBoostOneshotExtractor struct {
 	config site.Config
 }
 
-func NewComicBoostOneshotExtractor(cfg site.Config) *ComicBoostOneshotExtractor {
-	return &ComicBoostOneshotExtractor{
+func newComicBoostOneshotExtractor(cfg site.Config) *comicBoostOneshotExtractor {
+	return &comicBoostOneshotExtractor{
 		config: cfg,
 	}
 }
 
-func ComicBoostOneshot() *generator.Generator {
+func ComicBoostOneshot() site.Site {
 	cfg := site.Config{
 		Title:       "comicブースト 読み切り",
 		URL:         "https://comic-boost.com/genre/3",
 		DateLayout:  "2006/01/02",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewComicBoostOneshotExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newComicBoostOneshotExtractor(cfg),
+	}
 }
 
-func (extract ComicBoostOneshotExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comicBoostOneshotExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	productURLs, err := extract.productURLs(doc)
+	productURLs, err := ext.productURLs(doc)
 	if err != nil {
 		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
 
-	productItems, err := extract.productItems(productURLs)
+	productItems, err := ext.productItems(productURLs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
 	}
 
 	return productItems, nil
 }
 
-func (extract ComicBoostOneshotExtractor) productURLs(doc *goquery.Document) ([]string, error) {
+func (ext comicBoostOneshotExtractor) productURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find("a.book-list-item-thum-wrapper").Each(func(i int, sel *goquery.Selection) {
-		link := util.GetFqdn(extract.config.URL) + sel.AttrOr("href", "")
+		link := util.GetFqdn(ext.config.URL) + sel.AttrOr("href", "")
 		urls = append(urls, link)
 	})
 
@@ -60,9 +62,9 @@ func (extract ComicBoostOneshotExtractor) productURLs(doc *goquery.Document) ([]
 	return urls, nil
 }
 
-func (extract ComicBoostOneshotExtractor) productItems(productURLs []string) ([]site.Item, error) {
+func (ext comicBoostOneshotExtractor) productItems(productURLs []string) ([]site.Item, error) {
 
-	domain := util.GetFqdn(extract.config.URL)
+	domain := util.GetFqdn(ext.config.URL)
 
 	var items []site.Item
 	processedIndex := 0 // productURLsをキューとするインデックス
@@ -83,7 +85,7 @@ func (extract ComicBoostOneshotExtractor) productItems(productURLs []string) ([]
 			productURLs = append(productURLs, nextPageURL)
 		}
 
-		items = append(items, extract.extractItems(doc, domain)...)
+		items = append(items, ext.extItems(doc, domain)...)
 
 		util.ItemPerSleep(processedIndex, 9, 1)
 	}
@@ -95,7 +97,7 @@ func (extract ComicBoostOneshotExtractor) productItems(productURLs []string) ([]
 	return items, nil
 }
 
-func (extract ComicBoostOneshotExtractor) extractItems(doc *goquery.Document, domain string) []site.Item {
+func (ext comicBoostOneshotExtractor) extItems(doc *goquery.Document, domain string) []site.Item {
 
 	product := strings.TrimSpace(doc.Find("h1.comic-title").Text())
 	author := strings.TrimSpace(doc.Find("li.author a").First().Text())

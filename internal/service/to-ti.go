@@ -6,47 +6,49 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type TotiExtractor struct {
+type totiExtractor struct {
 	config site.Config
 }
 
-func NewTotiExtractor(cfg site.Config) *TotiExtractor {
-	return &TotiExtractor{
+func newTotiExtractor(cfg site.Config) *totiExtractor {
+	return &totiExtractor{
 		config: cfg,
 	}
 }
 
-func Toti() *generator.Generator {
+func Toti() site.Site {
 	cfg := site.Config{
 		Title:       "トーチ",
 		URL:         "https://to-ti.in/product",
 		DateLayout:  "2006/01/02",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewTotiExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newTotiExtractor(cfg),
+	}
 }
 
-func (extract TotiExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext totiExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	productURLs, err := extract.productURLs(doc)
+	productURLs, err := ext.productURLs(doc)
 	if err != nil {
 		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
 
-	productItems, err := extract.productItems(productURLs)
+	productItems, err := ext.productItems(productURLs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
 	}
 
 	return productItems, nil
 }
 
-func (extract TotiExtractor) productURLs(doc *goquery.Document) ([]string, error) {
+func (ext totiExtractor) productURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find("article a").Each(func(i int, sel *goquery.Selection) {
@@ -62,7 +64,7 @@ func (extract TotiExtractor) productURLs(doc *goquery.Document) ([]string, error
 	return urls, nil
 }
 
-func (extract TotiExtractor) productItems(productURLs []string) ([]site.Item, error) {
+func (ext totiExtractor) productItems(productURLs []string) ([]site.Item, error) {
 
 	items := []site.Item{}
 	for i := range productURLs {

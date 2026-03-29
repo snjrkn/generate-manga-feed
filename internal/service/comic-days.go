@@ -5,58 +5,63 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 )
 
-type ComicDaysExtractor struct {
+type comicDaysExtractor struct {
 	config site.Config
 }
 
-func NewComicDaysExtractor(cfg site.Config) *ComicDaysExtractor {
-	return &ComicDaysExtractor{
+func newComicDaysExtractor(cfg site.Config) *comicDaysExtractor {
+	return &comicDaysExtractor{
 		config: cfg,
 	}
 }
 
-func ComicDaysNewcomer() *generator.Generator {
+func ComicDaysNewcomer() site.Site {
 	cfg := site.Config{
 		Title:       "コミックDAYS 新人賞",
 		URL:         "https://comic-days.com/newcomer",
 		DateLayout:  "2006年01月02日",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewComicDaysExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newComicDaysExtractor(cfg),
+	}
 }
 
-func ComicDaysOneshot() *generator.Generator {
+func ComicDaysOneshot() site.Site {
 	cfg := site.Config{
 		Title:       "コミックDAYS 読み切り",
 		URL:         "https://comic-days.com/oneshot",
 		DateLayout:  "2006年01月02日",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewComicDaysExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newComicDaysExtractor(cfg),
+	}
 }
 
-func (extract ComicDaysExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comicDaysExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	productItems, err := extract.productItems(doc)
+	productItems, err := ext.productItems(doc)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
 	}
 
 	return productItems, nil
 }
 
-func (extract *ComicDaysExtractor) productItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext *comicDaysExtractor) productItems(doc *goquery.Document) ([]site.Item, error) {
 
 	items := []site.Item{}
 	doc.Find("li.yomikiri-item-box").Each(func(i int, sel *goquery.Selection) {
 		date := strings.TrimSpace(sel.Find("span.yomikiri-label-date").Text())
 		product := strings.TrimSpace(sel.Find("div.yomikiri-link-title h4").Text())
 		author := strings.TrimSpace(sel.Find("div.yomikiri-link-title h5").Text())
-		link := sel.Find("a.yomikiri-link").AttrOr("href", site.Config{}.URL)
+		link := sel.Find("a.yomikiri-link").AttrOr("href", ext.config.URL)
 
 		title := fmt.Sprintf("%s %s %s", date, product, author)
 		desc := "None"

@@ -6,57 +6,59 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type AfternoonAwardExtractor struct {
+type afternoonAwardExtractor struct {
 	config site.Config
 }
 
-func NewAfternoonAwardExtractor(cfg site.Config) *AfternoonAwardExtractor {
-	return &AfternoonAwardExtractor{
+func newAfternoonAwardExtractor(cfg site.Config) *afternoonAwardExtractor {
+	return &afternoonAwardExtractor{
 		config: cfg,
 	}
 }
 
-func AfternoonAward() *generator.Generator {
+func AfternoonAward() site.Site {
 	cfg := site.Config{
 		Title:       "アフタヌーン 四季賞",
 		URL:         "https://afternoon.kodansha.co.jp/award/",
 		DateLayout:  "2006年01月02日",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewAfternoonAwardExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newAfternoonAwardExtractor(cfg),
+	}
 }
 
-func (extract AfternoonAwardExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext afternoonAwardExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	awardURLs, err := extract.awardURLs(doc)
+	awardURLs, err := ext.awardURLs(doc)
 	if err != nil {
 		return nil, fmt.Errorf("failed to awardURLs: %w", err)
 	}
 
-	productURLs, err := extract.productURLs(awardURLs)
+	productURLs, err := ext.productURLs(awardURLs)
 	if err != nil {
 		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
 
-	productItems, err := extract.productItems(productURLs)
+	productItems, err := ext.productItems(productURLs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
 	}
 
 	return productItems, nil
 }
 
-func (extract AfternoonAwardExtractor) awardURLs(doc *goquery.Document) ([]string, error) {
+func (ext afternoonAwardExtractor) awardURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find(".mB50 a").Each(func(i int, sel *goquery.Selection) {
 		if url, exists := sel.Attr("href"); exists {
-			urls = append(urls, util.GetFqdn(extract.config.URL)+"/"+url)
+			urls = append(urls, util.GetFqdn(ext.config.URL)+"/"+url)
 		}
 	})
 
@@ -67,7 +69,7 @@ func (extract AfternoonAwardExtractor) awardURLs(doc *goquery.Document) ([]strin
 	return urls, nil
 }
 
-func (extract AfternoonAwardExtractor) productURLs(awUrls []string) ([]string, error) {
+func (ext afternoonAwardExtractor) productURLs(awUrls []string) ([]string, error) {
 
 	var urls []string
 	for _, awUrl := range awUrls {
@@ -91,7 +93,7 @@ func (extract AfternoonAwardExtractor) productURLs(awUrls []string) ([]string, e
 	return urls, nil
 }
 
-func (extract AfternoonAwardExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext afternoonAwardExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {

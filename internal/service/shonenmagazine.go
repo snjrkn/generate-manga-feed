@@ -5,62 +5,67 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type ShonenMagazineExtractor struct {
+type shonenMagazineExtractor struct {
 	config site.Config
 }
 
-func NewShonenMagazineExtractor(cfg site.Config) *ShonenMagazineExtractor {
-	return &ShonenMagazineExtractor{
+func newShonenMagazineExtractor(cfg site.Config) *shonenMagazineExtractor {
+	return &shonenMagazineExtractor{
 		config: cfg,
 	}
 }
 
-func ShonenMagazineAward() *generator.Generator {
+func ShonenMagazineAward() site.Site {
 	cfg := site.Config{
 		Title:       "少年マガジン 新人漫画大賞",
 		URL:         "https://debut.shonenmagazine.com/archive/#awards",
 		DateLayout:  "2006/01/02",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewShonenMagazineExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newShonenMagazineExtractor(cfg),
+	}
 }
 
-func ShonenMagazineRise() *generator.Generator {
+func ShonenMagazineRise() site.Site {
 	cfg := site.Config{
 		Title:       "少年マガジン マガジンライズ",
 		URL:         "https://debut.shonenmagazine.com/archive/#magazinerise",
 		DateLayout:  "2006/01/02",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewShonenMagazineExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newShonenMagazineExtractor(cfg),
+	}
 }
 
-func (extract ShonenMagazineExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext shonenMagazineExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	productURLs, err := extract.productURLs(doc)
+	productURLs, err := ext.productURLs(doc)
 	if err != nil {
 		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
 
-	productItems, err := extract.productItems(productURLs)
+	productItems, err := ext.productItems(productURLs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
 	}
 
 	return productItems, nil
 }
 
-func (extract ShonenMagazineExtractor) productURLs(doc *goquery.Document) ([]string, error) {
+func (ext shonenMagazineExtractor) productURLs(doc *goquery.Document) ([]string, error) {
 
 	var findStr string
-	index := strings.LastIndex(extract.config.URL, "#")
+	index := strings.LastIndex(ext.config.URL, "#")
 	if index != -1 {
-		findStr = extract.config.URL[index:]
+		findStr = ext.config.URL[index:]
 	}
 
 	var urls []string
@@ -77,7 +82,7 @@ func (extract ShonenMagazineExtractor) productURLs(doc *goquery.Document) ([]str
 	return urls, nil
 }
 
-func (extract ShonenMagazineExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext shonenMagazineExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {

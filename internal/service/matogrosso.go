@@ -5,33 +5,35 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 )
 
-type MatogrossoExtractor struct {
+type matogrossoExtractor struct {
 	config site.Config
 }
 
-func NewMatogrossoExtractor(cfg site.Config) *MatogrossoExtractor {
-	return &MatogrossoExtractor{
+func newMatogrossoExtractor(cfg site.Config) *matogrossoExtractor {
+	return &matogrossoExtractor{
 		config: cfg,
 	}
 }
 
-func Matogrosso() *generator.Generator {
+func Matogrosso() site.Site {
 	cfg := site.Config{
 		Title:       "MATOGROSSO (マトグロッソ)",
 		URL:         "https://matogrosso.jp",
 		DateLayout:  "2006/01/02",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewMatogrossoExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newMatogrossoExtractor(cfg),
+	}
 }
 
-func (extract MatogrossoExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext matogrossoExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	productItems, err := extract.productItems(doc)
+	productItems, err := ext.productItems(doc)
 	if err != nil {
 		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
@@ -39,7 +41,7 @@ func (extract MatogrossoExtractor) ExtractItems(doc *goquery.Document) ([]site.I
 	return productItems, nil
 }
 
-func (extract *MatogrossoExtractor) productItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext *matogrossoExtractor) productItems(doc *goquery.Document) ([]site.Item, error) {
 
 	items := []site.Item{}
 	doc.Find("div.serial_content").Each(func(i int, sel *goquery.Selection) {

@@ -6,47 +6,49 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type ChampionCrossExtractor struct {
+type championCrossExtractor struct {
 	config site.Config
 }
 
-func NewChampionCrossExtractor(cfg site.Config) *ChampionCrossExtractor {
-	return &ChampionCrossExtractor{
+func newChampionCrossExtractor(cfg site.Config) *championCrossExtractor {
+	return &championCrossExtractor{
 		config: cfg,
 	}
 }
 
-func ChampionCrossOneshot() *generator.Generator {
+func ChampionCrossOneshot() site.Site {
 	cfg := site.Config{
 		Title:       "チャンピオンクロス 読み切り",
 		URL:         "https://championcross.jp/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A",
 		DateLayout:  "2006年1月2日",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewChampionCrossExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newChampionCrossExtractor(cfg),
+	}
 }
 
-func (extract ChampionCrossExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext championCrossExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	productURLs, err := extract.productURLs(doc)
+	productURLs, err := ext.productURLs(doc)
 	if err != nil {
 		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
 
-	productItems, err := extract.productItems(productURLs)
+	productItems, err := ext.productItems(productURLs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
 	}
 
 	return productItems, nil
 }
 
-func (extract ChampionCrossExtractor) productURLs(doc *goquery.Document) ([]string, error) {
+func (ext championCrossExtractor) productURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find(".category-box-vertical > a").Each(func(i int, sel *goquery.Selection) {
@@ -62,7 +64,7 @@ func (extract ChampionCrossExtractor) productURLs(doc *goquery.Document) ([]stri
 	return urls, nil
 }
 
-func (extract ChampionCrossExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext championCrossExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {

@@ -6,47 +6,49 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type YoungAnimalExtractor struct {
+type youngAnimalExtractor struct {
 	config site.Config
 }
 
-func NewYoungAnimalExtractor(cfg site.Config) *YoungAnimalExtractor {
-	return &YoungAnimalExtractor{
+func newYoungAnimalExtractor(cfg site.Config) *youngAnimalExtractor {
+	return &youngAnimalExtractor{
 		config: cfg,
 	}
 }
 
-func YoungAnimalOneshot() *generator.Generator {
+func YoungAnimalOneshot() site.Site {
 	cfg := site.Config{
 		Title:       "ヤングアニマル 読み切り",
 		URL:         "https://younganimal.com/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A",
 		DateLayout:  "2006年1月2日",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewYoungAnimalExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newYoungAnimalExtractor(cfg),
+	}
 }
 
-func (extract YoungAnimalExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext youngAnimalExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	productURLs, err := extract.productURLs(doc)
+	productURLs, err := ext.productURLs(doc)
 	if err != nil {
 		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
 
-	productItems, err := extract.productItems(productURLs)
+	productItems, err := ext.productItems(productURLs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
 	}
 
 	return productItems, nil
 }
 
-func (extract YoungAnimalExtractor) productURLs(doc *goquery.Document) ([]string, error) {
+func (ext youngAnimalExtractor) productURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find(".ranking-item.category-box-vertical > a").Each(func(i int, sel *goquery.Selection) {
@@ -62,7 +64,7 @@ func (extract YoungAnimalExtractor) productURLs(doc *goquery.Document) ([]string
 	return urls, nil
 }
 
-func (extract YoungAnimalExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext youngAnimalExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {

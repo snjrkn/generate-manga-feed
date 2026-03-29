@@ -5,22 +5,21 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type ComicBoostRensaiExtractor struct {
+type comicBoostRensaiExtractor struct {
 	config site.Config
 }
 
-func NewComicBoostRensaiExtractor(cfg site.Config) *ComicBoostRensaiExtractor {
-	return &ComicBoostRensaiExtractor{
+func newComicBoostRensaiExtractor(cfg site.Config) *comicBoostRensaiExtractor {
+	return &comicBoostRensaiExtractor{
 		config: cfg,
 	}
 }
 
-func ComicBoostRensai(productId string) *generator.Generator {
+func ComicBoostRensai(productId string) site.Site {
 	cfg := site.Config{
 		Title:       "comicブースト【連載】",
 		URL:         "https://comic-boost.com/content/" + productId,
@@ -28,25 +27,28 @@ func ComicBoostRensai(productId string) *generator.Generator {
 		Description: "None",
 	}
 
-	extract := NewComicBoostRensaiExtractor(cfg)
-	if err := extract.productInfo(&cfg); err != nil {
+	ext := newComicBoostRensaiExtractor(cfg)
+	if err := ext.productInfo(&cfg); err != nil {
 		fmt.Printf("failed to get product info: %v\n", err)
 	}
 
-	return generator.NewGenerator(cfg, extract)
+	return site.Site{
+		Config:    cfg,
+		Extractor: ext,
+	}
 }
 
-func (extract ComicBoostRensaiExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comicBoostRensaiExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	productItems, err := extract.productItems([]string{extract.config.URL})
+	productItems, err := ext.productItems([]string{ext.config.URL})
 	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
 	}
 
 	return productItems, nil
 }
 
-func (extract ComicBoostRensaiExtractor) productInfo(cfg *site.Config) error {
+func (ext comicBoostRensaiExtractor) productInfo(cfg *site.Config) error {
 
 	doc, err := util.FetchHtmlDoc(cfg.URL)
 	if err != nil {
@@ -59,9 +61,9 @@ func (extract ComicBoostRensaiExtractor) productInfo(cfg *site.Config) error {
 	return nil
 }
 
-func (extract ComicBoostRensaiExtractor) productItems(productURLs []string) ([]site.Item, error) {
+func (ext comicBoostRensaiExtractor) productItems(productURLs []string) ([]site.Item, error) {
 
-	domain := util.GetFqdn(extract.config.URL)
+	domain := util.GetFqdn(ext.config.URL)
 
 	var items []site.Item
 	processedIndex := 0 // productURLsをキューとするインデックス
@@ -82,7 +84,7 @@ func (extract ComicBoostRensaiExtractor) productItems(productURLs []string) ([]s
 			productURLs = append(productURLs, nextPageURL)
 		}
 
-		items = append(items, extract.extractItems(doc, domain)...)
+		items = append(items, ext.extItems(doc, domain)...)
 
 		util.ItemPerSleep(processedIndex, 9, 1)
 	}
@@ -94,7 +96,7 @@ func (extract ComicBoostRensaiExtractor) productItems(productURLs []string) ([]s
 	return items, nil
 }
 
-func (extract ComicBoostRensaiExtractor) extractItems(doc *goquery.Document, domain string) []site.Item {
+func (ext comicBoostRensaiExtractor) extItems(doc *goquery.Document, domain string) []site.Item {
 
 	desc := "None"
 

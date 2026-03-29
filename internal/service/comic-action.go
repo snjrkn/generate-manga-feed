@@ -7,52 +7,54 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/mmcdole/gofeed"
 
-	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type ComicActionExtractor struct {
+type comicActionExtractor struct {
 	config site.Config
 }
 
-func NewComicActionExtractor(cfg site.Config) *ComicActionExtractor {
-	return &ComicActionExtractor{
+func newComicActionExtractor(cfg site.Config) *comicActionExtractor {
+	return &comicActionExtractor{
 		config: cfg,
 	}
 }
 
-func ComicActionOneshot() *generator.Generator {
+func ComicActionOneshot() site.Site {
 	cfg := site.Config{
 		Title:       "webアクション 読切作品",
 		URL:         "https://comic-action.com/series/oneshot",
 		Description: "None",
 		DateLayout:  "2006/01/02",
 	}
-	return generator.NewGenerator(cfg, NewComicActionExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newComicActionExtractor(cfg),
+	}
 }
 
-func (extract ComicActionExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comicActionExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	oneshotURLs, err := extract.oneshotURLs(doc)
+	oneshotURLs, err := ext.oneshotURLs(doc)
 	if err != nil {
 		return nil, fmt.Errorf("failed to oneshotURLs: %w", err)
 	}
 
-	rssURLs, productDescs, err := extract.rssURLsAndDescs(oneshotURLs)
+	rssURLs, productDescs, err := ext.rssURLsAndDescs(oneshotURLs)
 	if err != nil {
 		return nil, fmt.Errorf("failed to rssURLs: %w", err)
 	}
 
-	productItems, err := extract.productItems(rssURLs, productDescs)
+	productItems, err := ext.productItems(rssURLs, productDescs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
 	}
 
 	return productItems, nil
 }
 
-func (extract ComicActionExtractor) oneshotURLs(doc *goquery.Document) ([]string, error) {
+func (ext comicActionExtractor) oneshotURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find("#oneshot a.SeriesListItem_thumb_link__kvQJN").Each(func(i int, sel *goquery.Selection) {
@@ -68,7 +70,7 @@ func (extract ComicActionExtractor) oneshotURLs(doc *goquery.Document) ([]string
 	return urls, nil
 }
 
-func (extract ComicActionExtractor) rssURLsAndDescs(urls []string) (rsUrls, descs []string, err error) {
+func (ext comicActionExtractor) rssURLsAndDescs(urls []string) (rsUrls, descs []string, err error) {
 
 	for i := range urls {
 		doc, err := util.FetchHtmlDoc(urls[i])
@@ -93,7 +95,7 @@ func (extract ComicActionExtractor) rssURLsAndDescs(urls []string) (rsUrls, desc
 	return rsUrls, descs, nil
 }
 
-func (extract ComicActionExtractor) productItems(urls, descs []string) ([]site.Item, error) {
+func (ext comicActionExtractor) productItems(urls, descs []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {

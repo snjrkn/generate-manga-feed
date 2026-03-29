@@ -24,3 +24,8 @@ type Item struct {
 type Extractor interface {
 	ExtractItems(*goquery.Document) ([]Item, error)
 }
+
+type Site struct {
+	Config    Config
+	Extractor Extractor
+}

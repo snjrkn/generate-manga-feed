@@ -5,21 +5,20 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 )
 
-type KurageFarmExtractor struct {
+type kurageFarmExtractor struct {
 	config site.Config
 }
 
-func NewKurageFarmExtractor(cfg site.Config) *KurageFarmExtractor {
-	return &KurageFarmExtractor{
+func newKurageFarmExtractor(cfg site.Config) *kurageFarmExtractor {
+	return &kurageFarmExtractor{
 		config: cfg,
 	}
 }
 
-func KurageFarm() *generator.Generator {
+func KurageFarm() site.Site {
 
 	cfg := site.Config{
 		Title:       "くらげファーム",
@@ -27,13 +26,15 @@ func KurageFarm() *generator.Generator {
 		DateLayout:  "2006年1月2日",
 		Description: "None",
 	}
-
-	return generator.NewGenerator(cfg, NewKurageFarmExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newKurageFarmExtractor(cfg),
+	}
 }
 
-func (extract KurageFarmExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext kurageFarmExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	productItems, err := extract.productItems(doc)
+	productItems, err := ext.productItems(doc)
 	if err != nil {
 		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
@@ -41,7 +42,7 @@ func (extract KurageFarmExtractor) ExtractItems(doc *goquery.Document) ([]site.I
 	return productItems, nil
 }
 
-func (extract KurageFarmExtractor) productItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext kurageFarmExtractor) productItems(doc *goquery.Document) ([]site.Item, error) {
 
 	var items []site.Item
 	doc.Find("li.yomikiri-item-box").Each(func(i int, sel *goquery.Selection) {

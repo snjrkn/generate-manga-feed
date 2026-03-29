@@ -6,52 +6,54 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type ComicBunchKaiAwardExtractor struct {
+type comicBunchKaiAwardExtractor struct {
 	config site.Config
 }
 
-func NewComicBunchKaiAwardExtractor(cfg site.Config) *ComicBunchKaiAwardExtractor {
-	return &ComicBunchKaiAwardExtractor{
+func newComicBunchKaiAwardExtractor(cfg site.Config) *comicBunchKaiAwardExtractor {
+	return &comicBunchKaiAwardExtractor{
 		config: cfg,
 	}
 }
 
-func ComicBunchKaiAward() *generator.Generator {
+func ComicBunchKaiAward() site.Site {
 	cfg := site.Config{
 		Title:       "コミックバンチKai 漫画賞",
 		URL:         "https://comicbunch-kai.com/article/archive/category/%E6%BC%AB%E7%94%BB%E8%B3%9E_%E7%99%BA%E8%A1%A8",
 		DateLayout:  "2006年01月02日",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewComicBunchKaiAwardExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newComicBunchKaiAwardExtractor(cfg),
+	}
 }
 
-func (extract ComicBunchKaiAwardExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comicBunchKaiAwardExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	awardURLs, err := extract.awardURLs(doc)
+	awardURLs, err := ext.awardURLs(doc)
 	if err != nil {
 		return nil, fmt.Errorf("failed to awardURLs: %w", err)
 	}
 
-	productURLs, err := extract.productURLs(awardURLs)
+	productURLs, err := ext.productURLs(awardURLs)
 	if err != nil {
 		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
 
-	productItems, err := extract.productItems(productURLs)
+	productItems, err := ext.productItems(productURLs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
 	}
 
 	return productItems, nil
 }
 
-func (extract ComicBunchKaiAwardExtractor) awardURLs(doc *goquery.Document) ([]string, error) {
+func (ext comicBunchKaiAwardExtractor) awardURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find("a.entry-thumb-link").Each(func(i int, sel *goquery.Selection) {
@@ -67,7 +69,7 @@ func (extract ComicBunchKaiAwardExtractor) awardURLs(doc *goquery.Document) ([]s
 	return urls, nil
 }
 
-func (extract ComicBunchKaiAwardExtractor) productURLs(awUrls []string) ([]string, error) {
+func (ext comicBunchKaiAwardExtractor) productURLs(awUrls []string) ([]string, error) {
 
 	var urls []string
 	for _, awUrl := range awUrls {
@@ -92,7 +94,7 @@ func (extract ComicBunchKaiAwardExtractor) productURLs(awUrls []string) ([]strin
 	return urls, nil
 }
 
-func (extract ComicBunchKaiAwardExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext comicBunchKaiAwardExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {

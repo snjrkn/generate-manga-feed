@@ -5,47 +5,49 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type ComicEssayExtractor struct {
+type comicEssayExtractor struct {
 	config site.Config
 }
 
-func NewComicEssayExtractor(cfg site.Config) *ComicEssayExtractor {
-	return &ComicEssayExtractor{
+func newComicEssayExtractor(cfg site.Config) *comicEssayExtractor {
+	return &comicEssayExtractor{
 		config: cfg,
 	}
 }
 
-func ComicEssayGekijo() *generator.Generator {
+func ComicEssayGekijo() site.Site {
 	cfg := site.Config{
 		Title:       "コミックエッセイ劇場",
 		URL:         "https://www.comic-essay.com/comics/",
 		DateLayout:  "2006.1.02",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewComicEssayExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newComicEssayExtractor(cfg),
+	}
 }
 
-func (extract ComicEssayExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comicEssayExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	productURLs, productDates, err := extract.productURLsAndDates(doc)
+	productURLs, productDates, err := ext.productURLsAndDates(doc)
 	if err != nil {
 		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
 
-	productItems, err := extract.productItems(productURLs, productDates)
+	productItems, err := ext.productItems(productURLs, productDates)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
 	}
 
 	return productItems, nil
 }
 
-func (extract *ComicEssayExtractor) productURLsAndDates(doc *goquery.Document) (urls, dates []string, err error) {
+func (ext *comicEssayExtractor) productURLsAndDates(doc *goquery.Document) (urls, dates []string, err error) {
 
 	doc.Find("li.thum-list__item").Each(func(i int, sel *goquery.Selection) {
 		url, exists := sel.Find("a.thum-list__link").Attr("href")
@@ -64,7 +66,7 @@ func (extract *ComicEssayExtractor) productURLsAndDates(doc *goquery.Document) (
 	return urls, dates, nil
 }
 
-func (extract *ComicEssayExtractor) productItems(urls, dates []string) ([]site.Item, error) {
+func (ext *comicEssayExtractor) productItems(urls, dates []string) ([]site.Item, error) {
 
 	items := []site.Item{}
 	for i := range urls {

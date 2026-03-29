@@ -5,47 +5,49 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/snjrkn/generate-manga-feed/internal/generator"
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type KurageBunchOneshotExtractor struct {
+type kurageBunchOneshotExtractor struct {
 	config site.Config
 }
 
-func NewKurageBunchOneshotExtractor(cfg site.Config) *KurageBunchOneshotExtractor {
-	return &KurageBunchOneshotExtractor{
+func newKurageBunchOneshotExtractor(cfg site.Config) *kurageBunchOneshotExtractor {
+	return &kurageBunchOneshotExtractor{
 		config: cfg,
 	}
 }
 
-func KurageBunchOneshot() *generator.Generator {
+func KurageBunchOneshot() site.Site {
 	cfg := site.Config{
 		Title:       "くらげバンチ 読切",
 		URL:         "https://kuragebunch.com/series/oneshot",
 		DateLayout:  "2006年01月02日",
 		Description: "None",
 	}
-	return generator.NewGenerator(cfg, NewKurageBunchOneshotExtractor(cfg))
+	return site.Site{
+		Config:    cfg,
+		Extractor: newKurageBunchOneshotExtractor(cfg),
+	}
 }
 
-func (extract KurageBunchOneshotExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext kurageBunchOneshotExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	productURLs, err := extract.productURLs(doc)
+	productURLs, err := ext.productURLs(doc)
 	if err != nil {
 		return nil, fmt.Errorf("failed to productURLs: %w", err)
 	}
 
-	productItems, err := extract.productItems(productURLs)
+	productItems, err := ext.productItems(productURLs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", extract.config.Title, err)
+		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
 	}
 
 	return productItems, nil
 }
 
-func (extract KurageBunchOneshotExtractor) productURLs(doc *goquery.Document) ([]string, error) {
+func (ext kurageBunchOneshotExtractor) productURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find(".item-box > a").Each(func(i int, sel *goquery.Selection) {
@@ -61,7 +63,7 @@ func (extract KurageBunchOneshotExtractor) productURLs(doc *goquery.Document) ([
 	return urls, nil
 }
 
-func (extract KurageBunchOneshotExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext kurageBunchOneshotExtractor) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {

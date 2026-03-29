@@ -8,40 +8,36 @@ import (
 )
 
 type Generator struct {
-	config    site.Config
-	extractor site.Extractor
+	site site.Site
 }
 
-func NewGenerator(cfg site.Config, ext site.Extractor) *Generator {
+func NewGenerator(st site.Site) *Generator {
 	return &Generator{
-		config:    cfg,
-		extractor: ext,
+		site: st,
 	}
 }
 
-func (generator *Generator) MakeFeed() (string, error) {
+func (gen *Generator) MakeFeed() (string, error) {
 
-	// 共通の前処理: HTMLドキュメントの取得
-	doc, err := util.FetchHtmlDoc(generator.config.URL)
+	cfg := gen.site.Config
+
+	doc, err := util.FetchHtmlDoc(cfg.URL)
 	if err != nil {
-		return "", fmt.Errorf("failed to get HTML document (Site='%v'): %w", generator.config.Title, err)
+		return "", fmt.Errorf("failed to FetchHtmlDoc (Site='%v'): %w", cfg.Title, err)
 	}
 
-	// サイト固有のデータ抽出
-	items, err := generator.extractor.ExtractItems(doc)
+	items, err := gen.site.Extractor.ExtractItems(doc)
 	if err != nil {
-		return "", fmt.Errorf("failed to extract items (Site='%v', URL='%v'): %w", generator.config.Title, generator.config.URL, err)
+		return "", fmt.Errorf("failed to ExtractItems (Site='%v', URL='%v'): %w", cfg.Title, cfg.URL, err)
 	}
 
-	// 共通の後処理: アイテムの検証と事前処理
-	if err := util.ValidateAndPrepare(generator.config, items); err != nil {
-		return "", fmt.Errorf("failed to validate and prepare (Site='%v', URL='%v'): %w", generator.config.Title, generator.config.URL, err)
+	if err := util.ValidateAndPrepare(cfg, items); err != nil {
+		return "", fmt.Errorf("failed to ValidateAndPrepare: %w", err)
 	}
 
-	// 共通の後処理: フィードの生成
-	rss, err := util.GenerateFeed(generator.config, items)
+	rss, err := util.GenerateFeed(cfg, items)
 	if err != nil {
-		return "", fmt.Errorf("failed to generate feed: %w", err)
+		return "", fmt.Errorf("failed to GenerateFeed: %w", err)
 	}
 
 	return rss, nil
