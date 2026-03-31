@@ -7,17 +7,17 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type Generator struct {
+type generator struct {
 	site site.Site
 }
 
-func NewGenerator(st site.Site) *Generator {
-	return &Generator{
+func NewGenerator(st site.Site) *generator {
+	return &generator{
 		site: st,
 	}
 }
 
-func (gen *Generator) MakeFeed() (string, error) {
+func (gen *generator) MakeFeed() (content string, err error) {
 
 	cfg := gen.site.Config
 
@@ -35,10 +35,10 @@ func (gen *Generator) MakeFeed() (string, error) {
 		return "", fmt.Errorf("failed to ValidateAndPrepare: %w", err)
 	}
 
-	rss, err := util.GenerateFeed(cfg, items)
+	content, err = util.GenerateFeed(cfg, items)
 	if err != nil {
 		return "", fmt.Errorf("failed to GenerateFeed: %w", err)
 	}
 
-	return rss, nil
+	return content, nil
 }

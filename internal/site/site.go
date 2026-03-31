@@ -6,6 +6,11 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
+type Site struct {
+	Config    Config
+	Extractor Extractor
+}
+
 type Config struct {
 	Title       string
 	URL         string
@@ -23,9 +28,4 @@ type Item struct {
 
 type Extractor interface {
 	ExtractItems(*goquery.Document) ([]Item, error)
-}
-
-type Site struct {
-	Config    Config
-	Extractor Extractor
 }
