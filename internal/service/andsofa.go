@@ -9,17 +9,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 )
 
-type andSofaExtractor struct {
+type andSofa struct {
 	config site.Config
 }
 
-func newAndSofaExtractor(cfg site.Config) *andSofaExtractor {
-	return &andSofaExtractor{
-		config: cfg,
-	}
-}
-
-func AndSofa() site.Site {
+func NewAndSofa() site.Site {
 	cfg := site.Config{
 		Title:       "＆Sofa (アンドソファ)",
 		URL:         "https://andsofa.com",
@@ -28,11 +22,11 @@ func AndSofa() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newAndSofaExtractor(cfg),
+		Extractor: &andSofa{config: cfg},
 	}
 }
 
-func (ext andSofaExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext andSofa) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	productItems, err := ext.productItems(doc)
 	if err != nil {
@@ -42,7 +36,7 @@ func (ext andSofaExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, er
 	return productItems, nil
 }
 
-func (ext andSofaExtractor) productItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext andSofa) productItems(doc *goquery.Document) ([]site.Item, error) {
 
 	// 最新更新分の日付
 	newestDate := strings.TrimSpace(doc.Find("div.updated-episodes-date").First().Text())
@@ -72,7 +66,7 @@ func (ext andSofaExtractor) productItems(doc *goquery.Document) ([]site.Item, er
 	return items, nil
 }
 
-func (ext andSofaExtractor) extItems(sel *goquery.Selection, date string) []site.Item {
+func (ext andSofa) extItems(sel *goquery.Selection, date string) []site.Item {
 
 	var items []site.Item
 	sel.Find("li.updated-episodes-item").Each(func(i int, sel *goquery.Selection) {

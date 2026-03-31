@@ -9,17 +9,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type comicEssayExtractor struct {
+type comicEssay struct {
 	config site.Config
 }
 
-func newComicEssayExtractor(cfg site.Config) *comicEssayExtractor {
-	return &comicEssayExtractor{
-		config: cfg,
-	}
-}
-
-func ComicEssayGekijo() site.Site {
+func NewComicEssayGekijo() site.Site {
 	cfg := site.Config{
 		Title:       "コミックエッセイ劇場",
 		URL:         "https://www.comic-essay.com/comics/",
@@ -28,11 +22,11 @@ func ComicEssayGekijo() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newComicEssayExtractor(cfg),
+		Extractor: &comicEssay{config: cfg},
 	}
 }
 
-func (ext comicEssayExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comicEssay) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	productURLs, productDates, err := ext.productURLsAndDates(doc)
 	if err != nil {
@@ -47,7 +41,7 @@ func (ext comicEssayExtractor) ExtractItems(doc *goquery.Document) ([]site.Item,
 	return productItems, nil
 }
 
-func (ext *comicEssayExtractor) productURLsAndDates(doc *goquery.Document) (urls, dates []string, err error) {
+func (ext *comicEssay) productURLsAndDates(doc *goquery.Document) (urls, dates []string, err error) {
 
 	doc.Find("li.thum-list__item").Each(func(i int, sel *goquery.Selection) {
 		url, exists := sel.Find("a.thum-list__link").Attr("href")
@@ -66,7 +60,7 @@ func (ext *comicEssayExtractor) productURLsAndDates(doc *goquery.Document) (urls
 	return urls, dates, nil
 }
 
-func (ext *comicEssayExtractor) productItems(urls, dates []string) ([]site.Item, error) {
+func (ext *comicEssay) productItems(urls, dates []string) ([]site.Item, error) {
 
 	items := []site.Item{}
 	for i := range urls {

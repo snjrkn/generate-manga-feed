@@ -10,17 +10,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type totiExtractor struct {
+type toti struct {
 	config site.Config
 }
 
-func newTotiExtractor(cfg site.Config) *totiExtractor {
-	return &totiExtractor{
-		config: cfg,
-	}
-}
-
-func Toti() site.Site {
+func NewToti() site.Site {
 	cfg := site.Config{
 		Title:       "トーチ",
 		URL:         "https://to-ti.in/product",
@@ -29,11 +23,11 @@ func Toti() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newTotiExtractor(cfg),
+		Extractor: &toti{config: cfg},
 	}
 }
 
-func (ext totiExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext toti) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	productURLs, err := ext.productURLs(doc)
 	if err != nil {
@@ -48,7 +42,7 @@ func (ext totiExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error
 	return productItems, nil
 }
 
-func (ext totiExtractor) productURLs(doc *goquery.Document) ([]string, error) {
+func (ext toti) productURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find("article a").Each(func(i int, sel *goquery.Selection) {
@@ -64,7 +58,7 @@ func (ext totiExtractor) productURLs(doc *goquery.Document) ([]string, error) {
 	return urls, nil
 }
 
-func (ext totiExtractor) productItems(productURLs []string) ([]site.Item, error) {
+func (ext toti) productItems(productURLs []string) ([]site.Item, error) {
 
 	items := []site.Item{}
 	for i := range productURLs {

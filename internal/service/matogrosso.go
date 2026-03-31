@@ -8,17 +8,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 )
 
-type matogrossoExtractor struct {
+type matogrosso struct {
 	config site.Config
 }
 
-func newMatogrossoExtractor(cfg site.Config) *matogrossoExtractor {
-	return &matogrossoExtractor{
-		config: cfg,
-	}
-}
-
-func Matogrosso() site.Site {
+func NewMatogrosso() site.Site {
 	cfg := site.Config{
 		Title:       "MATOGROSSO (マトグロッソ)",
 		URL:         "https://matogrosso.jp",
@@ -27,11 +21,11 @@ func Matogrosso() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newMatogrossoExtractor(cfg),
+		Extractor: &matogrosso{config: cfg},
 	}
 }
 
-func (ext matogrossoExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext matogrosso) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	productItems, err := ext.productItems(doc)
 	if err != nil {
@@ -41,7 +35,7 @@ func (ext matogrossoExtractor) ExtractItems(doc *goquery.Document) ([]site.Item,
 	return productItems, nil
 }
 
-func (ext *matogrossoExtractor) productItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext *matogrosso) productItems(doc *goquery.Document) ([]site.Item, error) {
 
 	items := []site.Item{}
 	doc.Find("div.serial_content").Each(func(i int, sel *goquery.Selection) {

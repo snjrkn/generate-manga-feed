@@ -9,17 +9,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type kurageBunchOneshotExtractor struct {
+type kurageBunchOneshot struct {
 	config site.Config
 }
 
-func newKurageBunchOneshotExtractor(cfg site.Config) *kurageBunchOneshotExtractor {
-	return &kurageBunchOneshotExtractor{
-		config: cfg,
-	}
-}
-
-func KurageBunchOneshot() site.Site {
+func NewKurageBunchOneshot() site.Site {
 	cfg := site.Config{
 		Title:       "くらげバンチ 読切",
 		URL:         "https://kuragebunch.com/series/oneshot",
@@ -28,11 +22,11 @@ func KurageBunchOneshot() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newKurageBunchOneshotExtractor(cfg),
+		Extractor: &kurageBunchOneshot{config: cfg},
 	}
 }
 
-func (ext kurageBunchOneshotExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext kurageBunchOneshot) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	productURLs, err := ext.productURLs(doc)
 	if err != nil {
@@ -47,7 +41,7 @@ func (ext kurageBunchOneshotExtractor) ExtractItems(doc *goquery.Document) ([]si
 	return productItems, nil
 }
 
-func (ext kurageBunchOneshotExtractor) productURLs(doc *goquery.Document) ([]string, error) {
+func (ext kurageBunchOneshot) productURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find(".item-box > a").Each(func(i int, sel *goquery.Selection) {
@@ -63,7 +57,7 @@ func (ext kurageBunchOneshotExtractor) productURLs(doc *goquery.Document) ([]str
 	return urls, nil
 }
 
-func (ext kurageBunchOneshotExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext kurageBunchOneshot) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {

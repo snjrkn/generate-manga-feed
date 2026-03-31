@@ -8,17 +8,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 )
 
-type kurageFarmExtractor struct {
+type kurageFarm struct {
 	config site.Config
 }
 
-func newKurageFarmExtractor(cfg site.Config) *kurageFarmExtractor {
-	return &kurageFarmExtractor{
-		config: cfg,
-	}
-}
-
-func KurageFarm() site.Site {
+func NewKurageFarm() site.Site {
 
 	cfg := site.Config{
 		Title:       "くらげファーム",
@@ -28,11 +22,11 @@ func KurageFarm() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newKurageFarmExtractor(cfg),
+		Extractor: &kurageFarm{config: cfg},
 	}
 }
 
-func (ext kurageFarmExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext kurageFarm) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	productItems, err := ext.productItems(doc)
 	if err != nil {
@@ -42,7 +36,7 @@ func (ext kurageFarmExtractor) ExtractItems(doc *goquery.Document) ([]site.Item,
 	return productItems, nil
 }
 
-func (ext kurageFarmExtractor) productItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext kurageFarm) productItems(doc *goquery.Document) ([]site.Item, error) {
 
 	var items []site.Item
 	doc.Find("li.yomikiri-item-box").Each(func(i int, sel *goquery.Selection) {

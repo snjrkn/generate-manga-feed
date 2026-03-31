@@ -9,17 +9,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type comicBoostRensaiExtractor struct {
+type comicBoostRensai struct {
 	config site.Config
 }
 
-func newComicBoostRensaiExtractor(cfg site.Config) *comicBoostRensaiExtractor {
-	return &comicBoostRensaiExtractor{
-		config: cfg,
-	}
-}
-
-func ComicBoostRensai(productId string) site.Site {
+func NewComicBoostRensai(productId string) site.Site {
 	cfg := site.Config{
 		Title:       "comicブースト【連載】",
 		URL:         "https://comic-boost.com/content/" + productId,
@@ -27,7 +21,7 @@ func ComicBoostRensai(productId string) site.Site {
 		Description: "None",
 	}
 
-	ext := newComicBoostRensaiExtractor(cfg)
+	ext := &comicBoostRensai{config: cfg}
 	if err := ext.productInfo(&cfg); err != nil {
 		fmt.Printf("failed to get product info: %v\n", err)
 	}
@@ -38,7 +32,7 @@ func ComicBoostRensai(productId string) site.Site {
 	}
 }
 
-func (ext comicBoostRensaiExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comicBoostRensai) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	productItems, err := ext.productItems([]string{ext.config.URL})
 	if err != nil {
@@ -48,7 +42,7 @@ func (ext comicBoostRensaiExtractor) ExtractItems(doc *goquery.Document) ([]site
 	return productItems, nil
 }
 
-func (ext comicBoostRensaiExtractor) productInfo(cfg *site.Config) error {
+func (ext comicBoostRensai) productInfo(cfg *site.Config) error {
 
 	doc, err := util.FetchHtmlDoc(cfg.URL)
 	if err != nil {
@@ -61,7 +55,7 @@ func (ext comicBoostRensaiExtractor) productInfo(cfg *site.Config) error {
 	return nil
 }
 
-func (ext comicBoostRensaiExtractor) productItems(productURLs []string) ([]site.Item, error) {
+func (ext comicBoostRensai) productItems(productURLs []string) ([]site.Item, error) {
 
 	domain := util.GetFqdn(ext.config.URL)
 
@@ -96,7 +90,7 @@ func (ext comicBoostRensaiExtractor) productItems(productURLs []string) ([]site.
 	return items, nil
 }
 
-func (ext comicBoostRensaiExtractor) extItems(doc *goquery.Document, domain string) []site.Item {
+func (ext comicBoostRensai) extItems(doc *goquery.Document, domain string) []site.Item {
 
 	desc := "None"
 

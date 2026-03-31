@@ -9,17 +9,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type comicBunchKaiOneshotExtractor struct {
+type comicBunchKaiOneshot struct {
 	config site.Config
 }
 
-func newComicBunchKaiOneshotExtractor(cfg site.Config) *comicBunchKaiOneshotExtractor {
-	return &comicBunchKaiOneshotExtractor{
-		config: cfg,
-	}
-}
-
-func ComicBunchKaiOneshot() site.Site {
+func NewComicBunchKaiOneshot() site.Site {
 	cfg := site.Config{
 		Title:       "コミックバンチKai 読切作品",
 		URL:         "https://comicbunch-kai.com/series#oneshot",
@@ -28,11 +22,11 @@ func ComicBunchKaiOneshot() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newComicBunchKaiOneshotExtractor(cfg),
+		Extractor: &comicBunchKaiOneshot{config: cfg},
 	}
 }
 
-func (ext comicBunchKaiOneshotExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comicBunchKaiOneshot) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	productURLs, err := ext.productURLs(doc)
 	if err != nil {
@@ -47,7 +41,7 @@ func (ext comicBunchKaiOneshotExtractor) ExtractItems(doc *goquery.Document) ([]
 	return productItems, nil
 }
 
-func (ext comicBunchKaiOneshotExtractor) productURLs(doc *goquery.Document) ([]string, error) {
+func (ext comicBunchKaiOneshot) productURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find("#oneshot .SeriesList_series_item_wrapper__XHj7m > div > a").Each(func(i int, sel *goquery.Selection) {
@@ -63,7 +57,7 @@ func (ext comicBunchKaiOneshotExtractor) productURLs(doc *goquery.Document) ([]s
 	return urls, nil
 }
 
-func (ext comicBunchKaiOneshotExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext comicBunchKaiOneshot) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {

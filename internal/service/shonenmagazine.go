@@ -9,17 +9,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type shonenMagazineExtractor struct {
+type shonenMagazine struct {
 	config site.Config
 }
 
-func newShonenMagazineExtractor(cfg site.Config) *shonenMagazineExtractor {
-	return &shonenMagazineExtractor{
-		config: cfg,
-	}
-}
-
-func ShonenMagazineAward() site.Site {
+func NewShonenMagazineAward() site.Site {
 	cfg := site.Config{
 		Title:       "少年マガジン 新人漫画大賞",
 		URL:         "https://debut.shonenmagazine.com/archive/#awards",
@@ -28,11 +22,11 @@ func ShonenMagazineAward() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newShonenMagazineExtractor(cfg),
+		Extractor: &shonenMagazine{config: cfg},
 	}
 }
 
-func ShonenMagazineRise() site.Site {
+func NewShonenMagazineRise() site.Site {
 	cfg := site.Config{
 		Title:       "少年マガジン マガジンライズ",
 		URL:         "https://debut.shonenmagazine.com/archive/#magazinerise",
@@ -41,11 +35,11 @@ func ShonenMagazineRise() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newShonenMagazineExtractor(cfg),
+		Extractor: &shonenMagazine{config: cfg},
 	}
 }
 
-func (ext shonenMagazineExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext shonenMagazine) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	productURLs, err := ext.productURLs(doc)
 	if err != nil {
@@ -60,7 +54,7 @@ func (ext shonenMagazineExtractor) ExtractItems(doc *goquery.Document) ([]site.I
 	return productItems, nil
 }
 
-func (ext shonenMagazineExtractor) productURLs(doc *goquery.Document) ([]string, error) {
+func (ext shonenMagazine) productURLs(doc *goquery.Document) ([]string, error) {
 
 	var findStr string
 	index := strings.LastIndex(ext.config.URL, "#")
@@ -82,7 +76,7 @@ func (ext shonenMagazineExtractor) productURLs(doc *goquery.Document) ([]string,
 	return urls, nil
 }
 
-func (ext shonenMagazineExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext shonenMagazine) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {

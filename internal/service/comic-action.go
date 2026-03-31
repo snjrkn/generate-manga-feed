@@ -11,17 +11,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type comicActionExtractor struct {
+type comicAction struct {
 	config site.Config
 }
 
-func newComicActionExtractor(cfg site.Config) *comicActionExtractor {
-	return &comicActionExtractor{
-		config: cfg,
-	}
-}
-
-func ComicActionOneshot() site.Site {
+func NewComicActionOneshot() site.Site {
 	cfg := site.Config{
 		Title:       "webアクション 読切作品",
 		URL:         "https://comic-action.com/series/oneshot",
@@ -30,11 +24,11 @@ func ComicActionOneshot() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newComicActionExtractor(cfg),
+		Extractor: &comicAction{config: cfg},
 	}
 }
 
-func (ext comicActionExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comicAction) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	oneshotURLs, err := ext.oneshotURLs(doc)
 	if err != nil {
@@ -54,7 +48,7 @@ func (ext comicActionExtractor) ExtractItems(doc *goquery.Document) ([]site.Item
 	return productItems, nil
 }
 
-func (ext comicActionExtractor) oneshotURLs(doc *goquery.Document) ([]string, error) {
+func (ext comicAction) oneshotURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find("#oneshot a.SeriesListItem_thumb_link__kvQJN").Each(func(i int, sel *goquery.Selection) {
@@ -70,7 +64,7 @@ func (ext comicActionExtractor) oneshotURLs(doc *goquery.Document) ([]string, er
 	return urls, nil
 }
 
-func (ext comicActionExtractor) rssURLsAndDescs(urls []string) (rsUrls, descs []string, err error) {
+func (ext comicAction) rssURLsAndDescs(urls []string) (rsUrls, descs []string, err error) {
 
 	for i := range urls {
 		doc, err := util.FetchHtmlDoc(urls[i])
@@ -95,7 +89,7 @@ func (ext comicActionExtractor) rssURLsAndDescs(urls []string) (rsUrls, descs []
 	return rsUrls, descs, nil
 }
 
-func (ext comicActionExtractor) productItems(urls, descs []string) ([]site.Item, error) {
+func (ext comicAction) productItems(urls, descs []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {

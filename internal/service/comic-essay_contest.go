@@ -10,17 +10,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type comicEssayContestExtractor struct {
+type comicEssayContest struct {
 	config site.Config
 }
 
-func newComicEssayContestExtractor(cfg site.Config) *comicEssayContestExtractor {
-	return &comicEssayContestExtractor{
-		config: cfg,
-	}
-}
-
-func ComicEssayContest() site.Site {
+func NewComicEssayContest() site.Site {
 	cfg := site.Config{
 		Title:       "コミックエッセイ プチ大賞",
 		URL:         "https://www.comic-essay.com/contest/winner/",
@@ -29,11 +23,11 @@ func ComicEssayContest() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newComicEssayContestExtractor(cfg),
+		Extractor: &comicEssayContest{config: cfg},
 	}
 }
 
-func (ext comicEssayContestExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comicEssayContest) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	ContestURLs, err := ext.ContestURLs(doc)
 	if err != nil {
@@ -55,7 +49,7 @@ func (ext comicEssayContestExtractor) ExtractItems(doc *goquery.Document) ([]sit
 	return productItems, nil
 }
 
-func (ext *comicEssayContestExtractor) ContestURLs(doc *goquery.Document) ([]string, error) {
+func (ext *comicEssayContest) ContestURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find(".c-mt20 ._btn-500").Each(func(i int, sel *goquery.Selection) {
@@ -71,7 +65,7 @@ func (ext *comicEssayContestExtractor) ContestURLs(doc *goquery.Document) ([]str
 	return urls, nil
 }
 
-func (ext *comicEssayContestExtractor) productURLs(awUrls []string) ([]string, error) {
+func (ext *comicEssayContest) productURLs(awUrls []string) ([]string, error) {
 
 	var urls []string
 	for _, awUrl := range awUrls {
@@ -95,7 +89,7 @@ func (ext *comicEssayContestExtractor) productURLs(awUrls []string) ([]string, e
 	return urls, nil
 }
 
-func (ext *comicEssayContestExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext *comicEssayContest) productItems(urls []string) ([]site.Item, error) {
 
 	items := []site.Item{}
 	for i := range urls {

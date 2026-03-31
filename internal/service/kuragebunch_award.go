@@ -9,17 +9,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type kurageBunchAwardExtractor struct {
+type kurageBunchAward struct {
 	config site.Config
 }
 
-func newKurageBunchAwardExtractor(cfg site.Config) *kurageBunchAwardExtractor {
-	return &kurageBunchAwardExtractor{
-		config: cfg,
-	}
-}
-
-func KurageBunchAward() site.Site {
+func NewKurageBunchAward() site.Site {
 	cfg := site.Config{
 		Title:       "くらげバンチ 漫画賞",
 		URL:         "https://kuragebunch.com/info/award",
@@ -28,11 +22,11 @@ func KurageBunchAward() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newKurageBunchAwardExtractor(cfg),
+		Extractor: &kurageBunchAward{config: cfg},
 	}
 }
 
-func (ext kurageBunchAwardExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext kurageBunchAward) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	awardURLs, err := ext.awardURLs(doc)
 	if err != nil {
@@ -52,7 +46,7 @@ func (ext kurageBunchAwardExtractor) ExtractItems(doc *goquery.Document) ([]site
 	return productItems, nil
 }
 
-func (ext kurageBunchAwardExtractor) awardURLs(doc *goquery.Document) ([]string, error) {
+func (ext kurageBunchAward) awardURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find("ul.award-banner > li > a").Each(func(i int, sel *goquery.Selection) {
@@ -68,7 +62,7 @@ func (ext kurageBunchAwardExtractor) awardURLs(doc *goquery.Document) ([]string,
 	return urls, nil
 }
 
-func (ext kurageBunchAwardExtractor) productURLs(awUrls []string) ([]string, error) {
+func (ext kurageBunchAward) productURLs(awUrls []string) ([]string, error) {
 
 	var urls []string
 	for _, awUrl := range awUrls {
@@ -90,7 +84,7 @@ func (ext kurageBunchAwardExtractor) productURLs(awUrls []string) ([]string, err
 	return urls, nil
 }
 
-func (ext kurageBunchAwardExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext kurageBunchAward) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {

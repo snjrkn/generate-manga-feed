@@ -10,17 +10,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type comicBunchKaiAwardExtractor struct {
+type comicBunchKaiAward struct {
 	config site.Config
 }
 
-func newComicBunchKaiAwardExtractor(cfg site.Config) *comicBunchKaiAwardExtractor {
-	return &comicBunchKaiAwardExtractor{
-		config: cfg,
-	}
-}
-
-func ComicBunchKaiAward() site.Site {
+func NewComicBunchKaiAward() site.Site {
 	cfg := site.Config{
 		Title:       "コミックバンチKai 漫画賞",
 		URL:         "https://comicbunch-kai.com/article/archive/category/%E6%BC%AB%E7%94%BB%E8%B3%9E_%E7%99%BA%E8%A1%A8",
@@ -29,11 +23,11 @@ func ComicBunchKaiAward() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newComicBunchKaiAwardExtractor(cfg),
+		Extractor: &comicBunchKaiAward{config: cfg},
 	}
 }
 
-func (ext comicBunchKaiAwardExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comicBunchKaiAward) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	awardURLs, err := ext.awardURLs(doc)
 	if err != nil {
@@ -53,7 +47,7 @@ func (ext comicBunchKaiAwardExtractor) ExtractItems(doc *goquery.Document) ([]si
 	return productItems, nil
 }
 
-func (ext comicBunchKaiAwardExtractor) awardURLs(doc *goquery.Document) ([]string, error) {
+func (ext comicBunchKaiAward) awardURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find("a.entry-thumb-link").Each(func(i int, sel *goquery.Selection) {
@@ -69,7 +63,7 @@ func (ext comicBunchKaiAwardExtractor) awardURLs(doc *goquery.Document) ([]strin
 	return urls, nil
 }
 
-func (ext comicBunchKaiAwardExtractor) productURLs(awUrls []string) ([]string, error) {
+func (ext comicBunchKaiAward) productURLs(awUrls []string) ([]string, error) {
 
 	var urls []string
 	for _, awUrl := range awUrls {
@@ -94,7 +88,7 @@ func (ext comicBunchKaiAwardExtractor) productURLs(awUrls []string) ([]string, e
 	return urls, nil
 }
 
-func (ext comicBunchKaiAwardExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext comicBunchKaiAward) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {

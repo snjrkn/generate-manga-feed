@@ -8,17 +8,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/site"
 )
 
-type comicDaysExtractor struct {
+type comicDays struct {
 	config site.Config
 }
 
-func newComicDaysExtractor(cfg site.Config) *comicDaysExtractor {
-	return &comicDaysExtractor{
-		config: cfg,
-	}
-}
-
-func ComicDaysNewcomer() site.Site {
+func NewComicDaysNewcomer() site.Site {
 	cfg := site.Config{
 		Title:       "コミックDAYS 新人賞",
 		URL:         "https://comic-days.com/newcomer",
@@ -27,11 +21,11 @@ func ComicDaysNewcomer() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newComicDaysExtractor(cfg),
+		Extractor: &comicDays{config: cfg},
 	}
 }
 
-func ComicDaysOneshot() site.Site {
+func NewComicDaysOneshot() site.Site {
 	cfg := site.Config{
 		Title:       "コミックDAYS 読み切り",
 		URL:         "https://comic-days.com/oneshot",
@@ -40,11 +34,11 @@ func ComicDaysOneshot() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newComicDaysExtractor(cfg),
+		Extractor: &comicDays{config: cfg},
 	}
 }
 
-func (ext comicDaysExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comicDays) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	productItems, err := ext.productItems(doc)
 	if err != nil {
@@ -54,7 +48,7 @@ func (ext comicDaysExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, 
 	return productItems, nil
 }
 
-func (ext *comicDaysExtractor) productItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext *comicDays) productItems(doc *goquery.Document) ([]site.Item, error) {
 
 	items := []site.Item{}
 	doc.Find("li.yomikiri-item-box").Each(func(i int, sel *goquery.Selection) {

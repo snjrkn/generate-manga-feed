@@ -6,85 +6,85 @@ import (
 )
 
 func KurageFarm(string) (string, error) {
-	return generator.NewGenerator(service.AfternoonAward()).MakeFeed()
+	return generator.NewGenerator(service.NewKurageFarm()).MakeFeed()
 }
 
 func ComicdaysOneshot(string) (string, error) {
-	return generator.NewGenerator(service.ComicDaysOneshot()).MakeFeed()
+	return generator.NewGenerator(service.NewComicDaysOneshot()).MakeFeed()
 }
 
 func ComicdaysNewcomer(string) (string, error) {
-	return generator.NewGenerator(service.ComicDaysNewcomer()).MakeFeed()
+	return generator.NewGenerator(service.NewComicDaysNewcomer()).MakeFeed()
 }
 
 func AndSofa(string) (string, error) {
-	return generator.NewGenerator(service.AndSofa()).MakeFeed()
+	return generator.NewGenerator(service.NewAndSofa()).MakeFeed()
 }
 
 func Toti(string) (string, error) {
-	return generator.NewGenerator(service.Toti()).MakeFeed()
+	return generator.NewGenerator(service.NewToti()).MakeFeed()
 }
 
 func Matogrosso(string) (string, error) {
-	return generator.NewGenerator(service.Matogrosso()).MakeFeed()
+	return generator.NewGenerator(service.NewMatogrosso()).MakeFeed()
 }
 
 func KurageBunchAward(string) (string, error) {
-	return generator.NewGenerator(service.KurageBunchAward()).MakeFeed()
+	return generator.NewGenerator(service.NewKurageBunchAward()).MakeFeed()
 }
 
 func ComicEssayGekijo(string) (string, error) {
-	return generator.NewGenerator(service.ComicEssayGekijo()).MakeFeed()
+	return generator.NewGenerator(service.NewComicEssayGekijo()).MakeFeed()
 }
 
 func ComiplexOneshot(string) (string, error) {
-	return generator.NewGenerator(service.ComiplexOneshot()).MakeFeed()
+	return generator.NewGenerator(service.NewComiplexOneshot()).MakeFeed()
 }
 
 func ComicBoostOneshot(string) (string, error) {
-	return generator.NewGenerator(service.ComicBoostOneshot()).MakeFeed()
+	return generator.NewGenerator(service.NewComicBoostOneshot()).MakeFeed()
 }
 
 func YoungAnimalOneshot(string) (string, error) {
-	return generator.NewGenerator(service.YoungAnimalOneshot()).MakeFeed()
+	return generator.NewGenerator(service.NewYoungAnimalOneshot()).MakeFeed()
 }
 
 func ComicEssayContest(string) (string, error) {
-	return generator.NewGenerator(service.ComicEssayContest()).MakeFeed()
+	return generator.NewGenerator(service.NewComicEssayContest()).MakeFeed()
 }
 
 func ComicBunchKaiAward(string) (string, error) {
-	return generator.NewGenerator(service.ComicBunchKaiAward()).MakeFeed()
+	return generator.NewGenerator(service.NewComicBunchKaiAward()).MakeFeed()
 }
 
 func ComicBunchKaiOneshot(string) (string, error) {
-	return generator.NewGenerator(service.ComicBunchKaiOneshot()).MakeFeed()
+	return generator.NewGenerator(service.NewComicBunchKaiOneshot()).MakeFeed()
 }
 
 func AfternoonAward(string) (string, error) {
-	return generator.NewGenerator(service.AfternoonAward()).MakeFeed()
+	return generator.NewGenerator(service.NewAfternoonAward()).MakeFeed()
 }
 
 func ShonenMagazineAward(string) (string, error) {
-	return generator.NewGenerator(service.ShonenMagazineAward()).MakeFeed()
+	return generator.NewGenerator(service.NewShonenMagazineAward()).MakeFeed()
 }
 
 func ShonenMagazineRise(string) (string, error) {
-	return generator.NewGenerator(service.ShonenMagazineRise()).MakeFeed()
+	return generator.NewGenerator(service.NewShonenMagazineRise()).MakeFeed()
 }
 
 func ChampionCrossOneshot(string) (string, error) {
-	return generator.NewGenerator(service.ChampionCrossOneshot()).MakeFeed()
+	return generator.NewGenerator(service.NewChampionCrossOneshot()).MakeFeed()
 }
 
 func KurageBunchOneshot(string) (string, error) {
-	return generator.NewGenerator(service.KurageBunchOneshot()).MakeFeed()
+	return generator.NewGenerator(service.NewKurageBunchOneshot()).MakeFeed()
 }
 
 func ComicActionOneshot(string) (string, error) {
-	return generator.NewGenerator(service.ComicActionOneshot()).MakeFeed()
+	return generator.NewGenerator(service.NewComicActionOneshot()).MakeFeed()
 }
 
 func ComicBoostRensai(productId string) (string, error) {
-	return generator.NewGenerator(service.ComicBoostRensai(productId)).MakeFeed()
+	return generator.NewGenerator(service.NewComicBoostRensai(productId)).MakeFeed()
 }

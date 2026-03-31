@@ -10,17 +10,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type afternoonAwardExtractor struct {
+type afternoonAward struct {
 	config site.Config
 }
 
-func newAfternoonAwardExtractor(cfg site.Config) *afternoonAwardExtractor {
-	return &afternoonAwardExtractor{
-		config: cfg,
-	}
-}
-
-func AfternoonAward() site.Site {
+func NewAfternoonAward() site.Site {
 	cfg := site.Config{
 		Title:       "アフタヌーン 四季賞",
 		URL:         "https://afternoon.kodansha.co.jp/award/",
@@ -29,11 +23,11 @@ func AfternoonAward() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newAfternoonAwardExtractor(cfg),
+		Extractor: &afternoonAward{config: cfg},
 	}
 }
 
-func (ext afternoonAwardExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext afternoonAward) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	awardURLs, err := ext.awardURLs(doc)
 	if err != nil {
@@ -53,7 +47,7 @@ func (ext afternoonAwardExtractor) ExtractItems(doc *goquery.Document) ([]site.I
 	return productItems, nil
 }
 
-func (ext afternoonAwardExtractor) awardURLs(doc *goquery.Document) ([]string, error) {
+func (ext afternoonAward) awardURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find(".mB50 a").Each(func(i int, sel *goquery.Selection) {
@@ -69,7 +63,7 @@ func (ext afternoonAwardExtractor) awardURLs(doc *goquery.Document) ([]string, e
 	return urls, nil
 }
 
-func (ext afternoonAwardExtractor) productURLs(awUrls []string) ([]string, error) {
+func (ext afternoonAward) productURLs(awUrls []string) ([]string, error) {
 
 	var urls []string
 	for _, awUrl := range awUrls {
@@ -93,7 +87,7 @@ func (ext afternoonAwardExtractor) productURLs(awUrls []string) ([]string, error
 	return urls, nil
 }
 
-func (ext afternoonAwardExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext afternoonAward) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {

@@ -9,17 +9,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type comicBoostOneshotExtractor struct {
+type comicBoostOneshot struct {
 	config site.Config
 }
 
-func newComicBoostOneshotExtractor(cfg site.Config) *comicBoostOneshotExtractor {
-	return &comicBoostOneshotExtractor{
-		config: cfg,
-	}
-}
-
-func ComicBoostOneshot() site.Site {
+func NewComicBoostOneshot() site.Site {
 	cfg := site.Config{
 		Title:       "comicブースト 読み切り",
 		URL:         "https://comic-boost.com/genre/3",
@@ -28,11 +22,11 @@ func ComicBoostOneshot() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newComicBoostOneshotExtractor(cfg),
+		Extractor: &comicBoostOneshot{config: cfg},
 	}
 }
 
-func (ext comicBoostOneshotExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comicBoostOneshot) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	productURLs, err := ext.productURLs(doc)
 	if err != nil {
@@ -47,7 +41,7 @@ func (ext comicBoostOneshotExtractor) ExtractItems(doc *goquery.Document) ([]sit
 	return productItems, nil
 }
 
-func (ext comicBoostOneshotExtractor) productURLs(doc *goquery.Document) ([]string, error) {
+func (ext comicBoostOneshot) productURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find("a.book-list-item-thum-wrapper").Each(func(i int, sel *goquery.Selection) {
@@ -62,7 +56,7 @@ func (ext comicBoostOneshotExtractor) productURLs(doc *goquery.Document) ([]stri
 	return urls, nil
 }
 
-func (ext comicBoostOneshotExtractor) productItems(productURLs []string) ([]site.Item, error) {
+func (ext comicBoostOneshot) productItems(productURLs []string) ([]site.Item, error) {
 
 	domain := util.GetFqdn(ext.config.URL)
 
@@ -97,7 +91,7 @@ func (ext comicBoostOneshotExtractor) productItems(productURLs []string) ([]site
 	return items, nil
 }
 
-func (ext comicBoostOneshotExtractor) extItems(doc *goquery.Document, domain string) []site.Item {
+func (ext comicBoostOneshot) extItems(doc *goquery.Document, domain string) []site.Item {
 
 	product := strings.TrimSpace(doc.Find("h1.comic-title").Text())
 	author := strings.TrimSpace(doc.Find("li.author a").First().Text())

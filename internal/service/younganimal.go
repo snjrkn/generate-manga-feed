@@ -10,17 +10,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type youngAnimalExtractor struct {
+type youngAnimal struct {
 	config site.Config
 }
 
-func newYoungAnimalExtractor(cfg site.Config) *youngAnimalExtractor {
-	return &youngAnimalExtractor{
-		config: cfg,
-	}
-}
-
-func YoungAnimalOneshot() site.Site {
+func NewYoungAnimalOneshot() site.Site {
 	cfg := site.Config{
 		Title:       "ヤングアニマル 読み切り",
 		URL:         "https://younganimal.com/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A",
@@ -29,11 +23,11 @@ func YoungAnimalOneshot() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newYoungAnimalExtractor(cfg),
+		Extractor: &youngAnimal{config: cfg},
 	}
 }
 
-func (ext youngAnimalExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext youngAnimal) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	productURLs, err := ext.productURLs(doc)
 	if err != nil {
@@ -48,7 +42,7 @@ func (ext youngAnimalExtractor) ExtractItems(doc *goquery.Document) ([]site.Item
 	return productItems, nil
 }
 
-func (ext youngAnimalExtractor) productURLs(doc *goquery.Document) ([]string, error) {
+func (ext youngAnimal) productURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find(".ranking-item.category-box-vertical > a").Each(func(i int, sel *goquery.Selection) {
@@ -64,7 +58,7 @@ func (ext youngAnimalExtractor) productURLs(doc *goquery.Document) ([]string, er
 	return urls, nil
 }
 
-func (ext youngAnimalExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext youngAnimal) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {

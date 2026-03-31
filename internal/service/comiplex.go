@@ -11,17 +11,11 @@ import (
 	"github.com/snjrkn/generate-manga-feed/internal/util"
 )
 
-type comiplexExtractor struct {
+type comiplex struct {
 	config site.Config
 }
 
-func newComiplexExtractor(cfg site.Config) *comiplexExtractor {
-	return &comiplexExtractor{
-		config: cfg,
-	}
-}
-
-func ComiplexOneshot() site.Site {
+func NewComiplexOneshot() site.Site {
 	cfg := site.Config{
 		Title:       "コミプレ 読切作品",
 		URL:         "https://viewer.heros-web.com/series/oneshot",
@@ -30,11 +24,11 @@ func ComiplexOneshot() site.Site {
 	}
 	return site.Site{
 		Config:    cfg,
-		Extractor: newComiplexExtractor(cfg),
+		Extractor: &comiplex{config: cfg},
 	}
 }
 
-func (ext comiplexExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
+func (ext comiplex) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	oneshotURLs, err := ext.oneshotURLs(doc)
 	if err != nil {
@@ -54,7 +48,7 @@ func (ext comiplexExtractor) ExtractItems(doc *goquery.Document) ([]site.Item, e
 	return productItems, nil
 }
 
-func (ext comiplexExtractor) oneshotURLs(doc *goquery.Document) ([]string, error) {
+func (ext comiplex) oneshotURLs(doc *goquery.Document) ([]string, error) {
 
 	var urls []string
 	doc.Find("a.series-item-updated-link").Each(func(i int, sel *goquery.Selection) {
@@ -70,7 +64,7 @@ func (ext comiplexExtractor) oneshotURLs(doc *goquery.Document) ([]string, error
 	return urls, nil
 }
 
-func (ext comiplexExtractor) rssURLs(urls []string) ([]string, error) {
+func (ext comiplex) rssURLs(urls []string) ([]string, error) {
 
 	var rsUrls []string
 	for i := range urls {
@@ -92,7 +86,7 @@ func (ext comiplexExtractor) rssURLs(urls []string) ([]string, error) {
 	return rsUrls, nil
 }
 
-func (ext comiplexExtractor) productItems(urls []string) ([]site.Item, error) {
+func (ext comiplex) productItems(urls []string) ([]site.Item, error) {
 
 	var items []site.Item
 	for i := range urls {
