@@ -99,7 +99,12 @@ func (ext shonenMagazine) productItems(urls []string) ([]site.Item, error) {
 		title := fmt.Sprintf("%s %s %s", date, product, author)
 		link := urls[i]
 
-		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
+		items = append(items, site.Item{
+			Title: title,
+			Link:  link,
+			Desc:  desc,
+			Date:  date,
+		})
 
 		util.ItemPerSleep(i, 9, 1)
 	}

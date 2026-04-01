@@ -22,7 +22,7 @@
     {
       "id": "option",
       "type": "promptString",
-      "description": "Options required for comicboostrensai",
+      "description": "comicboostrensai(Required), toti(Optional)",
       "default": ""
     }
   ]

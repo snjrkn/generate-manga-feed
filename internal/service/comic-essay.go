@@ -79,7 +79,12 @@ func (ext *comicEssay) productItems(urls, dates []string) ([]site.Item, error) {
 		title := fmt.Sprintf("%s %s %s %s", dates[i], episode, product, author)
 		date := dates[i]
 
-		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
+		items = append(items, site.Item{
+			Title: title,
+			Link:  link,
+			Desc:  desc,
+			Date:  date,
+		})
 	}
 
 	if len(items) == 0 {

@@ -21,8 +21,8 @@ func AndSofa(string) (string, error) {
 	return generator.NewGenerator(service.NewAndSofa()).MakeFeed()
 }
 
-func Toti(string) (string, error) {
-	return generator.NewGenerator(service.NewToti()).MakeFeed()
+func Toti(productId string) (string, error) {
+	return generator.NewGenerator(service.NewToti(productId)).MakeFeed()
 }
 
 func Matogrosso(string) (string, error) {
@@ -85,6 +85,6 @@ func ComicActionOneshot(string) (string, error) {
 	return generator.NewGenerator(service.NewComicActionOneshot()).MakeFeed()
 }
 
-func ComicBoostRensai(productId string) (string, error) {
-	return generator.NewGenerator(service.NewComicBoostRensai(productId)).MakeFeed()
+func ComicBoostRensai(contentId string) (string, error) {
+	return generator.NewGenerator(service.NewComicBoostRensai(contentId)).MakeFeed()
 }

@@ -80,7 +80,12 @@ func (ext championCross) productItems(urls []string) ([]site.Item, error) {
 			date = time.Now().In(util.GetTokyoLocation()).Format("2006") + "年" + date
 		}
 
-		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
+		items = append(items, site.Item{
+			Title: title,
+			Link:  link,
+			Desc:  desc,
+			Date:  date,
+		})
 
 		util.ItemPerSleep(i, 9, 1)
 	}

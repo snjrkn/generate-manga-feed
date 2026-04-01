@@ -14,10 +14,10 @@ type toti struct {
 	config site.Config
 }
 
-func NewToti() site.Site {
+func NewToti(productId string) site.Site {
 	cfg := site.Config{
 		Title:       "トーチ",
-		URL:         "https://to-ti.in/product",
+		URL:         "https://to-ti.in/product/" + strings.TrimSpace(productId),
 		DateLayout:  "2006/01/02",
 		Description: "None",
 	}
@@ -29,17 +29,25 @@ func NewToti() site.Site {
 
 func (ext toti) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	productURLs, err := ext.productURLs(doc)
-	if err != nil {
-		return nil, fmt.Errorf("failed to productURLs: %w", err)
+	items := []site.Item{}
+	var err error
+	if ext.config.URL == "https://to-ti.in/product/" {
+		productURLs, err := ext.productURLs(doc)
+		if err != nil {
+			return nil, fmt.Errorf("failed to productURLs: %w", err)
+		}
+		items, err = ext.productItems(productURLs)
+		if err != nil {
+			return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
+		}
+	} else {
+		items, err = ext.storyItems(doc)
+		if err != nil {
+			return nil, fmt.Errorf("failed to storyItems: (Title='%v'): %w", ext.config.Title, err)
+		}
 	}
 
-	productItems, err := ext.productItems(productURLs)
-	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
-	}
-
-	return productItems, nil
+	return items, nil
 }
 
 func (ext toti) productURLs(doc *goquery.Document) ([]string, error) {
@@ -93,8 +101,40 @@ func (ext toti) productItems(productURLs []string) ([]site.Item, error) {
 		date = "20" + strings.ReplaceAll(date, "'", "")
 		date = strings.ReplaceAll(date, " UPDATE", "")
 
-		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
+		items = append(items, site.Item{
+			Title: title,
+			Link:  link,
+			Desc:  desc,
+			Date:  date,
+		})
 	}
+
+	if len(items) == 0 {
+		return nil, fmt.Errorf("item not found")
+	}
+
+	return items, nil
+}
+
+func (ext toti) storyItems(doc *goquery.Document) ([]site.Item, error) {
+
+	items := []site.Item{}
+	doc.Find(".episode li").Each(func(i int, sel *goquery.Selection) {
+		title := strings.TrimSpace(sel.Find("span").Text())
+		link, exists := sel.Find("a").Attr("href")
+		if !exists {
+			link = ext.config.URL
+		}
+		desc := "none"
+		date := ""
+
+		items = append(items, site.Item{
+			Title: title,
+			Link:  link,
+			Desc:  desc,
+			Date:  date,
+		})
+	})
 
 	if len(items) == 0 {
 		return nil, fmt.Errorf("item not found")

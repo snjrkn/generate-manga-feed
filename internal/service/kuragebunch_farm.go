@@ -48,7 +48,12 @@ func (ext kurageFarm) productItems(doc *goquery.Document) ([]site.Item, error) {
 		title := fmt.Sprintf("%s %s %s", date, product, author)
 		desc := "None" // 各作品のページに詳細情報あり
 
-		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
+		items = append(items, site.Item{
+			Title: title,
+			Link:  link,
+			Desc:  desc,
+			Date:  date,
+		})
 	})
 
 	if len(items) == 0 {

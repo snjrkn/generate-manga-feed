@@ -108,7 +108,12 @@ func (ext *comicEssayContest) productItems(urls []string) ([]site.Item, error) {
 		// 日付はページに明記されていないが、画像のディレクトリ名に西暦年と月があるので"01"を追加して日付とする
 		date := strings.Split(imageUrl, "/")[3] + "01"
 
-		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
+		items = append(items, site.Item{
+			Title: title,
+			Link:  link,
+			Desc:  desc,
+			Date:  date,
+		})
 	}
 
 	if len(items) == 0 {

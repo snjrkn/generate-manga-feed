@@ -105,7 +105,12 @@ func (ext kurageBunchAward) productItems(urls []string) ([]site.Item, error) {
 		link := urls[i]
 		desc := "None"
 
-		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
+		items = append(items, site.Item{
+			Title: title,
+			Link:  link,
+			Desc:  desc,
+			Date:  date,
+		})
 	}
 
 	if len(items) == 0 {

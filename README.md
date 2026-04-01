@@ -8,7 +8,7 @@
 - [コミックDAYS 新人賞](https://comic-days.com/newcomer)
 - [コミックDAYS 読み切り](https://comic-days.com/oneshot)
 - [&Sofa (アンドソファ)](https://andsofa.com)
-- [トーチ](https://to-ti.in/product)
+- [トーチ](https://to-ti.in/product/)
 - [MATOGROSSO (マトグロッソ)](https://matogrosso.jp)
 - [くらげバンチ 漫画賞](https://kuragebunch.com/info/award)
 - [コミックエッセイ劇場](https://www.comic-essay.com/comics)
@@ -75,7 +75,7 @@ Available subcommands:
   championcrossoneshot  Print champion cross oneshot RSS feed
   comicactiononeshot    Print comic-acticon oneshot RSS feed
   comicboostoneshot     Print comic-boost oneshot RSS feed
-  comicboostrensai      Print comic-boost rensai RSS feed (option: Requires 8-digit content number)
+  comicboostrensai      Print comic-boost rensai RSS feed <content-number> : 8-digit number (Required)
   comicbunchkaiaward    Print comicbunch-kai award RSS feed
   comicbunchkaioneshot  Print comicbunch-kai oneshot RSS feed
   comicdaysnewcomer     Print comic-days newcomer RSS feed
@@ -89,25 +89,25 @@ Available subcommands:
   matogrosso            Print matogrosso RSS feed
   shonenmagazineaward   Print shonen magazine award RSS feed
   shonenmagazinerise    Print shonen magazine rise RSS feed
-  toti                  Print toti RSS feed
+  toti                  Print toti RSS feed [product-name] : Product name (Optional)
   younganimaloneshot    Print younganimal oneshot RSS feed
 ```
 
 対象サイトごとのサブコマンドとオプションは以下の通りです。
 
-| 対象サイト                                                                                                                     | サブコマンド         | オプション（引数） |
+| 対象サイト                                                                                                                     | subcommand           | option             |
 | ------------------------------------------------------------------------------------------------------------------------------ | -------------------- | ------------------ |
 | [くらげファーム](https://kuragebunch.com/farm)                                                                                 | kuragefarm           |                    |
 | [コミックDAYS 新人賞](https://comic-days.com/newcomer)                                                                         | comicdaysnewcomer    |                    |
 | [コミックDAYS 読み切り](https://comic-days.com/oneshot)                                                                        | comicdaysoneshot     |                    |
 | [&Sofa（アンドソファ）](https://andsofa.com)                                                                                   | andsofa              |                    |
-| [トーチ](https://to-ti.in/product)                                                                                             | toti                 |                    |
+| [トーチ](https://to-ti.in/product/)                                                                                            | toti                 | 任意：作品名 *1    |
 | [MATOGROSSO（マトグロッソ）](https://matogrosso.jp)                                                                            | matogrosso           |                    |
 | [くらげバンチ 漫画賞](https://kuragebunch.com/info/award)                                                                      | kuragebunchaward     |                    |
 | [コミックエッセイ劇場](https://www.comic-essay.com/comics)                                                                     | comicessaygekijo     |                    |
 | [コミプレ 読切作品](https://viewer.heros-web.com/series/oneshot)                                                               | comiplexoneshot      |                    |
 | [comicブースト 読み切り](https://comic-boost.com/genre/3)                                                                      | comicboostoneshot    |                    |
-| [comicブースト 連載](https://comic-boost.com/genre/1%202)                                                                      | comicboostrensai     | 必要：8桁の数字 *1 |
+| [comicブースト 連載](https://comic-boost.com/genre/1%202)                                                                      | comicboostrensai     | 必須：8桁の数字 *2 |
 | [ヤングアニマル 読み切り](https://younganimal.com/category/manga?type=%E8%AA%AD%E3%81%BF%E5%88%87%E3%82%8A)                    | younganimaloneshot   |                    |
 | [コミックエッセイ プチ大賞](https://www.comic-essay.com/contest/winner/)                                                       | comicessaycontest    |                    |
 | [コミックバンチKai 漫画賞](https://comicbunch-kai.com/article/archive/category/%E6%BC%AB%E7%94%BB%E8%B3%9E_%E7%99%BA%E8%A1%A8) | comicbunckaiaward    |                    |
@@ -119,5 +119,9 @@ Available subcommands:
 | [くらげバンチ 読切](https://kuragebunch.com/series/oneshot)                                                                    | kuragebunchoneshot   |                    |
 | [webアクション 読切作品](https://comic-action.com/series/oneshot)                                                              | comicactiononeshot   |                    |
 
-*1：番号は連載作品のURLから取得する。
+*1：作品名を入れない場合は、作品一覧ページの更新情報が出力されます。
+作品名を入れた場合は、各作品の連載情報のRSSが出力されます。（各itemのpubDateは空になります）
+作品名はURLから取得する。（`https://to-ti.in/product/xxxxxxxx`（～/product/以降の文字列）
+
+*2：8桁の数字はURLから取得する。
 `https://comic-boost.com/content/xxxxxxxx`（～/content/以降の8桁の数字）

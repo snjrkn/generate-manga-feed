@@ -48,7 +48,12 @@ func (ext *matogrosso) productItems(doc *goquery.Document) ([]site.Item, error) 
 		title := fmt.Sprintf("%s%s%s", author, product, date)
 		date = strings.ReplaceAll(date, " 更新", "")
 
-		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
+		items = append(items, site.Item{
+			Title: title,
+			Link:  link,
+			Desc:  desc,
+			Date:  date,
+		})
 	})
 
 	if len(items) == 0 {

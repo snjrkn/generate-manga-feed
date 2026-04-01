@@ -79,7 +79,12 @@ func (ext andSofa) extItems(sel *goquery.Selection, date string) []site.Item {
 		title := fmt.Sprintf("%s (月) %s %s %s", date, episode, product, author)
 		desc = strings.ReplaceAll(desc, "&", "＆")
 
-		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
+		items = append(items, site.Item{
+			Title: title,
+			Link:  link,
+			Desc:  desc,
+			Date:  date,
+		})
 	})
 
 	return items

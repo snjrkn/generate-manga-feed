@@ -129,7 +129,12 @@ func (ext comicBoostOneshot) extItems(doc *goquery.Document, domain string) []si
 		title := fmt.Sprintf("%s %s %s", product+" "+episode, author, date)
 		link = domain + link
 
-		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
+		items = append(items, site.Item{
+			Title: title,
+			Link:  link,
+			Desc:  desc,
+			Date:  date,
+		})
 	})
 
 	return items

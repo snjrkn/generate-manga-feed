@@ -13,17 +13,17 @@ type comicBoostRensai struct {
 	config site.Config
 }
 
-func NewComicBoostRensai(productId string) site.Site {
+func NewComicBoostRensai(contentId string) site.Site {
 	cfg := site.Config{
 		Title:       "comicブースト【連載】",
-		URL:         "https://comic-boost.com/content/" + productId,
+		URL:         "https://comic-boost.com/content/" + contentId,
 		DateLayout:  "2006/01/02",
 		Description: "None",
 	}
 
 	ext := &comicBoostRensai{config: cfg}
-	if err := ext.productInfo(&cfg); err != nil {
-		fmt.Printf("failed to get product info: %v\n", err)
+	if err := ext.contentInfo(&cfg); err != nil {
+		fmt.Printf("failed to contentInfo: %v\n", err)
 	}
 
 	return site.Site{
@@ -34,19 +34,19 @@ func NewComicBoostRensai(productId string) site.Site {
 
 func (ext comicBoostRensai) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
-	productItems, err := ext.productItems([]string{ext.config.URL})
+	contentItems, err := ext.contentItems([]string{ext.config.URL})
 	if err != nil {
-		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
+		return nil, fmt.Errorf("failed to contentItems: (Title='%v'): %w", ext.config.Title, err)
 	}
 
-	return productItems, nil
+	return contentItems, nil
 }
 
-func (ext comicBoostRensai) productInfo(cfg *site.Config) error {
+func (ext comicBoostRensai) contentInfo(cfg *site.Config) error {
 
 	doc, err := util.FetchHtmlDoc(cfg.URL)
 	if err != nil {
-		return fmt.Errorf("failed to get HTML document (Site='%v'): %w", cfg.Title, err)
+		return fmt.Errorf("failed to FetchHtmlDoc: (Site='%v'): %w", cfg.Title, err)
 	}
 
 	cfg.Description = strings.TrimSpace(doc.Find("p.comic-description-text").First().Text())
@@ -55,27 +55,27 @@ func (ext comicBoostRensai) productInfo(cfg *site.Config) error {
 	return nil
 }
 
-func (ext comicBoostRensai) productItems(productURLs []string) ([]site.Item, error) {
+func (ext comicBoostRensai) contentItems(contentURLs []string) ([]site.Item, error) {
 
 	domain := util.GetFqdn(ext.config.URL)
 
 	var items []site.Item
-	processedIndex := 0 // productURLsをキューとするインデックス
-	for processedIndex < len(productURLs) {
+	processedIndex := 0 // contentURLsをキューとするインデックス
+	for processedIndex < len(contentURLs) {
 
-		productURL := productURLs[processedIndex]
+		contentURL := contentURLs[processedIndex]
 		processedIndex++
 
-		doc, err := util.FetchHtmlDoc(productURL)
+		doc, err := util.FetchHtmlDoc(contentURL)
 		if err != nil {
 			return nil, fmt.Errorf("failed to FetchHtmlDoc: %w", err)
 		}
 
-		// 次のページがあればproductURLsの末尾に追加
+		// 次のページがあればcontentURLsの末尾に追加
 		nextPageURL, found := doc.Find(".to-next > a").First().Attr("href")
 		if found && nextPageURL != "javascript:void(0);" {
 			nextPageURL = domain + nextPageURL
-			productURLs = append(productURLs, nextPageURL)
+			contentURLs = append(contentURLs, nextPageURL)
 		}
 
 		items = append(items, ext.extItems(doc, domain)...)

@@ -105,7 +105,12 @@ func (ext comicBunchKaiAward) productItems(urls []string) ([]site.Item, error) {
 		title := fmt.Sprintf("%s %s %s", product, author, date)
 		link := urls[i]
 
-		items = append(items, site.Item{Title: title, Link: link, Desc: desc, Date: date})
+		items = append(items, site.Item{
+			Title: title,
+			Link:  link,
+			Desc:  desc,
+			Date:  date,
+		})
 	}
 
 	if len(items) == 0 {

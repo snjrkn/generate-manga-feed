@@ -31,7 +31,7 @@ var commands = map[string]Command{
 		Run:  generatemangafeed.AndSofa,
 	},
 	"toti": {
-		Desc: "Print toti RSS feed",
+		Desc: "Print toti RSS feed [product-name] : Product name (Optional)",
 		Run:  generatemangafeed.Toti,
 	},
 	"matogrosso": {
@@ -95,7 +95,7 @@ var commands = map[string]Command{
 		Run:  generatemangafeed.ComicActionOneshot,
 	},
 	"comicboostrensai": {
-		Desc: "Print comic-boost rensai RSS feed (option: Requires 8-digit content number)",
+		Desc: "Print comic-boost rensai RSS feed <content-number> : 8-digit number (Required)",
 		Run:  generatemangafeed.ComicBoostRensai,
 	},
 }
@@ -119,7 +119,7 @@ func main() {
 		showHelp()
 	case "comicboostrensai":
 		if len(args) != 2 {
-			fmt.Fprintf(os.Stderr, "Error: 'comicboostrensai' subcommand requires a content number as an argument\n")
+			fmt.Fprintf(os.Stderr, "Error: 'comicboostrensai' <content-number> : 8-digit number (Required)\n")
 			showHelp()
 			os.Exit(1)
 		}
@@ -129,6 +129,17 @@ func main() {
 			os.Exit(1)
 		}
 		fmt.Print(str)
+	case "toti":
+		if len(args) == 2 {
+			str, err := commands[subcommand].Run(args[1])
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "An error occurred: %v\n", err)
+				os.Exit(1)
+			}
+			fmt.Print(str)
+			os.Exit(0)
+		}
+		fallthrough
 	default:
 		cmd, ok := commands[subcommand]
 		if !ok {
@@ -150,7 +161,7 @@ func showVersion() {
 }
 
 func showHelp() {
-	fmt.Println("Usage: generate-manga-feed <subcommand> [option]")
+	fmt.Println("Usage: generate-manga-feed <subcommand> [arguments]")
 	fmt.Println("\nAvailable subcommands:")
 	fmt.Println("  version               Show application version")
 	fmt.Println("  help                  Show this help message")
