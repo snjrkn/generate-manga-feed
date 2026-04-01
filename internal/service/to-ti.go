@@ -21,10 +21,17 @@ func NewToti(productId string) site.Site {
 		DateLayout:  "2006/01/02",
 		Description: "None",
 	}
+
+	ext := &toti{config: cfg}
+	if err := ext.productInfo(&cfg); err != nil {
+		fmt.Printf("failed to contentInfo: %v\n", err)
+	}
+
 	return site.Site{
 		Config:    cfg,
 		Extractor: &toti{config: cfg},
 	}
+
 }
 
 func (ext toti) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
@@ -114,6 +121,23 @@ func (ext toti) productItems(productURLs []string) ([]site.Item, error) {
 	}
 
 	return items, nil
+}
+
+func (ext toti) productInfo(cfg *site.Config) error {
+
+	doc, err := util.FetchHtmlDoc(cfg.URL)
+	if err != nil {
+		return fmt.Errorf("failed to FetchHtmlDoc: (Site='%v'): %w", cfg.Title, err)
+	}
+
+	cfg.Title += "【連載】" + strings.TrimSpace(doc.Find("header > h3").Text())
+
+	str := strings.TrimSpace(doc.Find("header > p").Text())
+	str += strings.TrimSpace(doc.Find(".description").Text())
+	str = strings.Join(strings.Fields(str), " ")
+	cfg.Description = str
+
+	return nil
 }
 
 func (ext toti) storyItems(doc *goquery.Document) ([]site.Item, error) {
