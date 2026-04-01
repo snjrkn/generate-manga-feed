@@ -76,6 +76,10 @@ func (ext toti) productItems(productURLs []string) ([]site.Item, error) {
 		if !exists {
 			link = doc.Find("p.prev a").AttrOr("href", productURLs[i])
 		}
+		// 書店様へが更新された場合の対応（各話のリンクではなくページのリンクを設定）
+		if strings.Contains(productURLs[i], "store_information") && strings.Contains(product, "書店様へ") {
+			link = productURLs[i]
+		}
 
 		titleDate := date
 		// 日付にタイトルが含まれる場合の対応

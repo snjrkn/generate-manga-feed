@@ -30,7 +30,7 @@ func (ext kurageFarm) ExtractItems(doc *goquery.Document) ([]site.Item, error) {
 
 	productItems, err := ext.productItems(doc)
 	if err != nil {
-		return nil, fmt.Errorf("failed to productURLs: %w", err)
+		return nil, fmt.Errorf("failed to productItems: (Title='%v'): %w", ext.config.Title, err)
 	}
 
 	return productItems, nil
