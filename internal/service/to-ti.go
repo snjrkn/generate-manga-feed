@@ -130,12 +130,14 @@ func (ext toti) productInfo(cfg *site.Config) error {
 		return fmt.Errorf("failed to FetchHtmlDoc: (Site='%v'): %w", cfg.Title, err)
 	}
 
-	cfg.Title += "【連載】" + strings.TrimSpace(doc.Find("header > h3").Text())
+	if ext.config.URL != "https://to-ti.in/product/" {
+		cfg.Title += "【連載】" + strings.TrimSpace(doc.Find("header > h3").Text())
 
-	str := strings.TrimSpace(doc.Find("header > p").Text())
-	str += strings.TrimSpace(doc.Find(".description").Text())
-	str = strings.Join(strings.Fields(str), " ")
-	cfg.Description = str
+		str := strings.TrimSpace(doc.Find("header > p").Text())
+		str += strings.TrimSpace(doc.Find(".description").Text())
+		str = strings.Join(strings.Fields(str), " ")
+		cfg.Description = str
+	}
 
 	return nil
 }
